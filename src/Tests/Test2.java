@@ -15,9 +15,12 @@ import Models.Bus;
 import Models.City;
 import Models.Customer;
 import Models.myDate;
-import view.FormLogin;
+import view.Login.FormLogin;
 
 public class Test2 {
 	public static void main(String[] args) throws ClassNotFoundException, SQLException {
+		LocalDate temp = LocalDate.of(2023, 04, 24);
+		System.out.println(LocalDate.now().compareTo(temp));
+	
 	}
 }

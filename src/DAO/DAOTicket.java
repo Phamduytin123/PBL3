@@ -211,10 +211,11 @@ public class DAOTicket implements DAOInterface<Ticket>{
 		
 		Connection con = JDBCUtil.getConnection();
 		Statement st = con.createStatement();
-		String command = "SELECT *\r\n"
-				+ "FROM Ticket \r\n"
-				+ "JOIN TripInDay ON Ticket.TripID = TripInDay.TripID\r\n"
-				+ "WHERE TripInDay.TripID = " + TripID1 ;
+		String command = "SELECT T.* FROM Ticket AS T \r\n"
+				+ "JOIN TripInDay AS TID ON TID.TripID = T.TripID\r\n"
+				+ "JOIN Bill AS B ON B.billID = T.BillID\r\n"
+				+ "WHERE TID.TripID = " + TripID1 + "\r\n"
+				+ "AND B.Status1 <> N'Đã huỷ đơn'" ;
 		
 		ResultSet rs = st.executeQuery(command);
 		while(rs.next())
@@ -235,6 +236,5 @@ public class DAOTicket implements DAOInterface<Ticket>{
 		JDBCUtil.closeConnection(con);
 		return (ArrayList<Ticket>) list;
 	}
-	
 	
 }

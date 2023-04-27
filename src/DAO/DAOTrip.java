@@ -349,6 +349,32 @@ public class DAOTrip implements DAOInterface<Trip> {
 		return result;
 	}
 
+	public LocalTime getDuration(int TripID) throws SQLException
+	{
+		Connection Conn = JDBCUtil.getConnection();
+
+		String SqlCommand = "Select Duration From RouteWay AS RW\r\n"
+				+ "JOIN TripInDay AS TID ON TID.RouteID = RW.RouteID\r\n"
+				+ "WHERE TID.TripID = ?";
+		PreparedStatement psm = Conn.prepareStatement(SqlCommand);
+
+		psm.setInt(1, TripID);
+
+		ResultSet rs = psm.executeQuery();
+
+		LocalTime result = null;
+
+		if (rs.next()) 
+		{
+			result = rs.getTime("Duration").toLocalTime();
+		}
+
+		rs.close();
+		psm.close();
+		JDBCUtil.closeConnection(Conn);
+		return result;
+	}
+	
 	public int getCountBusySeat(int TripID) throws SQLException
 	{
 		int result = 0;
