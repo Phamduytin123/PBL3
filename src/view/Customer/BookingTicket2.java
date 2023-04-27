@@ -93,29 +93,29 @@ public class BookingTicket2 extends JPanel {
 		
 		JLabel lblNewLabel_1 = new JLabel("Điểm đi");
 		lblNewLabel_1.setFont(new Font("Times New Roman", Font.PLAIN, 15));
-		lblNewLabel_1.setBounds(18, 115, 50, 20);
+		lblNewLabel_1.setBounds(18, 109, 50, 20);
 		add(lblNewLabel_1);
 		
 		choice_DiemDi = new Choice();
-		choice_DiemDi.setBounds(71, 115, 97, 20);
+		choice_DiemDi.setBounds(71, 109, 97, 20);
 		add(choice_DiemDi);
 		
 		choice_DiemDen = new Choice();
-		choice_DiemDen.setBounds(238, 115, 97, 20);
+		choice_DiemDen.setBounds(238, 109, 97, 20);
 		add(choice_DiemDen);
 		
 		JLabel lblNewLabel_1_1 = new JLabel("Điểm đến");
 		lblNewLabel_1_1.setFont(new Font("Times New Roman", Font.PLAIN, 15));
-		lblNewLabel_1_1.setBounds(173, 115, 61, 20);
+		lblNewLabel_1_1.setBounds(173, 109, 61, 20);
 		add(lblNewLabel_1_1);
 		
 		JLabel lblNewLabel_1_1_1 = new JLabel("Ngày đi");
 		lblNewLabel_1_1_1.setFont(new Font("Times New Roman", Font.PLAIN, 15));
-		lblNewLabel_1_1_1.setBounds(343, 115, 57, 20);
+		lblNewLabel_1_1_1.setBounds(343, 109, 57, 20);
 		add(lblNewLabel_1_1_1);
 		
 		txtNgayDi = new JTextField();
-		txtNgayDi.setBounds(395, 115, 94, 20);
+		txtNgayDi.setBounds(395, 109, 94, 20);
 		add(txtNgayDi);
 		txtNgayDi.setColumns(10);
 		
@@ -125,7 +125,7 @@ public class BookingTicket2 extends JPanel {
 		ImageIcon newIcon = new ImageIcon(newImg);
 		
 		lblSearch = new JLabel("");
-		lblSearch.setBounds(496, 112, 23, 23);
+		lblSearch.setBounds(496, 106, 23, 23);
 		lblSearch.setIcon(newIcon);
 		lblSearch.addMouseListener(new BookingTicket2Listener(this));
 		add(lblSearch);

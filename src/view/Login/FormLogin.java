@@ -8,6 +8,7 @@ import javax.swing.border.EmptyBorder;
 
 import Models.Customer;
 import controller.LogIn.PanelLoginListenner;
+import view.Customer.FormMainPage;
 
 import javax.swing.JButton;
 import java.awt.Color;
@@ -17,14 +18,17 @@ import javax.swing.ImageIcon;
 import java.awt.Component;
 import javax.swing.Box;
 import java.awt.Font;
+import java.awt.Image;
+
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
+import javax.swing.JPasswordField;
 
 public class FormLogin extends JFrame {
 
 	private JPanel contentPane;
 	public JTextField txtAccount;
-	public JTextField txtPassword;
+	public JPasswordField txtPassword;
 	public JButton btnDangNhap;
 	public Customer cus = new Customer(-1, "", "", "", null, "", "", "", "");
 	/**
@@ -89,8 +93,8 @@ public class FormLogin extends JFrame {
 		lblMtKhu.setFont(new Font("Times New Roman", Font.BOLD, 20));
 		panel_1.add(lblMtKhu);
 		
-		txtPassword = new JTextField();
-		txtPassword.setBounds(155, 112, 275, 37);
+		txtPassword = new JPasswordField();
+		txtPassword.setBounds(155, 112, 275, 34);
 		panel_2.add(txtPassword);
 		txtPassword.setColumns(10);
 		
@@ -109,8 +113,17 @@ public class FormLogin extends JFrame {
 		contentPane.add(lblNewLabel_3);
 		
 		btnDangNhap = new JButton("");
-		btnDangNhap.setBackground(new Color(55, 174, 67));
-		btnDangNhap.setIcon(new ImageIcon(FormLogin.class.getResource("/photo/Icons8-Windows-8-Users-Enter-2.64.png")));
+		btnDangNhap.setBackground(new Color(128, 255, 255));
+		
+		ImageIcon icon = new ImageIcon(FormLogin.class.getResource("/photo/enter.png"));
+		Image img = icon.getImage();
+		Image newImg = img.getScaledInstance(50, 50, Image.SCALE_SMOOTH);
+		ImageIcon newIcon = new ImageIcon(newImg);
+		
+		btnDangNhap.setFocusPainted(false);
+		btnDangNhap.setBorderPainted(false);
+		
+		btnDangNhap.setIcon(newIcon);
 		btnDangNhap.setBounds(235, 375, 64, 64);
 		contentPane.add(btnDangNhap);
 		

@@ -160,4 +160,31 @@ public class DAOBus implements DAOInterface<Bus>{
 		JDBCUtil.closeConnection(Conn);
 		return list;
 	}
+
+	public String getKindOfBusByTripID(int TripID) throws SQLException
+	{
+		Connection Conn = JDBCUtil.getConnection(); 
+		
+		String SqlCommand = "SELECT KindOfBus FROM Bus AS B\r\n"
+				+ "JOIN RouteWay AS RW ON RW.BusID = B.BusID\r\n"
+				+ "JOIN TripInDay AS TID ON TID.RouteID = RW.RouteID\r\n"
+				+ "WHERE TID.TripID = ?";
+		PreparedStatement psm = Conn.prepareStatement(SqlCommand);
+		
+		psm.setInt(1, TripID);
+		
+		ResultSet rs = psm.executeQuery();
+		
+		String result = "";
+				
+		if(rs.next())
+		{
+			result = rs.getString("KindOfBus");
+		}
+		
+		rs.close();
+		psm.close();
+		JDBCUtil.closeConnection(Conn);
+		return result;
+	}
 }

@@ -12,6 +12,7 @@ import java.util.List;
 import BUS.JDBCUtil;
 import Models.City;
 import Models.Route;
+import Models.Ticket;
 
 public class DAORoute implements DAOInterface<Route>{
 
@@ -208,5 +209,36 @@ public class DAORoute implements DAOInterface<Route>{
 		psm.close();
 		JDBCUtil.closeConnection(Conn);
 		return result;
+	}
+
+	public List<Object> getListRouteAndCity() throws SQLException
+	{
+		List<Object> list = new ArrayList<>();
+		
+		Connection con = JDBCUtil.getConnection();
+		Statement st = con.createStatement();
+		String command = "SELECT RW.RouteID,  CS.CityName as 'CityNameStart', CE.CityName as 'CityNameEnd',  RW.Distance, RW.Duration, RW.BusID, RW.BasePrice \r\n"
+				+ "FROM RouteWay AS RW\r\n"
+				+ "JOIN City AS CS ON CS.CityID = RW.CityIDStart\r\n"
+				+ "JOIN City AS CE ON CE.CityID = RW.CityIDEnd" ;
+		
+		ResultSet rs = st.executeQuery(command);
+		while(rs.next())
+		{
+			String routeID = rs.getString("RouteID");
+			String CityNameStart = rs.getString("CityNameStart");
+			String CityNameEnd = rs.getString("CityNameEnd");
+			int Distance = rs.getInt("Distance");
+			Time time = rs.getTime("Duration");
+			String BusID =rs.getString("BusID");
+			int Price = rs.getInt("BasePrice");
+			
+			Object temp = new Object[] {routeID, CityNameStart, CityNameEnd, Distance, time, BusID, Price};
+			list.add(temp);
+		}
+		rs.close();
+		st.close();
+		JDBCUtil.closeConnection(con);
+		return list;
 	}
 }

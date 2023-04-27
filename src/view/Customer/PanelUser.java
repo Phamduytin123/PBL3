@@ -51,6 +51,7 @@ public class PanelUser extends JPanel {
 		panel.add(lblNewLabel);
 		
 		txtName = new JTextField();
+		txtName.setEditable(false);
 		txtName.setBounds(103, 16, 166, 27);
 		panel.add(txtName);
 		txtName.setColumns(10);
@@ -86,56 +87,69 @@ public class PanelUser extends JPanel {
 		panel.add(lblNewLabel_6);
 		
 		txtDateOfBirths = new JTextField();
+		txtDateOfBirths.setEditable(false);
 		txtDateOfBirths.setColumns(10);
 		txtDateOfBirths.setBounds(103, 102, 166, 27);
 		panel.add(txtDateOfBirths);
 		
 		txtAccount = new JTextField();
+		txtAccount.setEditable(false);
 		txtAccount.setColumns(10);
 		txtAccount.setBounds(103, 145, 166, 27);
 		panel.add(txtAccount);
 		
 		txtPhoneNumber = new JTextField();
+		txtPhoneNumber.setEditable(false);
 		txtPhoneNumber.setColumns(10);
 		txtPhoneNumber.setBounds(103, 188, 166, 27);
 		panel.add(txtPhoneNumber);
 		
 		txtEmail = new JTextField();
+		txtEmail.setEditable(false);
 		txtEmail.setColumns(10);
 		txtEmail.setBounds(103, 231, 166, 27);
 		panel.add(txtEmail);
 		
 		txtCitizenID = new JTextField();
+		txtCitizenID.setEditable(false);
 		txtCitizenID.setColumns(10);
 		txtCitizenID.setBounds(103, 274, 166, 27);
 		panel.add(txtCitizenID);
 		
 		radioMale = new JRadioButton("nam");
+		radioMale.setEnabled(false);
 		buttonGroup.add(radioMale);
 		radioMale.setBackground(new Color(192, 192, 192));
 		radioMale.setBounds(103, 61, 67, 23);
 		panel.add(radioMale);
 		
 		radioFemale = new JRadioButton("nữ");
+		radioFemale.setEnabled(false);
 		buttonGroup.add(radioFemale);
 		radioFemale.setBackground(new Color(192, 192, 192));
 		radioFemale.setBounds(211, 61, 58, 23);
 		panel.add(radioFemale);
 		
 		btnUpdate = new JButton("Cập nhập thông tin");
-		btnUpdate.setFont(new Font("Tahoma", Font.PLAIN, 10));
+		btnUpdate.setFont(new Font("Tahoma", Font.BOLD, 11));
 		btnUpdate.setBackground(new Color(0, 128, 255));
-		btnUpdate.setBounds(364, 96, 135, 38);
+		btnUpdate.setBounds(364, 96, 155, 38);
 		add(btnUpdate);
 		
 		btnDoiMK = new JButton("Đổi mật khẩu");
-		btnDoiMK.setFont(new Font("Tahoma", Font.PLAIN, 10));
+		btnDoiMK.setFont(new Font("Tahoma", Font.BOLD, 11));
 		btnDoiMK.setBackground(new Color(0, 128, 255));
-		btnDoiMK.setBounds(364, 170, 135, 38);
+		btnDoiMK.setBounds(364, 170, 155, 38);
 		add(btnDoiMK);
 		
 		btnUpdate.addActionListener(new PanelUserListenner(this));
-
+		
+		JButton btnLuu = new JButton("Lưu");
+		btnLuu.setFont(new Font("Tahoma", Font.BOLD, 11));
+		btnLuu.setBackground(new Color(0, 128, 255));
+		btnLuu.setBounds(364, 249, 155, 38);
+		btnLuu.setVisible(false);
+		add(btnLuu);
 	}
 	
 	public PanelUser() 

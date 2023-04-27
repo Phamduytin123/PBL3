@@ -29,7 +29,7 @@ public class PanelCamOn_B5 extends JPanel {
 		panel.setLayout(null);
 		
 		JLabel lblNewLabel = new JLabel("");
-		ImageIcon icon = new ImageIcon("C:\\Users\\OS\\Pictures\\PBL3\\kisspng-airport-bus-transport-transit-bus-car-bus-ticket-5b50b82c45aa29.7390055615320166842854.png");
+		ImageIcon icon = new ImageIcon(PanelCamOn_B5.class.getResource("/photo/BusImage.png"));
 		Image img = icon.getImage();
 		Image newImg = img.getScaledInstance(150, 100, Image.SCALE_SMOOTH);
 		ImageIcon newIcon = new ImageIcon(newImg);

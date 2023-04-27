@@ -128,6 +128,7 @@ public class FormMainPage extends JFrame {
 	
 	public void Init()
 	{
+		
 		ActionListener m = new FormMainListener(this);
 		btnAcc.addActionListener(m);
 		btnBookTicket.addActionListener(m);
@@ -142,11 +143,14 @@ public class FormMainPage extends JFrame {
 	}
 	
 	public FormMainPage(Customer Cus) {
+		
 		this.cus = Cus;
 		this.GUI();
 		this.Init();
 		
 	}
+	
+
 	public void changeToAcc() {
 		body.removeAll();
 //		this.contentPane.remove(body);

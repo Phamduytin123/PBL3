@@ -297,6 +297,60 @@ public class DAOTrip implements DAOInterface<Trip> {
 		return result;
 	}
 
+	public String getNameParkingStart(int TripID) throws SQLException
+	{
+		Connection Conn = JDBCUtil.getConnection();
+
+		String SqlCommand = "Select ParkingName From City AS C\r\n"
+				+ "JOIN RouteWay AS RW ON RW.CityIDStart = C.CityID\r\n"
+				+ "JOIN TripInDay AS TID ON TID.RouteID = RW.RouteID\r\n"
+				+ "WHERE TID.TripID = ?";
+		PreparedStatement psm = Conn.prepareStatement(SqlCommand);
+
+		psm.setInt(1, TripID);
+
+		ResultSet rs = psm.executeQuery();
+
+		String result = "";
+
+		if (rs.next()) 
+		{
+			result = rs.getString("ParkingName");
+		}
+
+		rs.close();
+		psm.close();
+		JDBCUtil.closeConnection(Conn);
+		return result;
+	}
+	
+	public String getNameParkingEnd(int TripID) throws SQLException
+	{
+		Connection Conn = JDBCUtil.getConnection();
+
+		String SqlCommand = "Select ParkingName From City AS C\r\n"
+				+ "JOIN RouteWay AS RW ON RW.CityIDEnd = C.CityID\r\n"
+				+ "JOIN TripInDay AS TID ON TID.RouteID = RW.RouteID\r\n"
+				+ "WHERE TID.TripID = ?";
+		PreparedStatement psm = Conn.prepareStatement(SqlCommand);
+
+		psm.setInt(1, TripID);
+
+		ResultSet rs = psm.executeQuery();
+
+		String result = "";
+
+		if (rs.next()) 
+		{
+			result = rs.getString("ParkingName");
+		}
+
+		rs.close();
+		psm.close();
+		JDBCUtil.closeConnection(Conn);
+		return result;
+	}
+	
 	public int getDistance(int TripID) throws SQLException
 	{
 		Connection Conn = JDBCUtil.getConnection();

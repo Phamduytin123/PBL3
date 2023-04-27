@@ -79,7 +79,6 @@ public class Customer {
 		Email = email;
 		Sex = sex;
 	}
-	
 	public Customer(int customerID, String account, String password, String name, LocalDate dateOfBirth, String tel,
 			String citizenID, String email, String sex) {
 		super();
@@ -92,6 +91,9 @@ public class Customer {
 		CitizenID = citizenID;
 		Email = email;
 		Sex = sex;
+	}
+	public Customer() {
+		// TODO Auto-generated constructor stub
 	}
 	@Override
 	public String toString() {

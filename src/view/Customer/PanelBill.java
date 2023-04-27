@@ -21,6 +21,7 @@ import DAO.DAOTicket;
 import DAO.DAOTrip;
 import Models.Bill;
 import Models.Ticket;
+import controller.Customer.PanelBillListener;
 
 import javax.swing.UIManager;
 
@@ -61,6 +62,7 @@ public class PanelBill extends JPanel {
 		btn_Select.setForeground(new Color(0, 0, 0));
 		btn_Select.setFont(new Font("Times New Roman", Font.PLAIN, 13));
 		btn_Select.setBounds(379, 7, 89, 23);
+		btn_Select.addActionListener(new PanelBillListener(this));
 		add(btn_Select);
 		
 		JLabel lblStart = new JLabel("");
