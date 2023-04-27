@@ -16,9 +16,10 @@ import Models.City;
 
 public class DAOCity implements DAOInterface<City>{
 
+	private static DAOCity instance = new DAOCity();
 	public static DAOCity getInstance()
 	{
-		return new DAOCity();
+		return instance;
 	}
 	
 	@Override
@@ -227,7 +228,7 @@ public class DAOCity implements DAOInterface<City>{
 		Connection Conn = JDBCUtil.getConnection(); 
 		
 		
-		String SqlCommand = "SELECT CityName FROM City WHERE CityID = ?";
+		String SqlCommand = "SELECT(1) CityName FROM City WHERE CityID = ?";
 		PreparedStatement psm = Conn.prepareStatement(SqlCommand);
 		
 		psm.setString(1, CityID);
