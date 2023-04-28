@@ -50,26 +50,12 @@ public class PanelLoginListenner implements ActionListener{
 			
 			
 			if (check) {
-				Customer CusTemp = formLogin.cus;
-				((PanelUser)FormMainPage.userPanel).txtAccount.setText(CusTemp.getAccount());
-				
-				DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-				((PanelUser)FormMainPage.userPanel).txtDateOfBirths.setText(CusTemp.getDateOfBirth().format(formatter));
 
-				((PanelUser)FormMainPage.userPanel).txtName.setText(CusTemp.getName());
+				((PanelUser)FormMainPage.userPanel).cus = formLogin.cus;
 				
-				((PanelUser)FormMainPage.userPanel).txtPhoneNumber.setText(CusTemp.getTel());
+				((PanelUser)FormMainPage.userPanel).Init();;
 				
-				((PanelUser)FormMainPage.userPanel).txtEmail.setText(CusTemp.getEmail());
-
-				((PanelUser)FormMainPage.userPanel).txtCitizenID.setText(CusTemp.getCitizenID());
-				
-				if(CusTemp.getSex().equals("Nam"))
-					((PanelUser)FormMainPage.userPanel).radioMale.setSelected(true);
-				else if(CusTemp.getSex().equals("Nữ"))
-					((PanelUser)FormMainPage.userPanel).radioFemale.setSelected(true);
-				
-				FormMainPage formMain = new FormMainPage(CusTemp);
+				FormMainPage formMain = new FormMainPage(formLogin.cus);
 //				formMain.userPanel = new PanelUser();
 //				formMain.bookingTicket1Panel = new BookingTicket1();
 //				formMain.bookingTicket2Panel = new BookingTicket2();

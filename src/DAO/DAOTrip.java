@@ -516,4 +516,40 @@ public class DAOTrip implements DAOInterface<Trip> {
 		return list;
 	}
 
+	public Object[] getInfoPanelTrip(int TripID) throws SQLException
+	{
+		Connection Conn = JDBCUtil.getConnection();
+
+		String SqlCommand = "SELECT CS.CityName AS'CityNameStart', CE.CityName AS 'CityNameEnd', RW.Distance, RW.BasePrice, B.NumberOfSeat\r\n"
+				+ "FROM TripInDay AS TID\r\n"
+				+ "JOIN RouteWay AS RW ON RW.RouteID = TID.RouteID\r\n"
+				+ "JOIN Bus AS B ON B.BusID = RW.BusID\r\n"
+				+ "JOIN City AS CS ON CS.CityID = RW.CityIDStart\r\n"
+				+ "JOIN City AS CE ON CE.CityID = RW.CityIDEnd\r\n"
+				+ "WHERE TID.TripID = ?";
+		PreparedStatement psm = Conn.prepareStatement(SqlCommand);
+
+		psm.setInt(1, TripID);
+
+		ResultSet rs = psm.executeQuery();
+
+		Object[] result = null;
+
+		if (rs.next()) 
+		{
+			String NameCityStart = rs.getString("CityNameStart");
+			String NameCityEnd = rs.getString("CityNameEnd");
+			int distance = rs.getInt("Distance");
+			int price = rs.getInt("BasePrice");
+			int BusSeat = rs.getInt("NumberOfSeat");
+			int LeftSeat = BusSeat - this.getCountBusySeat(TripID);
+			
+			result = new Object[] {NameCityStart, NameCityEnd, distance+"", price+"", LeftSeat+""};
+		}
+
+		rs.close();
+		psm.close();
+		JDBCUtil.closeConnection(Conn);
+		return result;
+	}
 }

@@ -19,8 +19,7 @@ import view.Login.FormLogin;
 
 public class Test2 {
 	public static void main(String[] args) throws ClassNotFoundException, SQLException {
-		LocalDate temp = LocalDate.of(2023, 04, 24);
-		System.out.println(LocalDate.now().compareTo(temp));
-	
+		Object[] temp = DAOTrip.getInstance().getInfoPanelTrip(406);
+		System.out.println(temp[0] + "-" + temp[1] + "-" + temp[2] + "-" + temp[3] + "-" + temp[4]);
 	}
 }

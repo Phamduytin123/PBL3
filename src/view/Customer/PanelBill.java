@@ -8,6 +8,7 @@ import javax.swing.JLabel;
 import java.awt.Font;
 import java.awt.Image;
 import java.sql.SQLException;
+import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 
@@ -17,6 +18,7 @@ import javax.swing.JButton;
 import javax.swing.border.BevelBorder;
 import javax.swing.border.LineBorder;
 
+import DAO.DAOBill;
 import DAO.DAOTicket;
 import DAO.DAOTrip;
 import Models.Bill;
@@ -163,6 +165,8 @@ public class PanelBill extends JPanel {
 	
 	public void Init() throws ClassNotFoundException, SQLException
 	{
+		Object[] data = DAOBill.getInstance().getInfoForPanelBill(bl.getBillID());
+		
 		txtBillID.setText(bl.getBillID() + "");
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 		txtBookDate.setText(bl.getBookDate().format(formatter));
@@ -170,17 +174,17 @@ public class PanelBill extends JPanel {
 		listTicket = DAOTicket.getInstance().selectByBillID(bl.getBillID());
 		
 		Ticket ticket1 = listTicket.get(0);
-		String NameCityStart = DAOTrip.getInstance().getNameCityStart(ticket1.getTripID());
-		String NameCityEnd = DAOTrip.getInstance().getNameCityEnd(ticket1.getTripID());
+		String NameCityStart = (String) data[0];
+		String NameCityEnd = (String) data[1];
 		
 		txtNameCityEnd.setText(NameCityEnd);
 		txtNameCityStart.setText(NameCityStart);
 		
-		txtDistance.setText(DAOTrip.getInstance().getDistance(ticket1.getTicketID()) + " Km");
+		txtDistance.setText( (int) data[2] + " Km");
 		txtPrice.setText(bl.getTotalPrice() + " VND");
 		txtSituation.setText(bl.getStatus());
-		txtDuration.setText(DAOTrip.getInstance().getDuration(ticket1.getTripID()).getHour()  + "Giờ");
 		
+		txtDuration.setText( data[3]  + "Giờ");
 	}
 	
 	public void btnSelect_Selected()

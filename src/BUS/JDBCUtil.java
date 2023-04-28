@@ -9,8 +9,15 @@ public class JDBCUtil {
 	public static Connection getConnection() throws SQLException
 	{
 		Connection connection = null;
-		String connectionURL = "jdbc:sqlserver://MSI\\SQLEXPRESS:1433;encrypt=true;databaseName=PBL3;integratedSecurity=true;trustServerCertificate=true;";
-		String user = "MSI\\ADMIN";
+		// Tin
+//		String connectionURL = "jdbc:sqlserver://MSI\\SQLEXPRESS:1433;encrypt=true;databaseName=PBL3;integratedSecurity=true;trustServerCertificate=true;";
+//		String user = "MSI\\ADMIN";
+		
+		// Dung
+		String connectionURL = "jdbc:sqlserver://DESKTOP-98HRCRQ\\SQLEXPRESS:1433;encrypt=true;databaseName=PBL3;integratedSecurity=true;trustServerCertificate=true;";
+		String user = "DESKTOP-98HRCRQ\\OS";
+		
+		
 		String password = "";
 		try {
 			Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");

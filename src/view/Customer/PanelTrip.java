@@ -144,10 +144,12 @@ public class PanelTrip extends JPanel {
 	}
 	public void Init() throws SQLException
 	{
+		System.out.println(trip.getTripID());
+		Object[] data = DAOTrip.getInstance().getInfoPanelTrip(trip.getTripID());
 		
 		this.lblInputTripID.setText(trip.getTripID() + "");
-		this.lblInputCityEnd.setText(DAOTrip.getInstance().getNameCityEnd(trip.getTripID()));
-		this.lblInputCityStart.setText(DAOTrip.getInstance().getNameCityStart(trip.getTripID()));
+		this.lblInputCityStart.setText((String) data[0]);
+		this.lblInputCityEnd.setText((String) data[1]);
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 
 		this.lbl_Date.setText(trip.getDateStart().format(formatter) + " - " + trip.getDateEnd().format(formatter));
@@ -155,13 +157,11 @@ public class PanelTrip extends JPanel {
 		formatter = DateTimeFormatter.ofPattern("HH:mm");
 		this.lblInputTimeLine.setText(trip.getTimeStart().format(formatter) + " - " + trip.getTimeEnd().format(formatter));
 	
-		this.lblInputDistance.setText(DAOTrip.getInstance().getDistance(trip.getTripID()) + " Km");
+		this.lblInputDistance.setText((String) data[2] + " Km");
 		
-		this.lblInputPrice.setText(DAOTrip.getInstance().getBasePrice(trip.getTripID()) + " VND");
+		this.lblInputPrice.setText((String) data[3] + " VND");
 		
-		int LeftSeat = DAOTrip.getInstance().getBusSeatNumber(trip.getTripID()) - DAOTrip.getInstance().getCountBusySeat(trip.getTripID());
-		
-		this.lblInputSeatNumber.setText(LeftSeat + " Chỗ");
+		this.lblInputSeatNumber.setText((String) data[4] + " Chỗ");
 	}
 	
 	public PanelTrip(Trip t, InfoCustomer IC,int CusID, String KindOfBook) {
@@ -177,9 +177,6 @@ public class PanelTrip extends JPanel {
 			e.printStackTrace();
 		}
 	}
-//	public PanelTrip()
-//	{
-//		this.GUI();
-//	}
+
 }
 

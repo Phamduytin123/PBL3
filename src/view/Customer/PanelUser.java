@@ -9,8 +9,11 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.JButton;
 import java.awt.GridLayout;
+import java.time.format.DateTimeFormatter;
+
 import javax.swing.SwingConstants;
 
+import Models.Customer;
 import controller.Customer.PanelUserListenner;
 
 import java.awt.Font;
@@ -32,6 +35,7 @@ public class PanelUser extends JPanel {
 	public JRadioButton radioMale,radioFemale;	
 	public final ButtonGroup buttonGroup = new ButtonGroup();
 	public JButton btnUpdate,btnDoiMK;
+	public Customer cus;
 	
 	public void GUI()
 	{
@@ -152,8 +156,31 @@ public class PanelUser extends JPanel {
 		add(btnLuu);
 	}
 	
+	public void Init()
+	{
+		this.txtAccount.setText(cus.getAccount());
+		
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+		this.txtDateOfBirths.setText(cus.getDateOfBirth().format(formatter));
+
+		this.txtName.setText(cus.getName());
+		
+		this.txtPhoneNumber.setText(cus.getTel());
+		
+		this.txtEmail.setText(cus.getEmail());
+
+		this.txtCitizenID.setText(cus.getCitizenID());
+		
+		if(cus.getSex().equals("Nam"))
+			((PanelUser)FormMainPage.userPanel).radioMale.setSelected(true);
+		else if(cus.getSex().equals("Nữ"))
+			((PanelUser)FormMainPage.userPanel).radioFemale.setSelected(true);
+		
+	}
+	
 	public PanelUser() 
 	{
+		
 		this.GUI();
 	}
 }

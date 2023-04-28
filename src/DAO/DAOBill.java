@@ -6,7 +6,9 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.sql.Time;
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -238,5 +240,41 @@ public class DAOBill implements DAOInterface<Bill>{
 		JDBCUtil.closeConnection(Conn);
 
 		return result + 1;
+	}
+
+	public Object[] getInfoForPanelBill(int BillID) throws SQLException
+	{
+		Connection Conn = JDBCUtil.getConnection(); 
+		
+		String SqlCommand = "SELECT CS.CityName AS N'CityNameStart', CE.CityName AS N'CityNameEnd', RW.Distance, RW.Duration\r\n"
+				+ "FROM Bill AS B\r\n"
+				+ "JOIN Ticket AS T ON T.BillID = B.BillID\r\n"
+				+ "JOIN TripInDay AS TID ON TID.TripID = T.TripID\r\n"
+				+ "JOIN RouteWay as RW ON RW.RouteID =TID.RouteID\r\n"
+				+ "JOIN City AS CS ON CS.CityID = RW.CityIDStart\r\n"
+				+ "JOIN City AS CE ON CE.CityID = RW.CityIDEnd\r\n"
+				+ "WHERE B.BillID = ?";
+		PreparedStatement psm = Conn.prepareStatement(SqlCommand);
+		
+		psm.setInt(1, BillID);
+		
+		ResultSet rs = psm.executeQuery();
+		
+		Object[] result = null; 
+				
+		if(rs.next())
+		{
+			String NameCityStart = rs.getString("CityNameStart");
+			String NameCityEnd = rs.getString("CityNameEnd");
+			int Distance = rs.getInt("Distance");
+			String duration = rs.getTime("Duration").toLocalTime().getHour() +"";
+			
+			result = new Object[] {NameCityStart, NameCityEnd, Distance, duration};
+		}
+		
+		rs.close();
+		psm.close();
+		JDBCUtil.closeConnection(Conn);
+		return result;
 	}
 }
