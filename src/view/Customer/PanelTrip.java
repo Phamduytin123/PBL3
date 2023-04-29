@@ -144,7 +144,6 @@ public class PanelTrip extends JPanel {
 	}
 	public void Init() throws SQLException
 	{
-		System.out.println(trip.getTripID());
 		Object[] data = DAOTrip.getInstance().getInfoPanelTrip(trip.getTripID());
 		
 		this.lblInputTripID.setText(trip.getTripID() + "");
