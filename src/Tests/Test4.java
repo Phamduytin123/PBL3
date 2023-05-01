@@ -19,5 +19,6 @@ public class Test4 {
 	
 	public static void main(String[] args) throws ClassNotFoundException, SQLException {
 		DAOTrip.InsertTrip(5);
+		DAOTrip.InsertTrip(6);
 	}
 }
