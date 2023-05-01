@@ -167,12 +167,12 @@ public class DAOTrip implements DAOInterface<Trip> {
 		return list;
 	}
 
-	public static void InsertTrip() throws ClassNotFoundException, SQLException {
+	public static void InsertTrip(int Month) throws ClassNotFoundException, SQLException {
 		List<Route> list = DAORoute.getInstance().selectAll();
 		Connection con = JDBCUtil.getConnection();
 		Statement st = con.createStatement();
-		String command = "Delete from TripInDay";
-		st.executeUpdate(command);
+//		String command = "Delete from TripInDay";
+//		st.executeUpdate(command);
 		
 		LocalTime MorningTime = LocalTime.of(7,0,0);
 		LocalTime AfternoonTime = LocalTime.of(13,0,0);
@@ -184,7 +184,7 @@ public class DAOTrip implements DAOInterface<Trip> {
 		
 		for (int i = 0; i < list.size(); i++) 
 
-			for (int j = 4; j <= 4; j++) 
+			for (int j = Month; j <= Month; j++) 
 				
 				for (int h = 1; h < myDate.getNumberDateOfMonth(j, 2023); h++) {
 					

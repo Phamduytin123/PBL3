@@ -154,9 +154,8 @@ public class FormMainPage extends JFrame {
 	public void changeToAcc() {
 		body.removeAll();
 //		this.contentPane.remove(body);
-		JPanel p1 = new PanelUserTop();
 //		JPanel p2 = new PanelUser();
-		body.add(p1);
+		body.add(new PanelUserTop());
 		
 		body.add(userPanel);
 //		body.add(p2);

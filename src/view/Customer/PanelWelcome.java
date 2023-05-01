@@ -22,19 +22,19 @@ public class PanelWelcome extends JPanel {
 		JLabel lblNewLabel = new JLabel("GAVN Xin chào kính quý khách");
 		lblNewLabel.setForeground(Color.GREEN);
 		lblNewLabel.setFont(new Font("Times New Roman", Font.BOLD, 31));
-		lblNewLabel.setBounds(68, 121, 423, 43);
+		lblNewLabel.setBounds(57, 121, 434, 43);
 		add(lblNewLabel);
 		
 		JLabel lblChcQuKhch = new JLabel(" Chúc quý khách có những trải nghiệm");
 		lblChcQuKhch.setForeground(Color.CYAN);
 		lblChcQuKhch.setFont(new Font("Times New Roman", Font.BOLD, 25));
-		lblChcQuKhch.setBounds(68, 168, 423, 43);
+		lblChcQuKhch.setBounds(57, 167, 423, 43);
 		add(lblChcQuKhch);
 		
 		JLabel lblTuytViKhi = new JLabel("  tuyệt vời khi sử dụng dịch vụ tại đây\r\n");
 		lblTuytViKhi.setForeground(Color.RED);
 		lblTuytViKhi.setFont(new Font("Times New Roman", Font.BOLD, 25));
-		lblTuytViKhi.setBounds(68, 215, 423, 43);
+		lblTuytViKhi.setBounds(57, 214, 423, 43);
 		add(lblTuytViKhi);
 		
 		JLabel lblNewLabel_1 = new JLabel("");

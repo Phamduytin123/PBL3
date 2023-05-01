@@ -37,7 +37,6 @@ public class FormMainListener implements ActionListener, MouseListener{
 		Object tmp = e.getSource();
 		if (tmp == formMain.btnAcc) {
 			formMain.changeToAcc();
-			userListener.setName("abcd");
 		} else
 		if (tmp == formMain.btnBookTicket) {
 			formMain.changeToBooking();

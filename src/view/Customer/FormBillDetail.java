@@ -302,9 +302,9 @@ public class FormBillDetail extends JFrame {
 		scrollPane.setBounds(10, 24, 320, 198);
 		panel_4.add(scrollPane);
 		
-		lblNewLabel_3 = new JLabel("Thông tin hoá đơn");
+		lblNewLabel_3 = new JLabel("Thông tin vé");
 		lblNewLabel_3.setFont(new Font("Tahoma", Font.BOLD, 12));
-		lblNewLabel_3.setBounds(107, 0, 159, 22);
+		lblNewLabel_3.setBounds(128, 0, 88, 22);
 		panel_4.add(lblNewLabel_3);
 		
 		panel_5 = new JPanel();

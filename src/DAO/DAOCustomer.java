@@ -298,4 +298,67 @@ public class DAOCustomer implements DAOInterface<Customer>{
 
 		return result + 1;
 	}
+
+	public Boolean checkAccountRegister(String account) throws SQLException
+	{
+		Connection Conn = JDBCUtil.getConnection(); 
+		
+		String SqlCommand = "SELECT * FROM Customer WHERE UserName = ?";
+		PreparedStatement psm = Conn.prepareStatement(SqlCommand);
+		
+		psm.setString(1, account);
+		
+		ResultSet rs = psm.executeQuery();
+		
+		Boolean result = true;
+		if(rs.next())
+		{
+			result = false;
+		}
+		
+		rs.close();
+		psm.close();
+		JDBCUtil.closeConnection(Conn);
+		return result;
+	}
+
+	public Boolean checkFindAccount(Customer cus) throws SQLException
+	{
+		Connection Conn = JDBCUtil.getConnection(); 
+		
+		String SqlCommand = "Select * FROM Customer WHERE UserName = ? AND CitizenID = ? AND PhoneNumber = ? AND Email = ?\r\n"
+				+ "";
+		PreparedStatement psm = Conn.prepareStatement(SqlCommand);
+		
+		psm.setString(1, cus.getAccount());
+		psm.setString(2, cus.getCitizenID());
+		psm.setString(3, cus.getTel());
+		psm.setString(4, cus.getEmail());
+		
+		ResultSet rs = psm.executeQuery();
+		
+		Boolean result = false;
+		if(rs.next())
+		{
+			int CustomerID = rs.getInt("CustomerID");
+			String Account = rs.getString("UserName");
+			String UserPassWord = rs.getString("UserPassWord");
+			String Name = rs.getString("RealName");
+			String CitizenID = rs.getString("CitizenID");
+			LocalDate DateOfBirth = rs.getDate("DateOfBirth").toLocalDate();
+			String Tel1 = rs.getString("PhoneNumber");
+			String Email1 = rs.getString("Email");
+			String Sex = rs.getString("Sex");
+			
+			cus.setValue(CustomerID, Account, UserPassWord, Name, DateOfBirth, Tel1, CitizenID, Email1, Sex);
+			
+			result = true;
+		}
+		
+		rs.close();
+		psm.close();
+		JDBCUtil.closeConnection(Conn);
+		return result;
+		
+	}
 }

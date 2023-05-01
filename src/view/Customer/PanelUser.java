@@ -5,14 +5,18 @@ import java.awt.Checkbox;
 import java.awt.Color;
 
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.JButton;
 import java.awt.GridLayout;
+import java.sql.SQLException;
+import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
 import javax.swing.SwingConstants;
 
+import DAO.DAOCustomer;
 import Models.Customer;
 import controller.Customer.PanelUserListenner;
 
@@ -22,9 +26,6 @@ import javax.swing.ButtonGroup;
 
 public class PanelUser extends JPanel {
 
-	/**
-	 * Create the panel.
-	 */
 	
 	public JTextField txtName;
 	public JTextField txtDateOfBirths;
@@ -34,8 +35,11 @@ public class PanelUser extends JPanel {
 	public JTextField txtCitizenID;
 	public JRadioButton radioMale,radioFemale;	
 	public final ButtonGroup buttonGroup = new ButtonGroup();
-	public JButton btnUpdate,btnDoiMK;
-	public Customer cus;
+	public JButton btnUpdate, btnDoiMK, btnLuu, btnCancel;
+	public Customer cus = new Customer();
+	public PanelChangePassword panelChangePassword;
+	public JPanel panel;
+	public String check;
 	
 	public void GUI()
 	{
@@ -43,7 +47,7 @@ public class PanelUser extends JPanel {
 		this.setBounds(0, 127, 529, 371);
 		setLayout(null);
 		
-		JPanel panel = new JPanel();
+		panel = new JPanel();
 		panel.setBackground(new Color(192, 192, 192));
 		panel.setBounds(40, 26, 290, 320);
 		add(panel);
@@ -137,23 +141,38 @@ public class PanelUser extends JPanel {
 		btnUpdate = new JButton("Cập nhập thông tin");
 		btnUpdate.setFont(new Font("Tahoma", Font.BOLD, 11));
 		btnUpdate.setBackground(new Color(0, 128, 255));
-		btnUpdate.setBounds(364, 96, 155, 38);
+		btnUpdate.setBounds(364, 43, 155, 38);
+		btnUpdate.addActionListener(new PanelUserListenner(this));
 		add(btnUpdate);
 		
 		btnDoiMK = new JButton("Đổi mật khẩu");
 		btnDoiMK.setFont(new Font("Tahoma", Font.BOLD, 11));
 		btnDoiMK.setBackground(new Color(0, 128, 255));
-		btnDoiMK.setBounds(364, 170, 155, 38);
+		btnDoiMK.setBounds(364, 124, 155, 38);
+		btnDoiMK.addActionListener(new PanelUserListenner(this));
 		add(btnDoiMK);
 		
-		btnUpdate.addActionListener(new PanelUserListenner(this));
 		
-		JButton btnLuu = new JButton("Lưu");
+		btnLuu = new JButton("Lưu");
 		btnLuu.setFont(new Font("Tahoma", Font.BOLD, 11));
 		btnLuu.setBackground(new Color(0, 128, 255));
-		btnLuu.setBounds(364, 249, 155, 38);
+		btnLuu.setBounds(364, 205, 155, 38);
 		btnLuu.setVisible(false);
+		btnLuu.addActionListener(new PanelUserListenner(this));
 		add(btnLuu);
+		
+		btnCancel = new JButton("Hủy");
+		btnCancel.setFont(new Font("Tahoma", Font.BOLD, 11));
+		btnCancel.setBackground(new Color(0, 128, 255));
+		btnCancel.setBounds(364, 286, 155, 38);
+		btnCancel.setVisible(false);
+		btnCancel.addActionListener(new PanelUserListenner(this));
+		add(btnCancel);
+		
+
+		this.panelChangePassword = new PanelChangePassword();
+		this.panelChangePassword.setVisible(false);
+		this.add(panelChangePassword);
 	}
 	
 	public void Init()
@@ -175,12 +194,167 @@ public class PanelUser extends JPanel {
 			((PanelUser)FormMainPage.userPanel).radioMale.setSelected(true);
 		else if(cus.getSex().equals("Nữ"))
 			((PanelUser)FormMainPage.userPanel).radioFemale.setSelected(true);
-		
 	}
 	
 	public PanelUser() 
 	{
-		
 		this.GUI();
 	}
+	
+	public Boolean checkUpdateInfo()
+	{
+		if(txtCitizenID.getText().equals("") || txtDateOfBirths.getText().equals("") || txtEmail.getText().equals("")||
+				txtName.getText().equals("") || txtPhoneNumber.getText().equals(""))
+		{
+			JOptionPane.showMessageDialog(null, "Vui lòng nhập đầy đủ thông tin để cập nhập");
+			return false;
+		}
+		
+		if(!txtEmail.getText().substring(txtEmail.getText().length() - 10).equals("@gmail.com"))
+		{
+			JOptionPane.showMessageDialog(null, "Định dạng email bị sai vui lòng nhập lại");
+			return false;
+		}
+		if(txtPhoneNumber.getText().length() != 10)
+		{
+			JOptionPane.showMessageDialog(null, "Số điện thoại bạn nhập vào không đúng vui lòng nhập lại");
+			return false;
+		}
+		return true;
+	}
+	
+	public Boolean checkUpdatePassword()
+	{
+		String pass1 = panelChangePassword.txt_NewPassword1.getText();
+		String pass2 = panelChangePassword.txt_NewPassword2.getText();
+		
+		if(pass1.equals("") || pass2.equals(""))
+		{
+			JOptionPane.showMessageDialog(null, "Vui lòng điền đầy đủ mật khẩu trên và dưới");
+			return false;
+		}
+		
+		if(!pass1.equals(pass2))
+		{
+			JOptionPane.showMessageDialog(null, "Mật khẩu trên và dưới không giống nhau vui lòng nhập lại");
+			return false;
+		}
+		
+		return true;
+	}
+	
+	public void btnUpdate_Selected()
+	{
+		this.panel.setVisible(true);
+		this.panelChangePassword.setVisible(false);
+		check = "UI"; // Update Information
+		
+		this.txtCitizenID.setEditable(true);
+		this.txtDateOfBirths.setEditable(true);
+		this.txtEmail.setEditable(true);
+		this.txtName.setEditable(true);
+		this.txtPhoneNumber.setEditable(true);
+		this.radioFemale.setEnabled(true);
+		this.radioMale.setEnabled(true);
+		
+		this.btnLuu.setVisible(true);
+		this.btnCancel.setVisible(true);
+	}
+	
+	public void btn_DoiMK_Selected()
+	{
+		check = "UP"; // Update Password
+		this.panel.setVisible(false);
+		this.panelChangePassword.setVisible(true);
+		
+		panelChangePassword.txt_Account.setText(cus.getAccount());
+		panelChangePassword.txt_OldPassword.setText(cus.getPassword());
+		panelChangePassword.txt_NewPassword1.setText("");
+		panelChangePassword.txt_NewPassword2.setText("");
+		
+		this.btnLuu.setVisible(true);
+		this.btnCancel.setVisible(true);
+	}
+	
+	public void btn_Luu_Selected()
+	{
+		if(this.check.equals("UP"))
+		{
+			cus.setPassword(this.panelChangePassword.txt_NewPassword1.getText());
+			try {
+				DAOCustomer.getInstance().update(cus);
+			} catch (ClassNotFoundException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			JOptionPane.showMessageDialog(null, "Mật khẩu mới đã được lưu");
+		}
+		else if(this.check.equals("UI"))
+		{
+			cus.setCitizenID(this.txtCitizenID.getText());
+			cus.setEmail(this.txtEmail.getText());
+			cus.setDateOfBirth(LocalDate.parse(txtDateOfBirths.getText(), DateTimeFormatter.ofPattern("dd/MM/yyyy")));
+			cus.setTel(this.txtPhoneNumber.getText());
+			cus.setName(this.txtName.getText());
+			if(radioFemale.isSelected())
+			{
+				cus.setSex("Nữ");
+			}
+			if(radioMale.isSelected())
+			{
+				cus.setSex("Nam");
+			}
+			
+			try {
+				DAOCustomer.getInstance().update(cus);
+			} catch (ClassNotFoundException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			JOptionPane.showMessageDialog(null, "Thông tin mới đã được lưu");
+		}
+		this.btn_Cancel_Selected();
+	}
+	
+	public void btn_Cancel_Selected()
+	{
+		this.btnLuu.setVisible(false);
+		this.btnCancel.setVisible(false);
+		
+		this.panelChangePassword.setVisible(false);
+		this.panel.setVisible(true);
+		
+		// Reset Data
+		this.txtCitizenID.setText(cus.getCitizenID());
+		this.txtDateOfBirths.setText(cus.getDateOfBirth().format(DateTimeFormatter.ofPattern("dd/MM/yyyy")));
+		this.txtEmail.setText(cus.getEmail());
+		this.txtName.setText(cus.getName());
+		this.txtPhoneNumber.setText(cus.getTel());
+		if(cus.getSex().equals("Nam"))
+		{
+			radioMale.setSelected(true);
+			radioFemale.setSelected(false);
+		}
+		if(cus.getSex().equals("Nữ"))
+		{
+			radioMale.setSelected(false);
+			radioFemale.setSelected(true);
+		}
+			
+		// Set editable of textfield
+		this.txtCitizenID.setEditable(false);
+		this.txtDateOfBirths.setEditable(false);
+		this.txtEmail.setEditable(false);
+		this.txtName.setEditable(false);
+		this.txtPhoneNumber.setEditable(false);
+		this.radioFemale.setEnabled(false);
+		this.radioMale.setEnabled(false);
+	}
+	
 }

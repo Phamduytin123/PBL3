@@ -18,6 +18,6 @@ import Models.myDate;
 public class Test4 {
 	
 	public static void main(String[] args) throws ClassNotFoundException, SQLException {
-		DAOTrip.getInstance().InsertTrip();
+		DAOTrip.InsertTrip(5);
 	}
 }

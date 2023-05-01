@@ -41,7 +41,7 @@ public class PanelXacNhanThongTin_B3 extends JPanel {
 		
 		chkbx_XacNhan = new JCheckBox("Tôi xin xác nhận thông tin trên là đúng\r\n");
 		chkbx_XacNhan.setFont(new Font("Times New Roman", Font.PLAIN, 18));
-		chkbx_XacNhan.setBounds(95, 298, 303, 23);
+		chkbx_XacNhan.setBounds(95, 298, 315, 23);
 		panel_1.add(chkbx_XacNhan);
 		
 		JLabel lblNewLabel_1 = new JLabel("Họ và tên : ");
