@@ -91,7 +91,7 @@ public class FormBookTicket extends JFrame {
 		this.IC = IC;
 		this.kindOfBook = KindOfBook;
 		
-		r = DAORoute.getInstance().selectByID(trip.getRouteID());
+		r = DAORoute.getInstance().selectByID(trip.getRouteID() +"");
 		this.bus = DAOBus.getInstance().selectByID(r.getBusID());
 		
 		this.GUI();

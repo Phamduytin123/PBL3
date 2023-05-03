@@ -33,7 +33,7 @@ public class DAOTrip implements DAOInterface<Trip> {
 
 		psm.setTime(1, Time.valueOf(t.getTimeStart()));
 		psm.setTime(2, Time.valueOf(t.getTimeEnd()));
-		psm.setString(3, t.getRouteID());
+		psm.setInt(3, t.getRouteID());
 		psm.setDate(4, Date.valueOf(t.getDateStart()));
 		psm.setDate(5, Date.valueOf(t.getDateEnd()));
 
@@ -74,7 +74,7 @@ public class DAOTrip implements DAOInterface<Trip> {
 		psm.setInt(6, t.getTripID());
 		psm.setTime(1, Time.valueOf(t.getTimeStart()));
 		psm.setTime(2, Time.valueOf(t.getTimeEnd()));
-		psm.setString(3, t.getRouteID());
+		psm.setInt(3, t.getRouteID());
 		psm.setDate(4, Date.valueOf(t.getDateStart()));
 		psm.setDate(5, Date.valueOf(t.getDateEnd()));
 
@@ -102,7 +102,7 @@ public class DAOTrip implements DAOInterface<Trip> {
 			int TripID = rs.getInt("TripID");
 			LocalTime TimeStart = rs.getTime("TimeStart").toLocalTime();
 			LocalTime TimeEnd = rs.getTime("TimeEnd").toLocalTime();
-			String Route = rs.getString("RouteID");
+			int Route = rs.getInt("RouteID");
 			LocalDate DateStart = rs.getDate("DateEnd").toLocalDate();
 			LocalDate DateEnd = rs.getDate("DateStart").toLocalDate();
 
@@ -128,12 +128,12 @@ public class DAOTrip implements DAOInterface<Trip> {
 
 		ResultSet rs = psm.executeQuery();
 
-		Trip result = new Trip(0, "", LocalTime.of(0, 0), LocalTime.of(0, 0), LocalDate.of(2023, 4, 20),
+		Trip result = new Trip(0, 0, LocalTime.of(0, 0), LocalTime.of(0, 0), LocalDate.of(2023, 4, 20),
 				LocalDate.of(2023, 4, 20));
 
 		if (rs.next()) {
 
-			result = new Trip(rs.getInt("TripID"), rs.getString("RouteID"), rs.getTime("TimeStart").toLocalTime(),
+			result = new Trip(rs.getInt("TripID"), rs.getInt("RouteID"), rs.getTime("TimeStart").toLocalTime(),
 					rs.getTime("TimeEnd").toLocalTime(), rs.getDate("DateStart").toLocalDate(), rs.getDate("DateEnd").toLocalDate());
 		}
 
@@ -157,7 +157,7 @@ public class DAOTrip implements DAOInterface<Trip> {
 			LocalDate DateStart = rs.getDate("DateStart").toLocalDate();
 			LocalDate DateEnd = rs.getDate("DateEnd").toLocalDate();
 
-			list.add(new Trip(rs.getInt("TripID"), rs.getString("RouteID"), rs.getTime("TimeStart").toLocalTime(),
+			list.add(new Trip(rs.getInt("TripID"), rs.getInt("RouteID"), rs.getTime("TimeStart").toLocalTime(),
 					rs.getTime("TimeEnd").toLocalTime(), DateStart, DateEnd));
 		}
 
@@ -188,7 +188,7 @@ public class DAOTrip implements DAOInterface<Trip> {
 				
 				for (int h = 1; h < myDate.getNumberDateOfMonth(j, 2023); h++) {
 					
-					Route r = DAORoute.getInstance().selectByID(list.get(i).getRouteID());
+					Route r = DAORoute.getInstance().selectByID(list.get(i).getRouteID() +"");
 					
 					// j là tháng còn h là ngày
 					
@@ -503,7 +503,7 @@ public class DAOTrip implements DAOInterface<Trip> {
 			LocalDate DateStart = rs.getDate("DateStart").toLocalDate();
 			LocalDate DateEnd = rs.getDate("DateEnd").toLocalDate();
 
-			Trip temp = new Trip(rs.getInt("TripID"), rs.getString("RouteID"), rs.getTime("TimeStart").toLocalTime(),
+			Trip temp = new Trip(rs.getInt("TripID"), rs.getInt("RouteID"), rs.getTime("TimeStart").toLocalTime(),
 					rs.getTime("TimeEnd").toLocalTime(), DateStart, DateEnd);
 			
 			list.add(temp);

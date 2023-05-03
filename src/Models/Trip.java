@@ -7,7 +7,7 @@ import java.time.LocalTime;
 
 public class Trip {
 	private int TripID;
-	private String RouteID;
+	private int RouteID;
 	private LocalTime TimeStart;
 	private LocalTime TimeEnd;
 	private LocalDate DateStart;
@@ -18,10 +18,10 @@ public class Trip {
 	public void setTripID(int tripID) {
 		TripID = tripID;
 	}
-	public String getRouteID() {
+	public int getRouteID() {
 		return RouteID;
 	}
-	public void setRouteID(String routeID) {
+	public void setRouteID(int routeID) {
 		RouteID = routeID;
 	}
 	public LocalTime getTimeStart() {
@@ -53,7 +53,7 @@ public class Trip {
 		return "Trip [TripID=" + TripID + ", RouteID=" + RouteID + ", TimeStart=" + TimeStart + ", TimeEnd=" + TimeEnd
 				+ ", DateStart=" + DateStart + ", DateEnd=" + DateEnd + "]";
 	}
-	public Trip(int tripID, String routeID, LocalTime timeStart, LocalTime timeEnd, LocalDate dateStart, LocalDate dateEnd) {
+	public Trip(int tripID, int routeID, LocalTime timeStart, LocalTime timeEnd, LocalDate dateStart, LocalDate dateEnd) {
 		super();
 		TripID = tripID;
 		RouteID = routeID;

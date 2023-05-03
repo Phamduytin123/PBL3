@@ -27,16 +27,15 @@ public class DAORoute implements DAOInterface<Route>{
 		
 		Connection con = JDBCUtil.getConnection();
 		
-		String command = "INSERT INTO RouteWay (RouteID, CityIDStart, CityIDEnd, Distance, Duration, BusID, BasePrice) VALUES (?, ?, ?, ?, ?, ?, ?)";
+		String command = "INSERT INTO RouteWay (CityIDStart, CityIDEnd, Distance, Duration, BusID, BasePrice) VALUES (?, ?, ?, ?, ?, ?)";
 		PreparedStatement psm = con.prepareStatement(command);
 		
-		psm.setString(1, t.getRouteID());
-		psm.setString(2, t.getCityIDStart());
-		psm.setString(3, t.getCityIDEnd());
-		psm.setString(4, t.getDistance() +"");
-		psm.setTime(5, t.getDuration());
-		psm.setString(6, t.getBusID());
-		psm.setString(7, t.getPrice() + "");
+		psm.setString(1, t.getCityIDStart());
+		psm.setString(2, t.getCityIDEnd());
+		psm.setString(3, t.getDistance() +"");
+		psm.setTime(4, t.getDuration());
+		psm.setString(5, t.getBusID());
+		psm.setString(6, t.getPrice() + "");
 		
 		int executedRow = psm.executeUpdate(); 
 		
@@ -54,7 +53,7 @@ public class DAORoute implements DAOInterface<Route>{
 		String command = "DELETE FROM RouteWay WHERE RouteID = ?";
 		PreparedStatement psm = con.prepareStatement(command);
 		
-		psm.setString(1, t.getRouteID());
+		psm.setInt(1, t.getRouteID());
 		
 		int executedRow = psm.executeUpdate(); 
 		
@@ -72,7 +71,7 @@ public class DAORoute implements DAOInterface<Route>{
 		String command = "UPDATE RouteWay SET CityIDStart = ?, CityIDEnd = ?, Distance = ?, Duration = ?, BusID = ?, BasePrice = ? WHERE RouteID = ?";
 		PreparedStatement psm = con.prepareStatement(command);
 		
-		psm.setString(7, t.getRouteID());
+		psm.setInt(7, t.getRouteID());
 		psm.setString(1, t.getCityIDStart());
 		psm.setString(2, t.getCityIDEnd());
 		psm.setString(3, t.getDistance() +"");
@@ -102,7 +101,7 @@ public class DAORoute implements DAOInterface<Route>{
 		//Bước 4 : Xem thong tin cua bang
 		while(rs.next())
 		{
-			String RouteID = rs.getString("RouteID");
+			int RouteID = rs.getInt("RouteID");
 			String CityIDStart = rs.getString("CityIDStart");
 			String CityIDEnd = rs.getString("CityIDEnd");
 			int Distance = Integer.parseInt(rs.getString("Distance"));
@@ -131,11 +130,11 @@ public class DAORoute implements DAOInterface<Route>{
 		
 		ResultSet rs = psm.executeQuery();
 		
-		Route result = new Route("","","","",0,new Time(0,0,0),0);
+		Route result = new Route(0,"","","",0,new Time(0,0,0),0);
 		
 		while(rs.next())
 		{
-			String RouteID = rs.getString("RouteID");
+			int RouteID = rs.getInt("RouteID");
 			String CityIDStart = rs.getString("CityIDStart");
 			String CityIDEnd = rs.getString("CityIDEnd");
 			int Distance = Integer.parseInt(rs.getString("Distance"));
@@ -163,7 +162,7 @@ public class DAORoute implements DAOInterface<Route>{
 		
 		while(rs.next())
 		{
-			String RouteID = rs.getString("RouteID");
+			int RouteID = rs.getInt("RouteID");
 			String CityIDStart = rs.getString("CityIDStart");
 			String CityIDEnd = rs.getString("CityIDEnd");
 			int Distance = Integer.parseInt(rs.getString("Distance"));
@@ -192,11 +191,11 @@ public class DAORoute implements DAOInterface<Route>{
 		
 		ResultSet rs = psm.executeQuery();
 		
-		Route result = new Route("","","","",0,new Time(0,0,0),0);
+		Route result = new Route(0,"","","",0,new Time(0,0,0),0);
 		
 		while(rs.next())
 		{
-			String RouteID = rs.getString("RouteID");
+			int RouteID = rs.getInt("RouteID");
 			String CityIDStart = rs.getString("CityIDStart");
 			String CityIDEnd = rs.getString("CityIDEnd");
 			int Distance = Integer.parseInt(rs.getString("Distance"));

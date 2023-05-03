@@ -3,17 +3,17 @@ package Models;
 import java.sql.Time;
 
 public class Route {
-	private String RouteID;
+	private int RouteID;
 	private String BusID;
 	private String CityIDStart;
 	private String CityIDEnd;
 	private int Price;
 	private Time Duration;
 	private int Distance;
-	public String getRouteID() {
+	public int getRouteID() {
 		return RouteID;
 	}
-	public void setRouteID(String routeID) {
+	public void setRouteID(int routeID) {
 		RouteID = routeID;
 	}
 	public String getBusID() {
@@ -52,7 +52,7 @@ public class Route {
 	public void setDistance(int distance) {
 		Distance = distance;
 	}
-	public Route(String routeID, String busID, String cityIDStart, String cityIDEnd, int price, Time duration,
+	public Route(int routeID, String busID, String cityIDStart, String cityIDEnd, int price, Time duration,
 			int distance) {
 		super();
 		RouteID = routeID;
