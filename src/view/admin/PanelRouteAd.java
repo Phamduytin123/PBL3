@@ -3,17 +3,13 @@ package view.admin;
 import javax.swing.JPanel;
 import javax.swing.border.LineBorder;
 import javax.swing.table.DefaultTableModel;
-
-import DAO.DAOCity;
+import controller.admin.RouteListener;
 import DAO.DAORoute;
-import Models.Route;
 
 import java.awt.Color;
 import javax.swing.JLabel;
 import java.awt.Font;
 import java.sql.SQLException;
-import java.sql.Time;
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.JScrollPane;
@@ -22,16 +18,128 @@ import javax.swing.JButton;
 import javax.swing.JTable;
 
 public class PanelRouteAd extends JPanel {
-	public JTextField textFieldRoute;
-	public JTextField textFieldStartCity;
-	public JTextField textFieldEndCity;
-	public JTextField textFieldDistance;
-	public JTextField textFieldDuration;
-	public JTextField textFieldBusID;
-	public JTextField textFieldPrice;
-	public JTable table;
-	public JButton btnAdd, btnUpdate, btnDelete, btnCancel;
+	private JTextField textFieldRoute;
+	private JTextField textFieldStartCity;
+	private JTextField textFieldEndCity;
+	private JTextField textFieldDistance;
+	private JTextField textFieldDuration;
+	private JTextField textFieldBusID;
+	private JTextField textFieldPrice;
+	private JTable table;
+	private JButton btnAdd, btnUpdate, btnDelete, btnCancel;
 	
+	public JTextField getTextFieldRoute() {
+		return textFieldRoute;
+	}
+
+	public void setTextFieldRoute(JTextField textFieldRoute) {
+		this.textFieldRoute = textFieldRoute;
+	}
+
+	public JTextField getTextFieldStartCity() {
+		return textFieldStartCity;
+	}
+
+	public void setTextFieldStartCity(JTextField textFieldStartCity) {
+		this.textFieldStartCity = textFieldStartCity;
+	}
+
+	public JTextField getTextFieldEndCity() {
+		return textFieldEndCity;
+	}
+
+	public void setTextFieldEndCity(JTextField textFieldEndCity) {
+		this.textFieldEndCity = textFieldEndCity;
+	}
+
+	public JTextField getTextFieldDistance() {
+		return textFieldDistance;
+	}
+
+	public void setTextFieldDistance(JTextField textFieldDistance) {
+		this.textFieldDistance = textFieldDistance;
+	}
+
+	public JTextField getTextFieldDuration() {
+		return textFieldDuration;
+	}
+
+	public void setTextFieldDuration(JTextField textFieldDuration) {
+		this.textFieldDuration = textFieldDuration;
+	}
+
+	public JTextField getTextFieldBusID() {
+		return textFieldBusID;
+	}
+
+	public void setTextFieldBusID(JTextField textFieldBusID) {
+		this.textFieldBusID = textFieldBusID;
+	}
+
+	public JTextField getTextFieldPrice() {
+		return textFieldPrice;
+	}
+
+	public void setTextFieldPrice(JTextField textFieldPrice) {
+		this.textFieldPrice = textFieldPrice;
+	}
+
+	public JTable getTable() {
+		return table;
+	}
+
+	public void setTable(JTable table) {
+		this.table = table;
+	}
+
+	public JButton getBtnAdd() {
+		return btnAdd;
+	}
+
+	public void setBtnAdd(JButton btnAdd) {
+		this.btnAdd = btnAdd;
+	}
+
+	public JButton getBtnUpdate() {
+		return btnUpdate;
+	}
+
+	public void setBtnUpdate(JButton btnUpdate) {
+		this.btnUpdate = btnUpdate;
+	}
+
+	public JButton getBtnDelete() {
+		return btnDelete;
+	}
+
+	public void setBtnDelete(JButton btnDelete) {
+		this.btnDelete = btnDelete;
+	}
+
+	public JButton getBtnCancel() {
+		return btnCancel;
+	}
+
+	public void setBtnCancel(JButton btnCancel) {
+		this.btnCancel = btnCancel;
+	}
+
+	public DefaultTableModel getDtm() {
+		return dtm;
+	}
+
+	public void setDtm(DefaultTableModel dtm) {
+		this.dtm = dtm;
+	}
+
+	public List<Object[]> getData() {
+		return data;
+	}
+
+	public void setData(List<Object[]> data) {
+		this.data = data;
+	}
+
 	public DefaultTableModel dtm;
 	private List<Object[]> data = DAORoute.getInstance().getListRouteAndCity();
 
@@ -109,7 +217,7 @@ public class PanelRouteAd extends JPanel {
 		}
 		
 		table.setModel(dtm);
-		
+		table.getSelectionModel().addListSelectionListener( new RouteListener(this));
 		
 		JScrollPane scrollPane = new JScrollPane(table);
 		scrollPane.setBounds(27, 262, 553, 266);
@@ -181,5 +289,56 @@ public class PanelRouteAd extends JPanel {
 		btnCancel.setBackground(new Color(192, 192, 192));
 		btnCancel.setBounds(322, 230, 78, 28);
 		add(btnCancel);
+		
+		btnAdd.addActionListener(new RouteListener(this));
+		btnCancel.addActionListener(new RouteListener(this));
+	}
+	public void SetTextUnEditable() {
+		this.textFieldBusID.setEditable(false);
+		this.textFieldDistance.setEditable(false);
+		this.textFieldDuration.setEditable(false);
+		this.textFieldEndCity.setEditable(false);
+		this.textFieldPrice.setEditable(false);
+		this.textFieldStartCity.setEditable(false);
+	}
+	public void SetTextEditable() {
+		this.textFieldBusID.setEditable(true);
+		this.textFieldDistance.setEditable(true);
+		this.textFieldDuration.setEditable(true);
+		this.textFieldEndCity.setEditable(true);
+		this.textFieldPrice.setEditable(true);
+		this.textFieldStartCity.setEditable(true);
+	}
+	public void SetTextInFor(int index) {
+		this.textFieldRoute.setText(data.get(index)[0]+"");
+		this.textFieldStartCity.setText(data.get(index)[1]+"");
+		this.textFieldEndCity.setText(data.get(index)[2]+"");
+		this.textFieldDistance.setText(data.get(index)[3]+"");
+		this.textFieldDuration.setText(data.get(index)[4]+"");
+		this.textFieldBusID.setText(data.get(index)[5]+"");
+		this.textFieldPrice.setText(data.get(index)[6]+"");
+	}
+	public void SetTextNull() {
+		this.textFieldBusID.setText("");
+		this.textFieldDistance.setText("");
+		this.textFieldDuration.setText("");
+		this.textFieldEndCity.setText("");
+		this.textFieldPrice.setText("");
+		this.textFieldStartCity.setText("");
+		this.textFieldRoute.setText("");
+	}
+	public void PressAdd() {
+		SetTextNull();
+		SetTextEditable();
+		btnCancel.setEnabled(true);
+		btnDelete.setEnabled(false);
+		btnUpdate.setEnabled(false);
+		btnAdd.setText("Lưu");
+	}
+	public void PressCancel() {
+		btnCancel.setEnabled(false);
+		btnDelete.setEnabled(true);
+		btnUpdate.setEnabled(true);
+		btnAdd.setEnabled(true);
 	}
 }

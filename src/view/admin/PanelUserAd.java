@@ -39,10 +39,10 @@ public class PanelUserAd extends JPanel {
 		setBounds(0, 0, 614, 553);
 		setLayout(null);
 		
-		JLabel lblRoute = new JLabel("Thông tin lịch trình");
-		lblRoute.setFont(new Font("Tahoma", Font.BOLD, 25));
-		lblRoute.setBounds(27, 11, 259, 34);
-		add(lblRoute);
+		JLabel lblUser = new JLabel("Thông tin tài khoản");
+		lblUser.setFont(new Font("Tahoma", Font.BOLD, 25));
+		lblUser.setBounds(27, 11, 259, 34);
+		add(lblUser);
 		
 		JLabel lblUserID = new JLabel("Mã tài khoản");
 		lblUserID.setFont(new Font("Times New Roman", Font.PLAIN, 15));
@@ -51,7 +51,7 @@ public class PanelUserAd extends JPanel {
 		
 		JLabel lblPassword = new JLabel("Mật khẩu");
 		lblPassword.setFont(new Font("Times New Roman", Font.PLAIN, 15));
-		lblPassword.setBounds(304, 105, 84, 34);
+		lblPassword.setBounds(300, 56, 84, 34);
 		add(lblPassword);
 		
 		JLabel lblUserName = new JLabel("Tài khoản");
@@ -93,7 +93,7 @@ public class PanelUserAd extends JPanel {
 		textPassword = new JTextField();
 		textPassword.setEditable(false);
 		textPassword.setColumns(10);
-		textPassword.setBounds(411, 108, 109, 28);
+		textPassword.setBounds(394, 59, 109, 28);
 		add(textPassword);
 		
 		textUserName = new JTextField();
