@@ -4,30 +4,41 @@ import javax.swing.JPanel;
 import javax.swing.border.LineBorder;
 import javax.swing.table.DefaultTableModel;
 import controller.admin.RouteListener;
+import DAO.DAOBus;
+import DAO.DAOCity;
 import DAO.DAORoute;
+import Models.Route;
 
 import java.awt.Color;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+
 import java.awt.Font;
 import java.sql.SQLException;
+import java.sql.Time;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 import javax.swing.JButton;
 import javax.swing.JTable;
+import java.awt.Choice;
+import javax.swing.JComboBox;
 
 public class PanelRouteAd extends JPanel {
 	private JTextField textFieldRoute;
-	private JTextField textFieldStartCity;
-	private JTextField textFieldEndCity;
 	private JTextField textFieldDistance;
 	private JTextField textFieldDuration;
-	private JTextField textFieldBusID;
 	private JTextField textFieldPrice;
+	private JComboBox cbbStartCity, cbbEndCity, cbbBusID;
 	private JTable table;
 	private JButton btnAdd, btnUpdate, btnDelete, btnCancel;
-	
+	public DefaultTableModel dtm;
+	private List<Object[]> data = DAORoute.getInstance().getListRouteAndCity();
+	private List<String> listCity = DAOCity.getInstance().getListCity();
+	private List<String> listBus = DAOBus.getInstance().getListBus();
+		
 	public JTextField getTextFieldRoute() {
 		return textFieldRoute;
 	}
@@ -36,21 +47,6 @@ public class PanelRouteAd extends JPanel {
 		this.textFieldRoute = textFieldRoute;
 	}
 
-	public JTextField getTextFieldStartCity() {
-		return textFieldStartCity;
-	}
-
-	public void setTextFieldStartCity(JTextField textFieldStartCity) {
-		this.textFieldStartCity = textFieldStartCity;
-	}
-
-	public JTextField getTextFieldEndCity() {
-		return textFieldEndCity;
-	}
-
-	public void setTextFieldEndCity(JTextField textFieldEndCity) {
-		this.textFieldEndCity = textFieldEndCity;
-	}
 
 	public JTextField getTextFieldDistance() {
 		return textFieldDistance;
@@ -68,13 +64,6 @@ public class PanelRouteAd extends JPanel {
 		this.textFieldDuration = textFieldDuration;
 	}
 
-	public JTextField getTextFieldBusID() {
-		return textFieldBusID;
-	}
-
-	public void setTextFieldBusID(JTextField textFieldBusID) {
-		this.textFieldBusID = textFieldBusID;
-	}
 
 	public JTextField getTextFieldPrice() {
 		return textFieldPrice;
@@ -140,8 +129,7 @@ public class PanelRouteAd extends JPanel {
 		this.data = data;
 	}
 
-	public DefaultTableModel dtm;
-	private List<Object[]> data = DAORoute.getInstance().getListRouteAndCity();
+	
 
 	/**
 	 * Create the panel.
@@ -193,30 +181,10 @@ public class PanelRouteAd extends JPanel {
 		lblGi.setBounds(349, 146, 84, 34);
 		add(lblGi);
 		
-		
-		
-		
 		table = new JTable();
 		
-		String[] columnNames = {"ID","Điểm đi","Điểm đến","Khoảng cách","Thời gian","Mã xe","Giá"};
 		
-		dtm = new DefaultTableModel(columnNames, 0);
 		
-		for (int i = 0; i < data.size(); i++)
-		{
-			
-//			String ID = data.get(i).getRouteID();
-//			String StartCity = DAOCity.getInstance().getNameCityByID(data.get(i).getCityIDStart());
-//			String EndCity =  DAOCity.getInstance().getNameCityByID(data.get(i).getCityIDEnd());
-//			int Distance = data.get(i).getDistance();
-//			Time time = data.get(i).getDuration();
-//			int price = data.get(i).getPrice();
-//			String busID = data.get(i).getBusID();
-			Object[] rowData = data.get(i);
-			dtm.addRow(rowData);
-		}
-		
-		table.setModel(dtm);
 		table.getSelectionModel().addListSelectionListener( new RouteListener(this));
 		
 		JScrollPane scrollPane = new JScrollPane(table);
@@ -224,42 +192,28 @@ public class PanelRouteAd extends JPanel {
 		add(scrollPane);
 		
 		textFieldRoute = new JTextField();
+		textFieldRoute.setFont(new Font("Times New Roman", Font.PLAIN, 13));
 		textFieldRoute.setEditable(false);
 		textFieldRoute.setBounds(141, 58, 96, 28);
 		add(textFieldRoute);
 		textFieldRoute.setColumns(10);
 		
-		textFieldStartCity = new JTextField();
-		textFieldStartCity.setEditable(false);
-		textFieldStartCity.setColumns(10);
-		textFieldStartCity.setBounds(141, 102, 96, 28);
-		add(textFieldStartCity);
-		
-		textFieldEndCity = new JTextField();
-		textFieldEndCity.setEditable(false);
-		textFieldEndCity.setColumns(10);
-		textFieldEndCity.setBounds(141, 147, 96, 28);
-		add(textFieldEndCity);
-		
 		textFieldDistance = new JTextField();
+		textFieldDistance.setFont(new Font("Times New Roman", Font.PLAIN, 13));
 		textFieldDistance.setEditable(false);
 		textFieldDistance.setColumns(10);
 		textFieldDistance.setBounds(141, 192, 96, 28);
 		add(textFieldDistance);
 		
 		textFieldDuration = new JTextField();
+		textFieldDuration.setFont(new Font("Times New Roman", Font.PLAIN, 13));
 		textFieldDuration.setEditable(false);
 		textFieldDuration.setColumns(10);
 		textFieldDuration.setBounds(428, 58, 96, 28);
 		add(textFieldDuration);
 		
-		textFieldBusID = new JTextField();
-		textFieldBusID.setEditable(false);
-		textFieldBusID.setColumns(10);
-		textFieldBusID.setBounds(428, 102, 96, 28);
-		add(textFieldBusID);
-		
 		textFieldPrice = new JTextField();
+		textFieldPrice.setFont(new Font("Times New Roman", Font.PLAIN, 13));
 		textFieldPrice.setEditable(false);
 		textFieldPrice.setColumns(10);
 		textFieldPrice.setBounds(428, 147, 96, 28);
@@ -292,39 +246,57 @@ public class PanelRouteAd extends JPanel {
 		
 		btnAdd.addActionListener(new RouteListener(this));
 		btnCancel.addActionListener(new RouteListener(this));
+		btnDelete.addActionListener(new RouteListener(this));
+		
+		 cbbStartCity = new JComboBox();
+		 cbbStartCity.setFont(new Font("Times New Roman", Font.PLAIN, 13));
+		cbbStartCity.setBounds(141, 107, 130, 28);
+		add(cbbStartCity);
+		
+		 cbbEndCity = new JComboBox();
+		 cbbEndCity.setFont(new Font("Times New Roman", Font.PLAIN, 13));
+		cbbEndCity.setBounds(141, 149, 130, 28);
+		add(cbbEndCity);
+		
+		cbbBusID = new JComboBox();
+		cbbBusID.setFont(new Font("Times New Roman", Font.PLAIN, 13));
+		cbbBusID.setEnabled(false);
+		cbbBusID.setBounds(428, 107, 96, 28);
+		add(cbbBusID);
+		Init();
+		SetTextUnEditable();
 	}
 	public void SetTextUnEditable() {
-		this.textFieldBusID.setEditable(false);
-		this.textFieldDistance.setEditable(false);
-		this.textFieldDuration.setEditable(false);
-		this.textFieldEndCity.setEditable(false);
-		this.textFieldPrice.setEditable(false);
-		this.textFieldStartCity.setEditable(false);
+		textFieldDistance.setEditable(false);
+		textFieldDuration.setEditable(false);
+		cbbStartCity.setEnabled(false);
+		cbbEndCity.setEditable(false);
+		textFieldPrice.setEditable(false);
+		cbbEndCity.setEnabled(false);
 	}
 	public void SetTextEditable() {
-		this.textFieldBusID.setEditable(true);
-		this.textFieldDistance.setEditable(true);
-		this.textFieldDuration.setEditable(true);
-		this.textFieldEndCity.setEditable(true);
-		this.textFieldPrice.setEditable(true);
-		this.textFieldStartCity.setEditable(true);
+		cbbBusID.setEnabled(true);
+		textFieldDistance.setEditable(true);
+		textFieldDuration.setEditable(true);
+		cbbStartCity.setEnabled(true);
+		cbbEndCity.setEnabled(true);
+		textFieldPrice.setEditable(true);
+		cbbEndCity.setEnabled(true);
 	}
 	public void SetTextInFor(int index) {
-		this.textFieldRoute.setText(data.get(index)[0]+"");
-		this.textFieldStartCity.setText(data.get(index)[1]+"");
-		this.textFieldEndCity.setText(data.get(index)[2]+"");
-		this.textFieldDistance.setText(data.get(index)[3]+"");
-		this.textFieldDuration.setText(data.get(index)[4]+"");
-		this.textFieldBusID.setText(data.get(index)[5]+"");
-		this.textFieldPrice.setText(data.get(index)[6]+"");
+		textFieldRoute.setText(data.get(index)[0]+"");
+		cbbStartCity.setSelectedItem(data.get(index)[1]+"");
+		cbbEndCity.setSelectedItem(data.get(index)[2]+"");
+		
+		textFieldDistance.setText(data.get(index)[3]+"");
+		textFieldDuration.setText(data.get(index)[4]+"");
+		cbbBusID.setSelectedItem(data.get(index)[5]+"");
+		textFieldPrice.setText(data.get(index)[6]+"");
 	}
 	public void SetTextNull() {
-		this.textFieldBusID.setText("");
 		this.textFieldDistance.setText("");
 		this.textFieldDuration.setText("");
-		this.textFieldEndCity.setText("");
 		this.textFieldPrice.setText("");
-		this.textFieldStartCity.setText("");
 		this.textFieldRoute.setText("");
 	}
 	public void PressAdd() {
@@ -334,11 +306,112 @@ public class PanelRouteAd extends JPanel {
 		btnDelete.setEnabled(false);
 		btnUpdate.setEnabled(false);
 		btnAdd.setText("Lưu");
+		textFieldRoute.setText((Integer.parseInt(data.get(data.size()-1)[0]+"")+1)+"");
+	}
+	public void PressSaveAdd() {
+
+			
+			btnDelete.setEnabled(true);
+			btnUpdate.setEnabled(true);
+			
+			int ID = Integer.parseInt(textFieldRoute.getText());
+			String StartCity = cbbStartCity.getSelectedItem().toString();
+			String EndCity = cbbEndCity.getSelectedItem().toString();
+			int Distance = Integer.parseInt(textFieldDistance.getText());
+			int Duration = Integer.parseInt(textFieldDuration.getText());
+			String BusID = cbbBusID.getSelectedItem().toString();
+			int Price = Integer.parseInt(textFieldPrice.getText());
+			
+			if(StartCity.equals(EndCity))
+			{
+				JOptionPane.showMessageDialog(null, "Điểm đi không thể trùng điểm đến");
+				return;
+			} else btnAdd.setText("Thêm");
+			Object[] newRow = {ID,StartCity,EndCity,Distance,Duration,BusID,Price};
+
+			
+			Time time = new Time(Duration);
+			try {
+				DAORoute.getInstance().insert(new Route(ID, BusID, DAOCity.getInstance().getCityIDByName(StartCity),DAOCity.getInstance().getCityIDByName(StartCity), Price, time, Distance));
+				data = DAORoute.getInstance().getListRouteAndCity();  
+			} catch (ClassNotFoundException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
+			dtm.addRow(newRow);
+			table.revalidate();
+			table.repaint();
+			SetTextUnEditable();
+			btnCancel.setEnabled(false);
+
 	}
 	public void PressCancel() {
 		btnCancel.setEnabled(false);
 		btnDelete.setEnabled(true);
 		btnUpdate.setEnabled(true);
 		btnAdd.setEnabled(true);
+		btnAdd.setText("Thêm");
+		btnDelete.setText("Xóa");
+		btnUpdate.setText("Sửa");
+		
+	}
+	public void Init() throws SQLException
+	{
+		
+		for(String item : listCity)
+		{
+			cbbStartCity.addItem(item);;
+			cbbEndCity.addItem(item);
+		}
+		for(String item : listBus)
+		{
+			cbbBusID.addItem(item);;
+		}
+
+		
+		String[] columnNames = {"ID","Điểm đi","Điểm đến","Khoảng cách","Thời gian","Mã xe","Giá"};
+		
+		dtm = new DefaultTableModel(columnNames, 0);
+		
+		for (int i = 0; i < data.size(); i++)
+		{
+			
+			Object[] rowData = data.get(i);
+			dtm.addRow(rowData);
+		}
+		
+		table.setModel(dtm);
+	}
+	public void PressDelete() {
+		if (!textFieldRoute.getText().isEmpty()) {
+
+			try {
+				System.out.println(table.getSelectedRow());
+				DAORoute.getInstance().delete(Integer.parseInt(textFieldRoute.getText()));
+				
+				if (table.getSelectedRow() != -1) {
+					dtm.removeRow(table.getSelectedRow());
+					table.revalidate();
+					table.repaint();
+				}
+				data = DAORoute.getInstance().getListRouteAndCity(); 
+			} catch (NumberFormatException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (ClassNotFoundException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+	}
+	public void PressUpdate() {
+		
 	}
 }

@@ -22,17 +22,19 @@ public class RouteListener implements ActionListener, ListSelectionListener{
 		// TODO Auto-generated method stub
 		Object tmp = e.getSource();
 		String t = e.getActionCommand();
-		if (tmp == pnRouteAd.getBtnAdd()) {
+		if (t.equals("Thêm")) {
 			pnRouteAd.PressAdd();
-			if (t.equals("Lưu")) {
-				System.out.println("1");
-				pnRouteAd.getBtnAdd().setText("Thêm");
-				pnRouteAd.getBtnDelete().setEnabled(true);
-				pnRouteAd.getBtnUpdate().setEnabled(true);
-			}
 		} else
 		if (tmp == pnRouteAd.getBtnCancel()) {
 			pnRouteAd.PressCancel();
+		} else
+		if (tmp == pnRouteAd.getBtnAdd()) {
+			if (t.equals("Lưu")) {
+				pnRouteAd.PressSaveAdd();
+			}
+		} else
+		if (tmp == pnRouteAd.getBtnDelete()) {
+			pnRouteAd.PressDelete();	
 		}
 		
 	}

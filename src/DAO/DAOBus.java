@@ -13,7 +13,7 @@ import BUS.JDBCUtil;
 import Models.Bill;
 import Models.Bus;
 
-public class DAOBus implements DAOInterface<Bus>{
+public class DAOBus implements DAOInterface<Bus,String>{
 
 	public static DAOBus getInstance()
 	{
@@ -41,14 +41,14 @@ public class DAOBus implements DAOInterface<Bus>{
 	}
 
 	@Override
-	public int delete(Bus t) throws SQLException, ClassNotFoundException {
+	public int delete(String t) throws SQLException, ClassNotFoundException {
 		
 		Connection con = JDBCUtil.getConnection();
 		
 		String command = "DELETE FROM Bus WHERE BusID = ?";
 		PreparedStatement psm = con.prepareStatement(command);
 		
-		psm.setString(1, t.getBusID());
+		psm.setString(1, t);
 		
 		int executedRow = psm.executeUpdate(); 
 		
@@ -186,5 +186,27 @@ public class DAOBus implements DAOInterface<Bus>{
 		psm.close();
 		JDBCUtil.closeConnection(Conn);
 		return result;
+	}
+	
+	public ArrayList<String> getListBus() throws SQLException
+	{
+		Connection Conn = JDBCUtil.getConnection(); 
+		
+		ArrayList<String> list = new ArrayList<>();
+		
+		Statement stmt = Conn.createStatement();
+		String command = "SELECT BusID FROM Bus";
+		ResultSet rs = stmt.executeQuery(command);
+		
+		while(rs.next())
+		{
+			String IDname = rs.getString("BusID");
+			
+			list.add(IDname);
+		}
+		rs.close();
+		stmt.close();
+		JDBCUtil.closeConnection(Conn);
+		return list;
 	}
 }

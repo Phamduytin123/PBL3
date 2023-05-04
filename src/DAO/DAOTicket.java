@@ -12,7 +12,7 @@ import BUS.JDBCUtil;
 import Models.Bus;
 import Models.Ticket;
 
-public class DAOTicket implements DAOInterface<Ticket>{
+public class DAOTicket implements DAOInterface<Ticket,Integer>{
 
 	public static DAOTicket getInstance()
 	{
@@ -42,14 +42,14 @@ public class DAOTicket implements DAOInterface<Ticket>{
 	}
 
 	@Override
-	public int delete(Ticket t) throws SQLException, ClassNotFoundException {
+	public int delete(Integer t) throws SQLException, ClassNotFoundException {
 		
 		Connection con = JDBCUtil.getConnection();
 		
 		String command = "DELETE FROM Ticket WHERE TicketID = ?";
 		PreparedStatement psm = con.prepareStatement(command);
 		
-		psm.setInt(1, t.getTicketID());
+		psm.setInt(1, t);
 		
 		int executedRow = psm.executeUpdate(); 
 		

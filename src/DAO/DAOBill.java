@@ -16,7 +16,7 @@ import BUS.JDBCUtil;
 import Models.Bill;
 import Models.myDate;
 
-public class DAOBill implements DAOInterface<Bill>{
+public class DAOBill implements DAOInterface<Bill,Integer>{
 
 	public static DAOBill getInstance()
 	{
@@ -48,14 +48,14 @@ public class DAOBill implements DAOInterface<Bill>{
 	}
 
 	@Override
-	public int delete(Bill t) throws SQLException, ClassNotFoundException {
+	public int delete(Integer t) throws SQLException, ClassNotFoundException {
 		
 		Connection con = JDBCUtil.getConnection();
 		
 		String command = "DELETE FROM Bill WHERE BillID = ?";
 		PreparedStatement psm = con.prepareStatement(command);
 		
-		psm.setInt(1, t.getBillID());
+		psm.setInt(1, t);
 		
 		int executedRow = psm.executeUpdate(); 
 		

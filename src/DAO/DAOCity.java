@@ -14,7 +14,7 @@ import Models.Bill;
 import Models.Bus;
 import Models.City;
 
-public class DAOCity implements DAOInterface<City>{
+public class DAOCity implements DAOInterface<City,String>{
 
 	private static DAOCity instance = new DAOCity();
 	public static DAOCity getInstance()
@@ -44,14 +44,14 @@ public class DAOCity implements DAOInterface<City>{
 	}
 
 	@Override
-	public int delete(City t) throws SQLException, ClassNotFoundException {
+	public int delete(String t) throws SQLException, ClassNotFoundException {
 		
 		Connection con = JDBCUtil.getConnection();
 		
 		String command = "DELETE FROM City WHERE CityID = ?";
 		PreparedStatement psm = con.prepareStatement(command);
 		
-		psm.setString(1, t.getCityID());
+		psm.setString(1, t);
 		
 		int executedRow = psm.executeUpdate(); 
 		

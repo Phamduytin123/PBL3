@@ -14,7 +14,7 @@ import Models.City;
 import Models.Route;
 import Models.Ticket;
 
-public class DAORoute implements DAOInterface<Route>{
+public class DAORoute implements DAOInterface<Route,Integer>{
 
 	private static DAORoute instance = new DAORoute();
 	public static DAORoute getInstance()
@@ -46,14 +46,14 @@ public class DAORoute implements DAOInterface<Route>{
 	}
 
 	@Override
-	public int delete(Route t) throws SQLException, ClassNotFoundException {
+	public int delete(Integer t) throws SQLException, ClassNotFoundException {
 		
 		Connection con = JDBCUtil.getConnection();
 		
 		String command = "DELETE FROM RouteWay WHERE RouteID = ?";
 		PreparedStatement psm = con.prepareStatement(command);
 		
-		psm.setInt(1, t.getRouteID());
+		psm.setInt(1, t);
 		
 		int executedRow = psm.executeUpdate(); 
 		

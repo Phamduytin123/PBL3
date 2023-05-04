@@ -18,7 +18,7 @@ import Models.City;
 import Models.Customer;
 import Models.myDate;
 
-public class DAOCustomer implements DAOInterface<Customer>{
+public class DAOCustomer implements DAOInterface<Customer,Integer>{
 
 	public static DAOCustomer getInstance()
 	{
@@ -51,14 +51,14 @@ public class DAOCustomer implements DAOInterface<Customer>{
 	}
 
 	@Override
-	public int delete(Customer t) throws SQLException, ClassNotFoundException {
+	public int delete(Integer t) throws SQLException, ClassNotFoundException {
 		
 		Connection con = JDBCUtil.getConnection();
 		
 		String command = "DELETE FROM Customer WHERE CustomerID = ?";
 		PreparedStatement psm = con.prepareStatement(command);
 		
-		psm.setInt(1, t.getCustomerID());
+		psm.setInt(1, t);
 		
 		int executedRow = psm.executeUpdate(); 
 		

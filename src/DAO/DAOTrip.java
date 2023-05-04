@@ -17,7 +17,7 @@ import Models.Route;
 import Models.Trip;
 import Models.myDate;
 
-public class DAOTrip implements DAOInterface<Trip> {
+public class DAOTrip implements DAOInterface<Trip,Integer> {
 
 	public static DAOTrip getInstance() {
 		return new DAOTrip();
@@ -46,14 +46,14 @@ public class DAOTrip implements DAOInterface<Trip> {
 	}
 
 	@Override
-	public int delete(Trip t) throws SQLException, ClassNotFoundException {
+	public int delete(Integer t) throws SQLException, ClassNotFoundException {
 
 		Connection con = JDBCUtil.getConnection();
 
 		String command = "DELETE FROM TripInDay WHERE TripID = ?";
 		PreparedStatement psm = con.prepareStatement(command);
 
-		psm.setInt(1, t.getTripID());
+		psm.setInt(1, t);
 
 		int executedRow = psm.executeUpdate();
 
