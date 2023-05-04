@@ -36,7 +36,7 @@ public class PanelUserAd extends JPanel {
 	 */
 	public PanelUserAd() throws ClassNotFoundException, SQLException {
 		setBorder(new LineBorder(new Color(0, 0, 0)));
-		setBounds(0, 0, 614, 553);
+		setBounds(188, 0, 614, 553);
 		setLayout(null);
 		
 		JLabel lblUser = new JLabel("Thông tin tài khoản");

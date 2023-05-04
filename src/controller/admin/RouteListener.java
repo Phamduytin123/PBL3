@@ -36,6 +36,14 @@ public class RouteListener implements ActionListener, ListSelectionListener{
 		if (tmp == pnRouteAd.getBtnDelete()) {
 			pnRouteAd.PressDelete();	
 		}
+		if (t.equals("Sửa")) {
+			pnRouteAd.PressUpdate();
+		} else
+		if (tmp == pnRouteAd.getBtnUpdate()) {
+			if(t.equals("Lưu")) {
+				pnRouteAd.PressSaveUpdate();
+			}
+		}
 		
 	}
 

@@ -26,7 +26,7 @@ public class PanelBillAd extends JPanel {
 	
 	public PanelBillAd() {
 		setBorder(new LineBorder(new Color(0, 0, 0)));
-		setBounds(0, 0, 614, 553);
+		setBounds(188, 0, 614, 553);
 		setLayout(null);
 		JLabel lblBill = new JLabel("Thông tin hóa đơn");
 		lblBill.setFont(new Font("Tahoma", Font.BOLD, 25));

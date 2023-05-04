@@ -29,7 +29,7 @@ public class PanelTripInDay extends JPanel {
 
 	public PanelTripInDay() {
 		setBorder(new LineBorder(new Color(0, 0, 0)));
-		setBounds(0, 0, 614, 553);
+		setBounds(188, 0, 614, 553);
 		setLayout(null);
 		
 		JLabel lblTripInDay = new JLabel("Thông tin chuyến đi");

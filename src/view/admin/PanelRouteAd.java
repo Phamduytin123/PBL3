@@ -138,7 +138,7 @@ public class PanelRouteAd extends JPanel {
 	 */
 	public PanelRouteAd() throws ClassNotFoundException, SQLException {
 		setBorder(new LineBorder(new Color(0, 0, 0)));
-		setBounds(0, 0, 614, 553);
+		setBounds(188, 0, 614, 553);
 		setLayout(null);
 		
 		JLabel lblRoute = new JLabel("Thông tin lịch trình");
@@ -247,6 +247,7 @@ public class PanelRouteAd extends JPanel {
 		btnAdd.addActionListener(new RouteListener(this));
 		btnCancel.addActionListener(new RouteListener(this));
 		btnDelete.addActionListener(new RouteListener(this));
+		btnUpdate.addActionListener(new RouteListener(this));
 		
 		 cbbStartCity = new JComboBox();
 		 cbbStartCity.setFont(new Font("Times New Roman", Font.PLAIN, 13));
@@ -284,14 +285,15 @@ public class PanelRouteAd extends JPanel {
 		cbbEndCity.setEnabled(true);
 	}
 	public void SetTextInFor(int index) {
+		
 		textFieldRoute.setText(data.get(index)[0]+"");
 		cbbStartCity.setSelectedItem(data.get(index)[1]+"");
 		cbbEndCity.setSelectedItem(data.get(index)[2]+"");
-		
 		textFieldDistance.setText(data.get(index)[3]+"");
 		textFieldDuration.setText(data.get(index)[4]+"");
 		cbbBusID.setSelectedItem(data.get(index)[5]+"");
 		textFieldPrice.setText(data.get(index)[6]+"");
+		
 	}
 	public void SetTextNull() {
 		this.textFieldDistance.setText("");
@@ -311,8 +313,7 @@ public class PanelRouteAd extends JPanel {
 	public void PressSaveAdd() {
 
 			
-			btnDelete.setEnabled(true);
-			btnUpdate.setEnabled(true);
+			
 			
 			int ID = Integer.parseInt(textFieldRoute.getText());
 			String StartCity = cbbStartCity.getSelectedItem().toString();
@@ -332,7 +333,7 @@ public class PanelRouteAd extends JPanel {
 			
 			Time time = new Time(Duration);
 			try {
-				DAORoute.getInstance().insert(new Route(ID, BusID, DAOCity.getInstance().getCityIDByName(StartCity),DAOCity.getInstance().getCityIDByName(StartCity), Price, time, Distance));
+				DAORoute.getInstance().insert(new Route(ID, BusID, DAOCity.getInstance().getCityIDByName(StartCity),DAOCity.getInstance().getCityIDByName(EndCity), Price, time, Distance));
 				data = DAORoute.getInstance().getListRouteAndCity();  
 			} catch (ClassNotFoundException e) {
 				// TODO Auto-generated catch block
@@ -345,6 +346,9 @@ public class PanelRouteAd extends JPanel {
 			dtm.addRow(newRow);
 			table.revalidate();
 			table.repaint();
+			
+			btnDelete.setEnabled(true);
+			btnUpdate.setEnabled(true);
 			SetTextUnEditable();
 			btnCancel.setEnabled(false);
 
@@ -357,7 +361,7 @@ public class PanelRouteAd extends JPanel {
 		btnAdd.setText("Thêm");
 		btnDelete.setText("Xóa");
 		btnUpdate.setText("Sửa");
-		
+		SetTextUnEditable();
 	}
 	public void Init() throws SQLException
 	{
@@ -412,6 +416,52 @@ public class PanelRouteAd extends JPanel {
 		}
 	}
 	public void PressUpdate() {
-		
+		if (table.getSelectedRow() != -1) {
+			SetTextEditable();
+			btnAdd.setEnabled(false);
+			btnDelete.setEnabled(false);
+			btnCancel.setEnabled(true);
+			btnUpdate.setText("Lưu");
+		}
+	}
+	public void PressSaveUpdate() {
+		int selectedRowIndex = table.getSelectedRow();
+		if (selectedRowIndex != -1) {
+			
+			data.get(selectedRowIndex)[0] = textFieldRoute.getText();
+			data.get(selectedRowIndex)[1] = cbbStartCity.getSelectedItem().toString();
+			data.get(selectedRowIndex)[2] = cbbEndCity.getSelectedItem().toString();
+			data.get(selectedRowIndex)[3] = textFieldDistance.getText();
+			data.get(selectedRowIndex)[4] = textFieldDuration.getText();
+			data.get(selectedRowIndex)[5] = cbbBusID.getSelectedItem().toString();
+			data.get(selectedRowIndex)[6] = textFieldPrice.getText();
+			dtm.insertRow(selectedRowIndex, data.get(selectedRowIndex));
+			
+//			table.revalidate();				//updates table data
+			table.repaint();
+			
+			int ID = Integer.parseInt(textFieldRoute.getText());
+			String StartCity = cbbStartCity.getSelectedItem().toString();
+			String EndCity = cbbEndCity.getSelectedItem().toString();
+			int Distance = Integer.parseInt(textFieldDistance.getText());
+			String BusID = cbbBusID.getSelectedItem().toString();
+			int Price = Integer.parseInt(textFieldPrice.getText());
+			String t = textFieldDuration.getText();
+			int h = Integer.parseInt((char)t.charAt(0)+ "" + (char)t.charAt(1)+"");
+			int m = Integer.parseInt((char)t.charAt(3)+ "" + (char)t.charAt(4)+"");
+			int s = Integer.parseInt((char)t.charAt(6)+ "" + (char)t.charAt(7)+"");
+			Time time = new Time(h,m,s);
+			try {
+				DAORoute.getInstance().update(new Route(ID, BusID, DAOCity.getInstance().getCityIDByName(StartCity),DAOCity.getInstance().getCityIDByName(EndCity), Price, time, Distance));
+			} catch (ClassNotFoundException | SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			btnUpdate.setText("Sửa");
+			btnDelete.setEnabled(true);
+			btnAdd.setEnabled(true);
+			SetTextUnEditable();
+			btnCancel.setEnabled(false);
+		}
 	}
 }
