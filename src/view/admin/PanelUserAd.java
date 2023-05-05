@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.Font;
 import java.sql.SQLException;
 import java.sql.Time;
+import java.time.LocalDate;
 import java.util.ArrayList;
 
 import javax.swing.JButton;
@@ -17,19 +18,102 @@ import javax.swing.table.DefaultTableModel;
 import DAO.DAOCity;
 import DAO.DAOCustomer;
 import Models.Customer;
+import controller.admin.RouteListener;
+import controller.admin.UserListener;
 
 import javax.swing.JTextField;
 
 public class PanelUserAd extends JPanel {
 
-	public JButton btnAdd, btnUpdate, btnDelete, btnCancel;
+	private JButton btnAdd, btnUpdate, btnDelete, btnCancel;
 	private JTextField textUserID;
 	private JTextField textPassword;
 	private JTextField textUserName;
 	public DefaultTableModel dtm;
-	public JTable table;
+	private JTable table;
 	
 	private ArrayList<Customer> data = DAOCustomer.getInstance().selectAll();
+	public JButton getBtnAdd() {
+		return btnAdd;
+	}
+
+	public void setBtnAdd(JButton btnAdd) {
+		this.btnAdd = btnAdd;
+	}
+
+	public JButton getBtnUpdate() {
+		return btnUpdate;
+	}
+
+	public void setBtnUpdate(JButton btnUpdate) {
+		this.btnUpdate = btnUpdate;
+	}
+
+	public JButton getBtnDelete() {
+		return btnDelete;
+	}
+
+	public void setBtnDelete(JButton btnDelete) {
+		this.btnDelete = btnDelete;
+	}
+
+	public JButton getBtnCancel() {
+		return btnCancel;
+	}
+
+	public void setBtnCancel(JButton btnCancel) {
+		this.btnCancel = btnCancel;
+	}
+
+	public JTextField getTextUserID() {
+		return textUserID;
+	}
+
+	public void setTextUserID(JTextField textUserID) {
+		this.textUserID = textUserID;
+	}
+
+	public JTextField getTextPassword() {
+		return textPassword;
+	}
+
+	public void setTextPassword(JTextField textPassword) {
+		this.textPassword = textPassword;
+	}
+
+	public JTextField getTextUserName() {
+		return textUserName;
+	}
+
+	public void setTextUserName(JTextField textUserName) {
+		this.textUserName = textUserName;
+	}
+
+	public DefaultTableModel getDtm() {
+		return dtm;
+	}
+
+	public void setDtm(DefaultTableModel dtm) {
+		this.dtm = dtm;
+	}
+
+	public JTable getTable() {
+		return table;
+	}
+
+	public void setTable(JTable table) {
+		this.table = table;
+	}
+
+	public ArrayList<Customer> getData() {
+		return data;
+	}
+
+	public void setData(ArrayList<Customer> data) {
+		this.data = data;
+	}
+
+
 	
 	/**
 	 * Create the panel.
@@ -125,5 +209,133 @@ public class PanelUserAd extends JPanel {
 		scrollPane.setBounds(27, 262, 553, 266);
 		add(scrollPane);
 		
+		SetTextUnEditable();
+		table.getSelectionModel().addListSelectionListener( new UserListener(this));
+		
+		btnAdd.addActionListener(new UserListener(this));
+		btnCancel.addActionListener(new UserListener(this));
+		btnDelete.addActionListener(new UserListener(this));
+		btnUpdate.addActionListener(new UserListener(this));
+	}
+	public void SetTextEditable() {
+		textPassword.setEditable(true);
+		textUserName.setEditable(true);
+	}
+	public void SetTextUnEditable() {
+		textPassword.setEditable(false);
+		textUserName.setEditable(false);
+		textUserID.setEditable(false);
+	}
+	public void SetTextNull() {
+		textUserID.setText("");
+		textPassword.setText("");
+		textUserName.setText("");
+	}
+	public void SetTextInfor(int index) {
+		textUserID.setText(data.get(index).getCustomerID()+"");
+		textPassword.setText(data.get(index).getPassword()+"");
+		textUserName.setText(data.get(index).getAccount()+"");
+	}
+	public void PressAdd() {
+		SetTextNull();
+		SetTextEditable();
+		btnCancel.setEnabled(true);
+		btnDelete.setEnabled(false);
+		btnUpdate.setEnabled(false);
+		btnAdd.setText("Lưu");
+		textUserID.setText((data.get(data.size()-1).getCustomerID()+1)+"");
+	}
+	public void PressSaveAdd() {
+		int ID = Integer.parseInt(textUserID.getText());
+		String UserName = textUserName.getText();
+		String Password = textPassword.getText();
+		
+		if (UserName != null && Password != null) {
+			try {
+				DAOCustomer.getInstance().insert(new Customer(ID,UserName,Password,null,LocalDate.now(),null,null,null,null));
+			} catch (ClassNotFoundException | SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			btnAdd.setText("Thêm");
+			data.add(new Customer(ID,UserName,Password,null,LocalDate.now(),null,null,null,null));
+			
+			Object[] newRow = {ID,UserName,Password};
+			dtm.addRow(newRow);
+			table.revalidate();
+			table.repaint();
+			
+			btnDelete.setEnabled(true);
+			btnUpdate.setEnabled(true);
+			SetTextUnEditable();
+			btnCancel.setEnabled(false);
+			
+		}
+		
+	}
+	public void PressCancel() {
+		btnCancel.setEnabled(false);
+		btnDelete.setEnabled(true);
+		btnUpdate.setEnabled(true);
+		btnAdd.setEnabled(true);
+		btnAdd.setText("Thêm");
+		btnDelete.setText("Xóa");
+		btnUpdate.setText("Sửa");
+		SetTextUnEditable();
+	}
+	public void PressDelete() {
+		if (table.getSelectedRow() != -1) {
+			try {
+				DAOCustomer.getInstance().delete(Integer.parseInt(textUserID.getText()));
+			} catch (NumberFormatException | ClassNotFoundException | SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			SetTextNull();
+			dtm.removeRow(table.getSelectedRow());
+			dtm.fireTableDataChanged();
+			table.revalidate();
+			table.repaint();
+			data.remove(table.getSelectedRow());
+		}
+	}
+	public void PressUpdate() {
+		if (table.getSelectedRow() != -1) {
+			SetTextEditable();
+			btnAdd.setEnabled(false);
+			btnDelete.setEnabled(false);
+			btnCancel.setEnabled(true);
+			btnUpdate.setText("Lưu");
+		}
+	}
+	public void PressSaveUpdate() {
+		int selectedRow = table.getSelectedRow();
+		if (selectedRow != -1) {
+			int ID = Integer.parseInt(textUserID.getText());
+			String UserName = textUserName.getText();
+			String Password = textPassword.getText();
+			try {
+				DAOCustomer.getInstance().update(new Customer(ID,UserName,Password,null,LocalDate.now(),null,null,null,null));
+			} catch (ClassNotFoundException | SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
+			data.get(selectedRow).setCustomerID(ID);
+			data.get(selectedRow).setAccount(UserName);
+			data.get(selectedRow).setPassword(Password);
+			dtm.setValueAt(ID, selectedRow, 0);
+			dtm.setValueAt(UserName, selectedRow, 1);
+			dtm.setValueAt(Password, selectedRow, 2);
+			dtm.fireTableDataChanged();
+			table.revalidate();
+			table.repaint();
+			
+			btnUpdate.setText("Sửa");
+			btnDelete.setEnabled(true);
+			btnAdd.setEnabled(true);
+			SetTextUnEditable();
+			btnCancel.setEnabled(false);
+		}
 	}
 }

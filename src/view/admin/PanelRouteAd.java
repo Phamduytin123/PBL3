@@ -311,9 +311,6 @@ public class PanelRouteAd extends JPanel {
 		textFieldRoute.setText((Integer.parseInt(data.get(data.size()-1)[0]+"")+1)+"");
 	}
 	public void PressSaveAdd() {
-
-			
-			
 			
 			int ID = Integer.parseInt(textFieldRoute.getText());
 			String StartCity = cbbStartCity.getSelectedItem().toString();
@@ -435,8 +432,15 @@ public class PanelRouteAd extends JPanel {
 			data.get(selectedRowIndex)[4] = textFieldDuration.getText();
 			data.get(selectedRowIndex)[5] = cbbBusID.getSelectedItem().toString();
 			data.get(selectedRowIndex)[6] = textFieldPrice.getText();
-			dtm.insertRow(selectedRowIndex, data.get(selectedRowIndex));
 			
+			dtm.setValueAt(data.get(selectedRowIndex)[0], selectedRowIndex, 0);
+			dtm.setValueAt(data.get(selectedRowIndex)[1], selectedRowIndex, 1);
+			dtm.setValueAt(data.get(selectedRowIndex)[2], selectedRowIndex, 2);
+			dtm.setValueAt(data.get(selectedRowIndex)[3], selectedRowIndex, 3);
+			dtm.setValueAt(data.get(selectedRowIndex)[4], selectedRowIndex, 4);
+			dtm.setValueAt(data.get(selectedRowIndex)[5], selectedRowIndex, 5);
+			dtm.setValueAt(data.get(selectedRowIndex)[6], selectedRowIndex, 6);
+
 //			table.revalidate();				//updates table data
 			table.repaint();
 			
