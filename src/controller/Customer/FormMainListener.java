@@ -20,12 +20,7 @@ import view.Login.FormLogin;
 
 public class FormMainListener implements ActionListener, MouseListener{
 	private FormMainPage formMain;
-	private PanelUserListenner userListener = new PanelUserListenner((PanelUser)FormMainPage.userPanel);
-	private BookingTicket1Listener bookingTicket1Listenner = new BookingTicket1Listener((BookingTicket1)FormMainPage.bookingTicket1Panel);
-	private BookingTicket2Listener bookingTicket2Listenner = new BookingTicket2Listener((BookingTicket2)FormMainPage.bookingTicket2Panel);
-	
-	
-	
+		
 	public FormMainListener(FormMainPage formMain) {
 		// TODO Auto-generated constructor stub
 		this.formMain = formMain;
@@ -44,12 +39,12 @@ public class FormMainListener implements ActionListener, MouseListener{
 		if (tmp == formMain.btnBill) {
 			formMain.changeToBill();
 		} else
-		if (tmp == ((BookingTicket1)FormMainPage.bookingTicket1Panel).btnViewTicket) {
-			String DateGo = ((BookingTicket1)FormMainPage.bookingTicket1Panel).txtNgayDi.getText();
-			String DateBack = ((BookingTicket1)FormMainPage.bookingTicket1Panel).txtNgayVe.getText();
-			String KindOfBook = ((BookingTicket1)FormMainPage.bookingTicket1Panel).KindOfBook;
+		if (tmp == formMain.bookingTicket1Panel.btnViewTicket) {
+			String DateGo = formMain.bookingTicket1Panel.txtNgayDi.getText();
+			String DateBack = formMain.bookingTicket1Panel.txtNgayVe.getText();
+			String KindOfBook = formMain.bookingTicket1Panel.KindOfBook;
 			
-			if(((BookingTicket1)FormMainPage.bookingTicket1Panel).listRoute.get(0).size() == 0)
+			if(formMain.bookingTicket1Panel.listRoute.get(0).size() == 0)
 			{
 				JOptionPane.showMessageDialog(null, "Vui lòng tìm kiếm chuyến đi phù hợp trước");
 				return;
@@ -66,12 +61,12 @@ public class FormMainListener implements ActionListener, MouseListener{
 				return;
 			}
 			
-			((BookingTicket1)FormMainPage.bookingTicket1Panel).listDate = new ArrayList<>();	
+			formMain.bookingTicket1Panel.listDate = new ArrayList<>();	
 				
 			DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-			((BookingTicket1)FormMainPage.bookingTicket1Panel).listDate.add(LocalDate.parse(DateGo, formatter));	
+			formMain.bookingTicket1Panel.listDate.add(LocalDate.parse(DateGo, formatter));	
 			
-			LocalDate DateGo1 = ((BookingTicket1)FormMainPage.bookingTicket1Panel).listDate.get(0);
+			LocalDate DateGo1 = formMain.bookingTicket1Panel.listDate.get(0);
 			
 			if(LocalDate.now().compareTo(DateGo1) > 0)
 			{
@@ -82,8 +77,8 @@ public class FormMainListener implements ActionListener, MouseListener{
 			
 			if(KindOfBook.equals("Khứ hồi"))
 			{
-				((BookingTicket1)FormMainPage.bookingTicket1Panel).listDate.add(LocalDate.parse(DateBack, formatter));		
-				List<LocalDate> listDate = ((BookingTicket1)FormMainPage.bookingTicket1Panel).listDate;
+				formMain.bookingTicket1Panel.listDate.add(LocalDate.parse(DateBack, formatter));		
+				List<LocalDate> listDate = formMain.bookingTicket1Panel.listDate;
 				
 				if(listDate.get(1).compareTo(listDate.get(0)) < 0)
 				{
@@ -93,7 +88,7 @@ public class FormMainListener implements ActionListener, MouseListener{
 			}
 			
 			
-			((BookingTicket1)FormMainPage.bookingTicket1Panel).CusID = formMain.cus.getCustomerID();
+			formMain.bookingTicket1Panel.CusID = formMain.cus.getCustomerID();
 			try {
 				formMain.changeToListTicket();
 			} catch (SQLException e1) {
@@ -111,7 +106,7 @@ public class FormMainListener implements ActionListener, MouseListener{
 	@Override
 	public void mouseClicked(MouseEvent e) {
 	
-		if(e.getComponent() == ((BookingTicket2)FormMainPage.bookingTicket2Panel).lblBack )
+		if(e.getComponent() == formMain.bookingTicket2Panel.lblBack )
 		{
 			formMain.changeToBooking();
 		}
@@ -140,11 +135,4 @@ public class FormMainListener implements ActionListener, MouseListener{
 		// TODO Auto-generated method stub
 		
 	}
-	
-//	public void changeToListTicket() {
-//		if (formMain == null) {
-//			formMain = FormMainPage.FORM_MAIN_PAGE;
-//		}
-//		formMain.changeToListTicket();
-//	}
 }

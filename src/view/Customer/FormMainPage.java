@@ -36,9 +36,9 @@ public class FormMainPage extends JFrame {
 	public JPanel body;
 	public Customer cus;
 	
-	public static JPanel userPanel = new PanelUser();
-	public static JPanel bookingTicket1Panel = new BookingTicket1();
-	public static JPanel bookingTicket2Panel = new BookingTicket2();
+	public PanelUser userPanel = new PanelUser();
+	public BookingTicket1 bookingTicket1Panel = new BookingTicket1();
+	public BookingTicket2 bookingTicket2Panel = new BookingTicket2();
 
 	/**
 	 * Launch the application.
@@ -55,9 +55,6 @@ public class FormMainPage extends JFrame {
 //		});
 //	}
 
-	/**
-	 * Create the frame.
-	 */
 	
 	public void GUI()
 	{
@@ -150,7 +147,6 @@ public class FormMainPage extends JFrame {
 		
 	}
 	
-
 	public void changeToAcc() {
 		body.removeAll();
 //		this.contentPane.remove(body);
@@ -201,4 +197,6 @@ public class FormMainPage extends JFrame {
 		body.revalidate();
 		body.repaint();
 	}
+
+	
 }

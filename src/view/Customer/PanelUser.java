@@ -191,9 +191,9 @@ public class PanelUser extends JPanel {
 		this.txtCitizenID.setText(cus.getCitizenID());
 		
 		if(cus.getSex().equals("Nam"))
-			((PanelUser)FormMainPage.userPanel).radioMale.setSelected(true);
+			radioMale.setSelected(true);
 		else if(cus.getSex().equals("Nữ"))
-			((PanelUser)FormMainPage.userPanel).radioFemale.setSelected(true);
+			radioFemale.setSelected(true);
 	}
 	
 	public PanelUser() 

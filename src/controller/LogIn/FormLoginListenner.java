@@ -51,24 +51,18 @@ public class FormLoginListenner implements ActionListener, MouseListener{
 			}
 			
 			
-			if (check) {
-
-				((PanelUser)FormMainPage.userPanel).cus = formLogin.cus;
-				
-				((PanelUser)FormMainPage.userPanel).Init();;
-				
-				FormMainPage formMain = new FormMainPage(formLogin.cus);
-//				formMain.userPanel = new PanelUser();
-//				formMain.bookingTicket1Panel = new BookingTicket1();
-//				formMain.bookingTicket2Panel = new BookingTicket2();
-//				FormMainPage formMain = FormMainPage.FORM_MAIN_PAGE;
-				formLogin.dispose();
-			}
-			else
-			{
+			if (check == false){	
 				JOptionPane.showMessageDialog(null, "Bạn đã nhập sai tài khoản hoặc mật khẩu mời bạn nhập lại");
 				return;
 			}
+			
+			
+			FormMainPage formMain = new FormMainPage(formLogin.cus);
+			formMain.userPanel.cus = formLogin.cus;
+			formMain.userPanel.Init();
+			
+			formLogin.dispose();
+		
 		}
 		
 		if(tmp == formLogin.panelDangKi.btnCreate)

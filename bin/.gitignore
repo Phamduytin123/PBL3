@@ -1,7 +1,5 @@
-/DAO/
-/Tests/
-/view/
-/photo/
-/controller/
-/Models/
 /BUS/
+/controller/
+/view/
+/.gitignore
+/Algorithm/
