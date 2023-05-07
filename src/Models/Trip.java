@@ -62,4 +62,71 @@ public class Trip {
 		DateStart = dateStart;
 		DateEnd = dateEnd;
 	}
+	public Trip() {
+		super();
+	}
+	
+	public static LocalTime getTimeEnd(LocalTime TimeStart, LocalTime Duration)
+	{
+		LocalTime TimeEnd = null;
+		
+		int minutes = TimeStart.getMinute() + Duration.getMinute();
+		
+		int hour = TimeStart.getHour() + Duration.getHour();
+		
+		if(minutes>=60)
+		{
+			hour ++;
+			minutes -= 60;
+		}
+		
+		while(hour>=24)
+		{
+			hour -= 24;
+		}
+		
+		TimeEnd = LocalTime.of(hour, minutes);
+		
+		return TimeEnd;
+	}
+	
+	public static LocalDate getDateEnd(LocalTime TimeStart, LocalTime Duration, LocalDate DateStart)
+	{
+		LocalDate DateEnd = null;
+		
+		int minutes = TimeStart.getMinute() + Duration.getMinute();
+		
+		int hour = TimeStart.getHour() + Duration.getHour();
+		
+		int date = DateStart.getDayOfMonth();
+		int month = DateStart.getMonthValue();
+		int year = DateStart.getYear();
+		
+		if(minutes>=60)
+		{
+			hour ++;
+			minutes -= 60;
+		}
+		
+		while(hour>=24)
+		{
+			hour -= 24;
+			date ++;
+			
+			if(date>myDate.getNumberDateOfMonth(month, year))
+			{
+				date -= myDate.getNumberDateOfMonth(month, year);
+				month ++;
+				if(month>12)
+				{
+					month = 1;
+					year ++;
+				}
+			}
+		}
+		
+		DateEnd =LocalDate.of(year, month, date);
+		
+		return DateEnd;
+	}
 }

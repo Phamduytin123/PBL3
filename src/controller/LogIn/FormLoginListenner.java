@@ -16,6 +16,7 @@ import view.Customer.BookingTicket2;
 import view.Customer.FormMainPage;
 import view.Customer.PanelUser;
 import view.Login.FormLogin;
+import view.admin.AdminForm;
 
 public class FormLoginListenner implements ActionListener, MouseListener{
 	
@@ -38,6 +39,22 @@ public class FormLoginListenner implements ActionListener, MouseListener{
 				return;
 			}
 			
+			
+			if(account.equals(FormLogin.accountAdmin) && password.equals(FormLogin.passwordAdmin))
+			{
+				try {
+					new AdminForm();
+				} catch (ClassNotFoundException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				} catch (SQLException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+				formLogin.dispose();
+				return;
+			}
+			
 			formLogin.cus.setAccount(account);
 			formLogin.cus.setPassword(password);
 			
@@ -51,24 +68,18 @@ public class FormLoginListenner implements ActionListener, MouseListener{
 			}
 			
 			
-			if (check) {
-
-				((PanelUser)FormMainPage.userPanel).cus = formLogin.cus;
-				
-				((PanelUser)FormMainPage.userPanel).Init();;
-				
-				FormMainPage formMain = new FormMainPage(formLogin.cus);
-//				formMain.userPanel = new PanelUser();
-//				formMain.bookingTicket1Panel = new BookingTicket1();
-//				formMain.bookingTicket2Panel = new BookingTicket2();
-//				FormMainPage formMain = FormMainPage.FORM_MAIN_PAGE;
-				formLogin.dispose();
-			}
-			else
-			{
+			if (check == false){	
 				JOptionPane.showMessageDialog(null, "Bạn đã nhập sai tài khoản hoặc mật khẩu mời bạn nhập lại");
 				return;
 			}
+			
+			
+			FormMainPage formMain = new FormMainPage(formLogin.cus);
+			formMain.userPanel.cus = formLogin.cus;
+			formMain.userPanel.Init();
+			
+			formLogin.dispose();
+		
 		}
 		
 		if(tmp == formLogin.panelDangKi.btnCreate)

@@ -20,12 +20,7 @@ import view.Login.FormLogin;
 
 public class FormMainListener implements ActionListener, MouseListener{
 	private FormMainPage formMain;
-	private PanelUserListenner userListener = new PanelUserListenner((PanelUser)FormMainPage.userPanel);
-	private BookingTicket1Listener bookingTicket1Listenner = new BookingTicket1Listener((BookingTicket1)FormMainPage.bookingTicket1Panel);
-	private BookingTicket2Listener bookingTicket2Listenner = new BookingTicket2Listener((BookingTicket2)FormMainPage.bookingTicket2Panel);
-	
-	
-	
+		
 	public FormMainListener(FormMainPage formMain) {
 		// TODO Auto-generated constructor stub
 		this.formMain = formMain;
@@ -44,62 +39,9 @@ public class FormMainListener implements ActionListener, MouseListener{
 		if (tmp == formMain.btnBill) {
 			formMain.changeToBill();
 		} else
-		if (tmp == ((BookingTicket1)FormMainPage.bookingTicket1Panel).btnViewTicket) {
-			String DateGo = ((BookingTicket1)FormMainPage.bookingTicket1Panel).txtNgayDi.getText();
-			String DateBack = ((BookingTicket1)FormMainPage.bookingTicket1Panel).txtNgayVe.getText();
-			String KindOfBook = ((BookingTicket1)FormMainPage.bookingTicket1Panel).KindOfBook;
-			
-			if(((BookingTicket1)FormMainPage.bookingTicket1Panel).listRoute.get(0).size() == 0)
-			{
-				JOptionPane.showMessageDialog(null, "Vui lòng tìm kiếm chuyến đi phù hợp trước");
-				return;
-			}
-			
-			if(DateGo.equals(""))
-			{
-				JOptionPane.showMessageDialog(null, "Vui lòng nhập đầy đủ ngày");
-				return;
-			}
-			if(KindOfBook.equals("Khứ hồi") && DateBack.equals(""))
-			{
-				JOptionPane.showMessageDialog(null, "Vui lòng nhập đầy đủ ngày");
-				return;
-			}
-			
-			((BookingTicket1)FormMainPage.bookingTicket1Panel).listDate = new ArrayList<>();	
-				
-			DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-			((BookingTicket1)FormMainPage.bookingTicket1Panel).listDate.add(LocalDate.parse(DateGo, formatter));	
-			
-			LocalDate DateGo1 = ((BookingTicket1)FormMainPage.bookingTicket1Panel).listDate.get(0);
-			
-			if(LocalDate.now().compareTo(DateGo1) > 0)
-			{
-				JOptionPane.showMessageDialog(null, "Không thể nhập ngày đi nhỏ hơn ngày hiện tại");
-				System.out.println(DateGo1.toString() + " - " + LocalDate.now());
-				return;
-			}
-			
-			if(KindOfBook.equals("Khứ hồi"))
-			{
-				((BookingTicket1)FormMainPage.bookingTicket1Panel).listDate.add(LocalDate.parse(DateBack, formatter));		
-				List<LocalDate> listDate = ((BookingTicket1)FormMainPage.bookingTicket1Panel).listDate;
-				
-				if(listDate.get(1).compareTo(listDate.get(0)) < 0)
-				{
-					JOptionPane.showMessageDialog(null, "Ngày về không thể nhỏ hơn ngày đi");
-					return;
-				}
-			}
-			
-			
-			((BookingTicket1)FormMainPage.bookingTicket1Panel).CusID = formMain.cus.getCustomerID();
-			try {
-				formMain.changeToListTicket();
-			} catch (SQLException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
-			}
+		if (tmp == formMain.bookingTicket1Panel.btnViewTicket) {
+			if(formMain.BT1_btnViewTicket_Check() == false) return;
+			formMain.BT1_btnViewTicket_Select();
 		}
 		if(tmp == formMain.btnLogOut)
 		{
@@ -111,7 +53,7 @@ public class FormMainListener implements ActionListener, MouseListener{
 	@Override
 	public void mouseClicked(MouseEvent e) {
 	
-		if(e.getComponent() == ((BookingTicket2)FormMainPage.bookingTicket2Panel).lblBack )
+		if(e.getComponent() == formMain.bookingTicket2Panel.lblBack )
 		{
 			formMain.changeToBooking();
 		}
@@ -140,11 +82,4 @@ public class FormMainListener implements ActionListener, MouseListener{
 		// TODO Auto-generated method stub
 		
 	}
-	
-//	public void changeToListTicket() {
-//		if (formMain == null) {
-//			formMain = FormMainPage.FORM_MAIN_PAGE;
-//		}
-//		formMain.changeToListTicket();
-//	}
 }

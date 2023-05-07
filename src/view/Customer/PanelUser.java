@@ -191,9 +191,9 @@ public class PanelUser extends JPanel {
 		this.txtCitizenID.setText(cus.getCitizenID());
 		
 		if(cus.getSex().equals("Nam"))
-			((PanelUser)FormMainPage.userPanel).radioMale.setSelected(true);
+			radioMale.setSelected(true);
 		else if(cus.getSex().equals("Nữ"))
-			((PanelUser)FormMainPage.userPanel).radioFemale.setSelected(true);
+			radioFemale.setSelected(true);
 	}
 	
 	public PanelUser() 
@@ -218,6 +218,12 @@ public class PanelUser extends JPanel {
 		if(txtPhoneNumber.getText().length() != 10)
 		{
 			JOptionPane.showMessageDialog(null, "Số điện thoại bạn nhập vào không đúng vui lòng nhập lại");
+			return false;
+		}
+		try {
+			Integer.parseInt(txtPhoneNumber.getText());
+		} catch (Exception e) {
+			JOptionPane.showMessageDialog(null, "Số điện thoại nhập vào không đúng định dạng ( chỉ bao gồm số ) vui lòng nhập lại");
 			return false;
 		}
 		return true;

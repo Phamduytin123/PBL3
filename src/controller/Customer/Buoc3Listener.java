@@ -16,27 +16,11 @@ public class Buoc3Listener implements ActionListener{
 	
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		String command  = e.getActionCommand();
-		if(command.equals("Xác nhận"))
+		Object temp  = e.getSource();
+		if(temp == B3.btnConfirm)
 		{
-			if(B3.txt_DiaChi.equals("") || B3.txt_Email.equals("") || 
-				B3.txt_HoVaTen.equals("") || B3.txt_SoDienThoai.equals("") )
-			{
-				JOptionPane.showMessageDialog(null, "Vui lòng điền đầy đủ thông tin trước khi sang bước khác");
-				return;
-			}
-			String email = B3.txt_Email.getText(); 
-			if(!email.substring(email.length()-10).equals("@gmail.com"))
-			{
-				JOptionPane.showMessageDialog(null, "Định dạng email bạn nhập vào không đúng đề nghị nhập lại");
-				return;
-			}
-			String Tel = B3.txt_SoDienThoai.getText();
-			if(Tel.length() != 10)
-			{
-				JOptionPane.showMessageDialog(null, "Số điện thoại nhập vào phải đủ 10 chữ số !!");
-				return;
-			}
+			if(B3.btnConfirm_Check() == false) return;
+			
 			if(B3.chkbx_XacNhan.isSelected()) {
 				B3.OutputData();
 				B3.fbt.Buoc3Sang4();
@@ -47,7 +31,7 @@ public class Buoc3Listener implements ActionListener{
 				return;
 			}
 		}
-		else if(command.equals("Quay lại"))
+		if(temp == B3.btnBack)
 		{
 			B3.OutputData();
 			B3.fbt.Lui2();

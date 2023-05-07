@@ -21,10 +21,15 @@ import java.awt.Font;
 import java.awt.Image;
 
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 import java.awt.event.ActionListener;
 import java.sql.SQLException;
 import java.text.Normalizer.Form;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.List;
 import java.awt.event.ActionEvent;
 import java.awt.CardLayout;
 import java.awt.Window.Type;
@@ -36,9 +41,9 @@ public class FormMainPage extends JFrame {
 	public JPanel body;
 	public Customer cus;
 	
-	public static JPanel userPanel = new PanelUser();
-	public static JPanel bookingTicket1Panel = new BookingTicket1();
-	public static JPanel bookingTicket2Panel = new BookingTicket2();
+	public PanelUser userPanel = new PanelUser();
+	public BookingTicket1 bookingTicket1Panel = new BookingTicket1();
+	public BookingTicket2 bookingTicket2Panel = new BookingTicket2();
 
 	/**
 	 * Launch the application.
@@ -55,9 +60,6 @@ public class FormMainPage extends JFrame {
 //		});
 //	}
 
-	/**
-	 * Create the frame.
-	 */
 	
 	public void GUI()
 	{
@@ -150,7 +152,6 @@ public class FormMainPage extends JFrame {
 		
 	}
 	
-
 	public void changeToAcc() {
 		body.removeAll();
 //		this.contentPane.remove(body);
@@ -162,6 +163,7 @@ public class FormMainPage extends JFrame {
 		body.revalidate();
 		body.repaint();
 	}
+	
 	public void changeToBooking() {
 		body.removeAll();
 //		JPanel p = new BookingTicket1(this);
@@ -171,6 +173,7 @@ public class FormMainPage extends JFrame {
 		body.revalidate();
 		body.repaint();
 	}
+	
 	public void changeToBill() {
 		body.removeAll();
 		JPanel p1 = new PanelMainTop();
@@ -180,10 +183,11 @@ public class FormMainPage extends JFrame {
 		body.revalidate();
 		body.repaint();
 	}
+	
 	public void changeToSitting() {
 		body.removeAll();
-	
 	}
+	
 	public void changeToListTicket() throws SQLException {
 		body.removeAll();
 		
@@ -200,5 +204,89 @@ public class FormMainPage extends JFrame {
 		body.add(bookingTicket2Panel);
 		body.revalidate();
 		body.repaint();
+	}
+
+	public Boolean BT1_btnViewTicket_Check()
+	{
+		String DateGo = bookingTicket1Panel.txtNgayDi.getText();
+		String DateBack = bookingTicket1Panel.txtNgayVe.getText();
+		String KindOfBook = bookingTicket1Panel.KindOfBook;
+		
+		if(bookingTicket1Panel.listRoute.get(0).size() == 0)
+		{
+			JOptionPane.showMessageDialog(null, "Vui lòng tìm kiếm chuyến đi phù hợp trước");
+			return false;
+		}
+		
+		if(DateGo.equals(""))
+		{
+			JOptionPane.showMessageDialog(null, "Vui lòng nhập đầy đủ ngày");
+			return false;
+		}
+		if(KindOfBook.equals("Khứ hồi") && DateBack.equals(""))
+		{
+			JOptionPane.showMessageDialog(null, "Vui lòng nhập đầy đủ ngày");
+			return false;
+		}
+		
+		bookingTicket1Panel.listDate = new ArrayList<>();	
+		
+		try {
+			LocalDate.parse(DateGo, DateTimeFormatter.ofPattern("dd/MM/yyyy"));
+		} catch (Exception e) {
+			JOptionPane.showMessageDialog(null, "Định dạng ngày đi ( dd/MM/yyyy -  VD : 05/05/2023 ) bị sai vui lòng nhập lại");
+			return false;
+		}
+		
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+		bookingTicket1Panel.listDate.add(LocalDate.parse(DateGo, formatter));	
+		
+		LocalDate DateGo1 = bookingTicket1Panel.listDate.get(0);
+		
+		if(LocalDate.now().compareTo(DateGo1) > 0)
+		{
+			JOptionPane.showMessageDialog(null, "Không thể nhập ngày đi nhỏ hơn ngày hiện tại");
+			System.out.println(DateGo1.toString() + " - " + LocalDate.now());
+			return false;
+		}
+		
+		if(KindOfBook.equals("Khứ hồi"))
+		{
+			if(bookingTicket1Panel.listRoute.get(1).size() == 0)
+			{
+				JOptionPane.showMessageDialog(null, "Vui lòng tìm kiếm lại để lấy danh sách chiều về");
+				return false;
+			}
+			
+			try {
+				LocalDate.parse(DateBack, DateTimeFormatter.ofPattern("dd/MM/yyyy"));
+			} catch (Exception e) {
+				JOptionPane.showMessageDialog(null, "Định dạng ngày về ( dd/MM/yyyy -  VD : 05/05/2023 ) bị sai vui lòng nhập lại");
+				return false;
+			}
+			
+			bookingTicket1Panel.listDate.add(LocalDate.parse(DateBack, formatter));		
+			List<LocalDate> listDate = bookingTicket1Panel.listDate;
+			
+			
+			if(listDate.get(1).compareTo(listDate.get(0)) < 0)
+			{
+				JOptionPane.showMessageDialog(null, "Ngày về không thể nhỏ hơn ngày đi");
+				return false;
+			}
+		}
+		
+		return true;
+	}
+	
+	public void BT1_btnViewTicket_Select()
+	{
+		bookingTicket1Panel.CusID = cus.getCustomerID();
+		try {
+			changeToListTicket();
+		} catch (SQLException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
 	}
 }

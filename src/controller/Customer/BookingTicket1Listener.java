@@ -30,85 +30,27 @@ public class BookingTicket1Listener implements ActionListener{
 		
 		if(tmp == BT1.btn_ChieuDi)
 		{
-			String diemDi = BT1.choice_DiemDi.getSelectedItem().toString();
-			String diemDen = BT1.choice_DiemDen.getSelectedItem().toString();
-			
-			try {
-				BT1.SetData(BT1.listRoute.get(0), diemDi, diemDen);
-			} catch (SQLException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
-			}
+			BT1.btnChieuDi_Select();
 		}
 		else if(tmp == BT1.btn_ChieuVe)
 		{
-			String diemDi = BT1.choice_DiemDi.getSelectedItem().toString();
-			String diemDen = BT1.choice_DiemDen.getSelectedItem().toString();
-			
-			try {
-				BT1.SetData(BT1.listRoute.get(1), diemDen, diemDi);
-			} catch (SQLException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
-			}
+			BT1.btnChieuVe_Select();
 		}
 		
 		else if(tmp == BT1.btnSearch)
 		{
-
-			String diemDi = BT1.choice_DiemDi.getSelectedItem().toString();
-			String diemDen = BT1.choice_DiemDen.getSelectedItem().toString();
-			
-			if(diemDi.equals(diemDen))
-			{
-				JOptionPane.showMessageDialog(null, "Điểm đi không thể trùng điểm đến");
-				return;
-			}
-			
-			if(BT1.rdbtnRoundTrip.isSelected())
-			{
-				BT1.KindOfBook = "Khứ hồi";
-				BT1.btn_ChieuDi.setVisible(true);
-				BT1.btn_ChieuVe.setVisible(true);
-			}
-			
-			
-			String LuaChon = BT1.choice_TieuChi.getSelectedItem().toString();
-			
-			if(LuaChon.equals("Ngắn nhất"))
-			{
-				BT1.Fast(BT1.rdbtnRoundTrip.isSelected());
-			}
-			else if(LuaChon.equals("Rẻ nhất"))
-			{
-				BT1.Cheap(BT1.rdbtnRoundTrip.isSelected());
-			}
-			else if(LuaChon.equals("Ngồi xe ít nhất"))
-			{
-				BT1.TimeLess(BT1.rdbtnRoundTrip.isSelected());
-			}
-			
-			try {
-				BT1.SetData(BT1.listRoute.get(0),diemDi, diemDen);
-			} catch (SQLException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
-			}
+			if(BT1.btnSearch_Check() == false) return;
+			BT1.btnSeach_Select();
 		}
 		
 		else if(BT1.rdbtnRoundTrip.isSelected())
 		{
-			BT1.KindOfBook = "Khứ hồi";
-			BT1.txtNgayVe.setEditable(true);
+			BT1.rdbtnRoundTrip_isSelect();
 		}
 		else if(BT1.rdbtnOneTrip.isSelected())
 		{
-			BT1.KindOfBook = "Một chiều";
-			BT1.btn_ChieuDi.setVisible(false);
-			BT1.btn_ChieuVe.setVisible(false);
-			BT1.txtNgayVe.setEditable(false);
+			BT1.rdbtnOneTrip_isSelect();
 		}
-		
 	}
 
 }

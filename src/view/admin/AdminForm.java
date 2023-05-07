@@ -104,6 +104,8 @@ public class AdminForm extends JFrame {
 		btnTripInDay.addActionListener( new FormAdminListener(this));
 		btnUser.addActionListener( new FormAdminListener(this));
 		btnBill.addActionListener( new FormAdminListener(this));
+	
+		this.setVisible(true);
 	}
 
 	public JButton getBtnRoute() {

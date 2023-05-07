@@ -2,6 +2,8 @@ package view.Customer;
 
 import javax.swing.JPanel;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+
 import java.awt.Font;
 import java.awt.Color;
 import javax.swing.JCheckBox;
@@ -19,6 +21,7 @@ public class PanelXacNhanThongTin_B3 extends JPanel {
 	public FormBookTicket fbt;
 	public InfoCustomer IC;
 	public JCheckBox chkbx_XacNhan;
+	public JButton btnConfirm, btnBack;
 	/**
 	 * Create the panel.
 	 */
@@ -89,16 +92,17 @@ public class PanelXacNhanThongTin_B3 extends JPanel {
 		panel.add(lblNewLabel);
 		lblNewLabel.setFont(new Font("Tahoma", Font.BOLD, 24));
 		
-		JButton btnNewButton = new JButton("Quay lại");
-		btnNewButton.setBackground(new Color(255,224,164));btnNewButton.setBounds(178, 416, 151, 51);
-		panel.add(btnNewButton);
-		btnNewButton.addActionListener(new Buoc3Listener(this));
-		
-		JButton btnXcNhn = new JButton("Xác nhận");
-		btnXcNhn.setBackground(new Color(255,224,164));
-		btnXcNhn.setBounds(348, 416, 151, 51);
-		panel.add(btnXcNhn);
-		btnXcNhn.addActionListener(new Buoc3Listener(this));
+		btnBack = new JButton("Quay lại");
+		btnBack.setBackground(new Color(255,224,164));
+		btnBack.setBounds(178, 416, 151, 51);
+		panel.add(btnBack);
+		btnBack.addActionListener(new Buoc3Listener(this));
+	
+		btnConfirm = new JButton("Xác nhận");
+		btnConfirm.setBackground(new Color(255,224,164));
+		btnConfirm.setBounds(348, 416, 151, 51);
+		panel.add(btnConfirm);
+		btnConfirm.addActionListener(new Buoc3Listener(this));
 		
 	}
 	
@@ -125,4 +129,35 @@ public class PanelXacNhanThongTin_B3 extends JPanel {
 		InputData();
 	}
 	
+	public Boolean btnConfirm_Check()
+	{
+		if(txt_DiaChi.equals("") || txt_Email.equals("") || 
+				txt_HoVaTen.equals("") || txt_SoDienThoai.equals("") )
+			{
+				JOptionPane.showMessageDialog(null, "Vui lòng điền đầy đủ thông tin trước khi sang bước khác");
+				return false;
+			}
+			String email = txt_Email.getText(); 
+			if(!email.substring(email.length()-10).equals("@gmail.com"))
+			{
+				JOptionPane.showMessageDialog(null, "Định dạng email bạn nhập vào không đúng đề nghị nhập lại");
+				return false;
+			}
+			String Tel = txt_SoDienThoai.getText();
+			
+			try {
+				Integer.parseInt(Tel);
+			} catch (Exception e) {
+				JOptionPane.showMessageDialog(null, "Số điện thoại bạn nhập vào bị sai không đúng với định dạng ( chỉ bao gồm số )");
+				return false;
+			}
+			
+			if(Tel.length() != 10)
+			{
+				JOptionPane.showMessageDialog(null, "Số điện thoại nhập vào phải đủ 10 chữ số !!");
+				return false;
+			}
+		return true;
+	}
 }
+

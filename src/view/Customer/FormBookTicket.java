@@ -159,7 +159,6 @@ public class FormBookTicket extends JFrame {
 					}
 			}
 			TotalPrice += item.getPrice();
-			System.out.println(item);
 		}
 		bl.setTotalPrice(TotalPrice);
 		

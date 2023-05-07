@@ -38,6 +38,8 @@ public class FormLogin extends JFrame {
 	public PanelQuenMK panelQMK;
 	public PanelResetPassword panelResetPassword;
 	public JLabel lblQuenMK, lblDangKi;
+	public static String accountAdmin = "Admin123";
+	public static String passwordAdmin = "admin123";
 	
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
@@ -205,6 +207,8 @@ public class FormLogin extends JFrame {
 	public void btnCreate_Selected()
 	{
 		this.panelDangKi.btnCreate_Selected();
+		this.panelDangKi.setVisible(false);
+		this.panel_DangNhap.setVisible(true);
 	}
 	
 	// Process forget Password
