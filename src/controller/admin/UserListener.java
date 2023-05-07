@@ -21,6 +21,7 @@ public class UserListener implements ActionListener, ListSelectionListener{
 		// TODO Auto-generated method stub
 		if (! e.getValueIsAdjusting()) {
 			int indexRow = panelUserAd.getTable().getSelectedRow();
+			if(indexRow == -1) return;
 			panelUserAd.SetTextInfor(indexRow);
 		}
 	}
