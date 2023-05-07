@@ -36,6 +36,7 @@ public class PanelDangKi extends JPanel {
 	public JLabel lblBack;
 	public JButton btnCreate;
 	private ButtonGroup btngrp = new ButtonGroup();
+	public String accountAdmin = FormLogin.accountAdmin;
 
 	public void GUI()
 	{
@@ -236,7 +237,11 @@ public class PanelDangKi extends JPanel {
 			JOptionPane.showMessageDialog(null, "Tên tài khoản này đã tồn tại vui lòng chọn tài khoản khác");
 			return false;
 		}
-		
+		if(Account.equals(accountAdmin))
+		{
+			JOptionPane.showMessageDialog(null, "Tên tài khoản này đã tồn tại vui lòng chọn tài khoản khác");
+			return false;
+		}
 		return true;
 	}
 

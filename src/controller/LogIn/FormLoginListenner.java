@@ -16,6 +16,7 @@ import view.Customer.BookingTicket2;
 import view.Customer.FormMainPage;
 import view.Customer.PanelUser;
 import view.Login.FormLogin;
+import view.admin.AdminForm;
 
 public class FormLoginListenner implements ActionListener, MouseListener{
 	
@@ -35,6 +36,22 @@ public class FormLoginListenner implements ActionListener, MouseListener{
 			if(account.equals("") || password.equals(""))
 			{
 				JOptionPane.showMessageDialog(null, "Mời bạn nhập đầy đủ mật khẩu và tài khoản !!!");
+				return;
+			}
+			
+			
+			if(account.equals(FormLogin.accountAdmin) && password.equals(FormLogin.passwordAdmin))
+			{
+				try {
+					new AdminForm();
+				} catch (ClassNotFoundException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				} catch (SQLException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+				formLogin.dispose();
 				return;
 			}
 			
