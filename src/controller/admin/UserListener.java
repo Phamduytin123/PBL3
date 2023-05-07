@@ -2,13 +2,16 @@ package controller.admin;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
+import javax.swing.plaf.basic.BasicInternalFrameTitlePane.TitlePaneLayout;
 
 import view.admin.PanelUserAd;
 
-public class UserListener implements ActionListener, ListSelectionListener{
+public class UserListener implements ActionListener, ListSelectionListener, MouseListener{
 
 	private PanelUserAd panelUserAd;
 	public UserListener(PanelUserAd panelUserAd) {
@@ -52,7 +55,43 @@ public class UserListener implements ActionListener, ListSelectionListener{
 			if (t.equals("Lưu")) {
 				panelUserAd.PressSaveUpdate();
 			}
+		} else
+		if (tmp == panelUserAd.getBtnReset()) {
+			panelUserAd.PressReset();
 		}
+	}
+
+	@Override
+	public void mouseClicked(MouseEvent e) {
+		// TODO Auto-generated method stub
+		if (e.getComponent() == panelUserAd.getLblSearch()) {
+			panelUserAd.PressSearch();
+		}
+		
+	}
+
+	@Override
+	public void mousePressed(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mouseReleased(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mouseEntered(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mouseExited(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

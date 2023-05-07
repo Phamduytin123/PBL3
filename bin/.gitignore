@@ -1,5 +1,3 @@
 /view/
 /controller/
-/DAO/
-/Models/
-/Tests/
+/BUS/

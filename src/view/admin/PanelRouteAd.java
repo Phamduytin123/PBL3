@@ -8,19 +8,23 @@ import DAO.DAOBus;
 import DAO.DAOCity;
 import DAO.DAORoute;
 import Models.Route;
+import Models.Trip;
 
 import java.awt.Color;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 
 import java.awt.Font;
+import java.awt.Image;
 import java.sql.SQLException;
 import java.sql.Time;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JTable;
 import java.awt.Choice;
@@ -31,13 +35,18 @@ public class PanelRouteAd extends JPanel {
 	private JTextField textFieldDistance;
 	private JTextField textFieldDuration;
 	private JTextField textFieldPrice;
-	private JComboBox cbbStartCity, cbbEndCity, cbbBusID;
+	private JComboBox<String> cbbStartCity, cbbEndCity, cbbBusID;
 	private JTable table;
 	private JButton btnAdd, btnUpdate, btnDelete, btnCancel;
 	public DefaultTableModel dtm;
 	private List<Object[]> data = DAORoute.getInstance().getListRouteAndCity();
 	private List<String> listCity = DAOCity.getInstance().getListCity();
 	private List<String> listBus = DAOBus.getInstance().getListBus();
+	private JLabel lblSearch;
+	
+	private JComboBox<String> cbCityEndFind, cbCityStartFind;
+	private JButton btnReset;
+
 		
 	public JTextField getTextFieldRoute() {
 		return textFieldRoute;
@@ -142,8 +151,9 @@ public class PanelRouteAd extends JPanel {
 		setLayout(null);
 		
 		JLabel lblRoute = new JLabel("Thông tin lịch trình");
+		lblRoute.setForeground(new Color(0, 0, 255));
 		lblRoute.setFont(new Font("Tahoma", Font.BOLD, 25));
-		lblRoute.setBounds(27, 11, 259, 34);
+		lblRoute.setBounds(177, 11, 259, 34);
 		add(lblRoute);
 		
 		JLabel lblRouteID = new JLabel("Mã lịch trình");
@@ -188,7 +198,7 @@ public class PanelRouteAd extends JPanel {
 		table.getSelectionModel().addListSelectionListener( new RouteListener(this));
 		
 		JScrollPane scrollPane = new JScrollPane(table);
-		scrollPane.setBounds(27, 262, 553, 266);
+		scrollPane.setBounds(10, 282, 594, 246);
 		add(scrollPane);
 		
 		textFieldRoute = new JTextField();
@@ -222,51 +232,111 @@ public class PanelRouteAd extends JPanel {
 		 btnAdd = new JButton("Thêm");
 		btnAdd.setBackground(new Color(255, 128, 0));
 		btnAdd.setFont(new Font("Tahoma", Font.PLAIN, 15));
-		btnAdd.setBounds(322, 191, 78, 28);
+		btnAdd.setBounds(355, 192, 78, 28);
 		add(btnAdd);
 		
 		 btnUpdate = new JButton("Sửa");
 		btnUpdate.setBackground(new Color(255, 0, 0));
 		btnUpdate.setFont(new Font("Tahoma", Font.PLAIN, 15));
-		btnUpdate.setBounds(425, 191, 78, 28);
+		btnUpdate.setBounds(446, 192, 78, 28);
 		add(btnUpdate);
 		
 		 btnDelete = new JButton("Xóa");
 		btnDelete.setBackground(new Color(0, 128, 255));
 		btnDelete.setFont(new Font("Tahoma", Font.PLAIN, 15));
-		btnDelete.setBounds(526, 191, 78, 28);
+		btnDelete.setBounds(534, 192, 78, 28);
 		add(btnDelete);
 		
 		 btnCancel = new JButton("Hủy");
 		btnCancel.setEnabled(false);
 		btnCancel.setFont(new Font("Tahoma", Font.PLAIN, 15));
 		btnCancel.setBackground(new Color(192, 192, 192));
-		btnCancel.setBounds(322, 230, 78, 28);
+		btnCancel.setBounds(267, 192, 78, 28);
 		add(btnCancel);
 		
-		btnAdd.addActionListener(new RouteListener(this));
-		btnCancel.addActionListener(new RouteListener(this));
-		btnDelete.addActionListener(new RouteListener(this));
-		btnUpdate.addActionListener(new RouteListener(this));
 		
-		 cbbStartCity = new JComboBox();
+		
+		 cbbStartCity = new JComboBox<String>();
 		 cbbStartCity.setFont(new Font("Times New Roman", Font.PLAIN, 13));
 		cbbStartCity.setBounds(141, 107, 130, 28);
 		add(cbbStartCity);
 		
-		 cbbEndCity = new JComboBox();
+		 cbbEndCity = new JComboBox<String>();
 		 cbbEndCity.setFont(new Font("Times New Roman", Font.PLAIN, 13));
 		cbbEndCity.setBounds(141, 149, 130, 28);
 		add(cbbEndCity);
 		
-		cbbBusID = new JComboBox();
+		cbbBusID = new JComboBox<String>();
 		cbbBusID.setFont(new Font("Times New Roman", Font.PLAIN, 13));
 		cbbBusID.setEnabled(false);
 		cbbBusID.setBounds(428, 107, 96, 28);
 		add(cbbBusID);
+		
+		JPanel panel_2 = new JPanel();
+		panel_2.setLayout(null);
+		panel_2.setBounds(10, 236, 594, 35);
+		add(panel_2);
+		
+		JLabel lblNii_1 = new JLabel("Nơi đi");
+		lblNii_1.setFont(new Font("Times New Roman", Font.PLAIN, 15));
+		lblNii_1.setBounds(23, 3, 51, 28);
+		panel_2.add(lblNii_1);
+		
+		JLabel lblNin_1 = new JLabel("Nơi đến");
+		lblNin_1.setFont(new Font("Times New Roman", Font.PLAIN, 15));
+		lblNin_1.setBounds(233, 3, 51, 28);
+		panel_2.add(lblNin_1);
+		
+		cbCityStartFind = new JComboBox<String>();
+		cbCityStartFind.setFont(new Font("Times New Roman", Font.PLAIN, 15));
+		cbCityStartFind.setBounds(97, 3, 113, 28);
+		panel_2.add(cbCityStartFind);
+		
+		cbCityEndFind = new JComboBox<String>();
+		cbCityEndFind.setFont(new Font("Times New Roman", Font.PLAIN, 15));
+		cbCityEndFind.setBounds(307, 3, 113, 28);
+		panel_2.add(cbCityEndFind);
+		
+		ImageIcon icon = new ImageIcon(PanelTripInDay.class.getResource("/photo/SearchButton.png"));
+		Image img = icon.getImage();
+		Image newImg = img.getScaledInstance(25, 25, Image.SCALE_SMOOTH);
+		ImageIcon newIcon = new ImageIcon(newImg);
+		
+		lblSearch = new JLabel("");
+		lblSearch.setBounds(443, 3, 25, 28);
+		lblSearch.setIcon(newIcon);
+		panel_2.add(lblSearch);
+		
+		btnReset = new JButton("Reset");
+		btnReset.setFont(new Font("Tahoma", Font.PLAIN, 15));
+		btnReset.setBackground(Color.LIGHT_GRAY);
+		btnReset.setBounds(491, 3, 78, 28);
+		panel_2.add(btnReset);
 		Init();
 		SetTextUnEditable();
+		btnAdd.addActionListener(new RouteListener(this));
+		btnCancel.addActionListener(new RouteListener(this));
+		btnDelete.addActionListener(new RouteListener(this));
+		btnUpdate.addActionListener(new RouteListener(this));
+		lblSearch.addMouseListener(new RouteListener(this));
+		btnReset.addActionListener(new RouteListener(this));
 	}
+	public JLabel getLblSearch() {
+		return lblSearch;
+	}
+
+	public void setLblSearch(JLabel lblSearch) {
+		this.lblSearch = lblSearch;
+	}
+
+	public JButton getBtnReset() {
+		return btnReset;
+	}
+
+	public void setBtnReset(JButton btnReset) {
+		this.btnReset = btnReset;
+	}
+
 	public void SetTextUnEditable() {
 		textFieldDistance.setEditable(false);
 		textFieldDuration.setEditable(false);
@@ -365,8 +435,10 @@ public class PanelRouteAd extends JPanel {
 		
 		for(String item : listCity)
 		{
-			cbbStartCity.addItem(item);;
+			cbbStartCity.addItem(item);
 			cbbEndCity.addItem(item);
+			cbCityEndFind.addItem(item);
+			cbCityStartFind.addItem(item);
 		}
 		for(String item : listBus)
 		{
@@ -467,5 +539,59 @@ public class PanelRouteAd extends JPanel {
 			SetTextUnEditable();
 			btnCancel.setEnabled(false);
 		}
+	}
+	public void PressSearch() {
+		String StartCity = cbCityStartFind.getSelectedItem().toString();
+		String EndCity = cbCityEndFind.getSelectedItem().toString();
+		if(!StartCity.equals(EndCity)) {
+			int n = dtm.getRowCount();
+			for(int i = 0; i<n;i++)
+			{
+				dtm.removeRow(0);
+			}
+			
+			for(int i = 0; i<data.size();i++)
+			{
+				if (StartCity.equals(data.get(i)[1]) && EndCity.equals(data.get(i)[2])) {
+					Object[] rowData = data.get(i);
+					dtm.addRow(rowData);
+				}
+			}
+			if(dtm.getRowCount() == 0) {
+				JOptionPane.showMessageDialog(null, "Không thể tìm thấy lộ trình phù hợp");
+				for (int i = 0; i < data.size(); i++)
+				{
+					
+					Object[] rowData = data.get(i);
+					dtm.addRow(rowData);
+				}
+				return;
+			} else {
+				
+			}
+			table.setModel(dtm);
+			table.revalidate();
+			table.repaint();
+		} else {
+			JOptionPane.showMessageDialog(null, "Điểm đi và điểm đến không được trùng nhau");
+			return;
+		}
+	}
+	public void PressReset() {
+		int n = dtm.getRowCount();
+		for(int i = 0; i<n;i++)
+		{
+			dtm.removeRow(0);
+		}
+		
+		for (int i = 0; i < data.size(); i++)
+		{
+			
+			Object[] rowData = data.get(i);
+			dtm.addRow(rowData);
+		}
+		table.setModel(dtm);
+		table.revalidate();
+		table.repaint();
 	}
 }

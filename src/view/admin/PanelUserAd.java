@@ -2,13 +2,16 @@ package view.admin;
 
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.Image;
 import java.sql.SQLException;
 import java.sql.Time;
 import java.time.LocalDate;
 import java.util.ArrayList;
 
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -22,10 +25,11 @@ import controller.admin.RouteListener;
 import controller.admin.UserListener;
 
 import javax.swing.JTextField;
+import javax.swing.JComboBox;
 
 public class PanelUserAd extends JPanel {
 
-	private JButton btnAdd, btnUpdate, btnDelete, btnCancel;
+	private JButton btnAdd, btnUpdate, btnDelete, btnCancel, btnReset;
 	private JTextField textUserID;
 	private JTextField textPassword;
 	private JTextField textUserName;
@@ -33,6 +37,11 @@ public class PanelUserAd extends JPanel {
 	private JTable table;
 	
 	private ArrayList<Customer> data = DAOCustomer.getInstance().selectAll();
+	private JPanel panel;
+	private JLabel lblNii;
+	private JLabel lblSearch;
+	private JTextField textFieldUserNameFind;
+	
 	public JButton getBtnAdd() {
 		return btnAdd;
 	}
@@ -124,8 +133,9 @@ public class PanelUserAd extends JPanel {
 		setLayout(null);
 		
 		JLabel lblUser = new JLabel("Thông tin tài khoản");
+		lblUser.setForeground(new Color(0, 0, 255));
 		lblUser.setFont(new Font("Tahoma", Font.BOLD, 25));
-		lblUser.setBounds(27, 11, 259, 34);
+		lblUser.setBounds(177, 11, 259, 34);
 		add(lblUser);
 		
 		JLabel lblUserID = new JLabel("Mã tài khoản");
@@ -146,26 +156,26 @@ public class PanelUserAd extends JPanel {
 		btnAdd = new JButton("Thêm");
 		btnAdd.setBackground(new Color(255, 128, 0));
 		btnAdd.setFont(new Font("Tahoma", Font.PLAIN, 15));
-		btnAdd.setBounds(322, 191, 78, 28);
+		btnAdd.setBounds(322, 157, 78, 28);
 		add(btnAdd);
 		
 		 btnUpdate = new JButton("Sửa");
 		btnUpdate.setBackground(new Color(255, 0, 0));
 		btnUpdate.setFont(new Font("Tahoma", Font.PLAIN, 15));
-		btnUpdate.setBounds(425, 191, 78, 28);
+		btnUpdate.setBounds(425, 157, 78, 28);
 		add(btnUpdate);
 		
 		 btnDelete = new JButton("Xóa");
 		btnDelete.setBackground(new Color(0, 128, 255));
 		btnDelete.setFont(new Font("Tahoma", Font.PLAIN, 15));
-		btnDelete.setBounds(526, 191, 78, 28);
+		btnDelete.setBounds(526, 157, 78, 28);
 		add(btnDelete);
 		
 		 btnCancel = new JButton("Hủy");
 		btnCancel.setEnabled(false);
 		btnCancel.setFont(new Font("Tahoma", Font.PLAIN, 15));
 		btnCancel.setBackground(new Color(192, 192, 192));
-		btnCancel.setBounds(214, 191, 78, 28);
+		btnCancel.setBounds(214, 157, 78, 28);
 		add(btnCancel);
 		
 		textUserID = new JTextField();
@@ -206,7 +216,7 @@ public class PanelUserAd extends JPanel {
 		
 		
 		JScrollPane scrollPane = new JScrollPane(table);
-		scrollPane.setBounds(27, 262, 553, 266);
+		scrollPane.setBounds(20, 262, 584, 266);
 		add(scrollPane);
 		
 		SetTextUnEditable();
@@ -216,6 +226,40 @@ public class PanelUserAd extends JPanel {
 		btnCancel.addActionListener(new UserListener(this));
 		btnDelete.addActionListener(new UserListener(this));
 		btnUpdate.addActionListener(new UserListener(this));
+		
+		panel = new JPanel();
+		panel.setLayout(null);
+		panel.setBounds(10, 206, 594, 35);
+		add(panel);
+		
+		lblNii = new JLabel("Tài khoản");
+		lblNii.setFont(new Font("Times New Roman", Font.PLAIN, 15));
+		lblNii.setBounds(98, 3, 68, 28);
+		panel.add(lblNii);
+		
+		textFieldUserNameFind = new JTextField();
+		textFieldUserNameFind.setColumns(10);
+		textFieldUserNameFind.setBounds(234, 3, 109, 28);
+		panel.add(textFieldUserNameFind);
+		
+		ImageIcon icon = new ImageIcon(PanelTripInDay.class.getResource("/photo/SearchButton.png"));
+		Image img = icon.getImage();
+		Image newImg = img.getScaledInstance(25, 25, Image.SCALE_SMOOTH);
+		ImageIcon newIcon = new ImageIcon(newImg);
+		
+		lblSearch = new JLabel("");
+		lblSearch.setBounds(379, 3, 25, 28);
+		lblSearch.setIcon(newIcon);
+		panel.add(lblSearch);
+		
+		btnReset = new JButton("Reset");
+		btnReset.setFont(new Font("Tahoma", Font.PLAIN, 15));
+		btnReset.setBackground(Color.LIGHT_GRAY);
+		btnReset.setBounds(467, 2, 78, 28);
+		panel.add(btnReset);
+		
+		btnReset.addActionListener(new UserListener(this));
+		lblSearch.addMouseListener(new UserListener(this));
 	}
 	public void SetTextEditable() {
 		textPassword.setEditable(true);
@@ -337,5 +381,78 @@ public class PanelUserAd extends JPanel {
 			SetTextUnEditable();
 			btnCancel.setEnabled(false);
 		}
+	}
+	public void PressSearch() {
+		String Username = textFieldUserNameFind.getText();
+		if(!Username.isEmpty()) {
+			int n = dtm.getRowCount();
+			for(int i = 0; i<n;i++)
+			{
+				dtm.removeRow(0);
+			}
+			for(int i =0; i< data.size();i++) {
+				if (Username.equals(data.get(i).getAccount())) {
+					int ID = data.get(i).getCustomerID();
+					String username = data.get(i).getAccount();
+					String password =  data.get(i).getPassword();
+					Object[] rowData = {ID,username,password};
+					dtm.addRow(rowData);
+				}
+			}
+			if(dtm.getRowCount() == 0) {
+				JOptionPane.showMessageDialog(null, "Không thể tìm thấy tài khoản phù hợp");
+				for (int i = 0; i < data.size(); i++)
+				{
+					int ID = data.get(i).getCustomerID();
+					String username = data.get(i).getAccount();
+					String password =  data.get(i).getPassword();
+					Object[] rowData = {ID,username,password};
+					dtm.addRow(rowData);
+				}
+				return;
+			} else {
+				
+			}
+			table.setModel(dtm);
+			table.revalidate();
+			table.repaint();
+		} else {
+			JOptionPane.showMessageDialog(null, "Dữ liệu tên tài khoản không được để trống!");
+			return;
+		}
+	}
+	public void PressReset() {
+		int n = dtm.getRowCount();
+		for(int i = 0; i<n;i++)
+		{
+			dtm.removeRow(0);
+		}
+		for (int i = 0; i < data.size(); i++)
+		{
+			int ID = data.get(i).getCustomerID();
+			String username = data.get(i).getAccount();
+			String password =  data.get(i).getPassword();
+			Object[] rowData = {ID,username,password};
+			dtm.addRow(rowData);
+		}
+		table.setModel(dtm);
+		table.revalidate();
+		table.repaint();
+	}
+
+	public JButton getBtnReset() {
+		return btnReset;
+	}
+
+	public void setBtnReset(JButton btnReset) {
+		this.btnReset = btnReset;
+	}
+
+	public JLabel getLblSearch() {
+		return lblSearch;
+	}
+
+	public void setLblSearch(JLabel lblSearch) {
+		this.lblSearch = lblSearch;
 	}
 }
