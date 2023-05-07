@@ -45,25 +45,7 @@ public class BookingTicket2Listener implements ActionListener, MouseListener {
 	
 		if(e.getComponent() == bookingTicket2.lblSearch)
 		{
-			String NameCityStart = bookingTicket2.choice_DiemDi.getSelectedItem().toString();
-			String NameCityEnd = bookingTicket2.choice_DiemDen.getSelectedItem().toString();
-			
-			String Date = bookingTicket2.txtNgayDi.getText();
-			DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-			
-			LocalDate DateGo = LocalDate.parse(Date, formatter);
-			
-			if(LocalDate.now().compareTo(DateGo) > 0)
-			{
-				JOptionPane.showMessageDialog(null, "Vui lòng chọn ngày lớn hơn ngày hiện tại");
-				return;
-			}
-			
-			if(NameCityStart.equals(NameCityEnd))
-			{
-				JOptionPane.showMessageDialog(null, "Điểm đi không thể giống điểm đến");
-				return;
-			}
+			if(bookingTicket2.Searchlbl_Check() == false) return;
 			try {
 				bookingTicket2.Searchlbl_Selected();
 			} catch (SQLException e1) {

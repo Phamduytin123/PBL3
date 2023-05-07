@@ -68,5 +68,9 @@ public class Route {
 		return "Route [RouteID=" + RouteID + ", BusID=" + BusID + ", CityIDStart=" + CityIDStart + ", CityIDEnd="
 				+ CityIDEnd + ", Price=" + Price + ", Duration=" + Duration + ", Distance=" + Distance + "]";
 	}
+	public Route() {
+		super();
+		this.RouteID = 0;
+	}
 	
 }

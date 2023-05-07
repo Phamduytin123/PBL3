@@ -126,7 +126,9 @@ public class DAORoute implements DAOInterface<Route,Integer>{
 		String SqlCommand = "SELECT * FROM RouteWay WHERE RouteID = ?";
 		PreparedStatement psm = Conn.prepareStatement(SqlCommand);
 		
-		psm.setString(1, t);
+		int ID = Integer.parseInt(t);
+		
+		psm.setInt(1, ID);
 		
 		ResultSet rs = psm.executeQuery();
 		
@@ -239,6 +241,34 @@ public class DAORoute implements DAOInterface<Route,Integer>{
 		rs.close();
 		st.close();
 		JDBCUtil.closeConnection(con);
+		return list;
+	}
+
+	public ArrayList<String> getNameCityStartAndEnd(int RouteID) throws SQLException
+	{
+		Connection Conn = JDBCUtil.getConnection(); 
+		
+		ArrayList<String> list = new ArrayList<>();
+		
+		Statement stmt = Conn.createStatement();
+		String command = "SELECT CS.CityName AS 'CityStart', CE.CityName AS 'CityEnd' FROM RouteWay AS RW\r\n"
+				+ "JOIN City AS CS ON RW.CityIDStart = CS.CityID\r\n"
+				+ "JOIN City AS CE ON RW.CityIDEnd = CE.CityID\r\n"
+				+ "WHERE RW.RouteID = " + RouteID;
+		ResultSet rs = stmt.executeQuery(command);
+		
+		if(rs.next())
+		{
+			String temp1 = rs.getString("CityStart");
+			String temp2 = rs.getString("CityEnd");
+			
+			list.add(temp1);
+			list.add(temp2);
+		}
+
+		rs.close();
+		stmt.close();
+		JDBCUtil.closeConnection(Conn);
 		return list;
 	}
 }

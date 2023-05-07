@@ -13,6 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import BUS.JDBCUtil;
+import Models.City;
 import Models.Route;
 import Models.Trip;
 import Models.myDate;
@@ -47,7 +48,7 @@ public class DAOTrip implements DAOInterface<Trip,Integer> {
 
 	@Override
 	public int delete(Integer t) throws SQLException, ClassNotFoundException {
-
+		
 		Connection con = JDBCUtil.getConnection();
 
 		String command = "DELETE FROM TripInDay WHERE TripID = ?";
@@ -167,6 +168,24 @@ public class DAOTrip implements DAOInterface<Trip,Integer> {
 		return list;
 	}
 
+	public int deleteByID(int ID) throws SQLException
+	{
+
+		Connection con = JDBCUtil.getConnection();
+
+		String command = "DELETE FROM TripInDay WHERE TripID = ?";
+		PreparedStatement psm = con.prepareStatement(command);
+
+		psm.setInt(1, ID);
+
+		int executedRow = psm.executeUpdate();
+
+		psm.close();
+
+		JDBCUtil.closeConnection(con);
+		return executedRow;
+	}
+	
 	public static void InsertTrip(int Month) throws ClassNotFoundException, SQLException {
 		List<Route> list = DAORoute.getInstance().selectAll();
 		Connection con = JDBCUtil.getConnection();
@@ -551,5 +570,94 @@ public class DAOTrip implements DAOInterface<Trip,Integer> {
 		psm.close();
 		JDBCUtil.closeConnection(Conn);
 		return result;
+	}
+
+	public ArrayList<Object[]> getListTID_Admin() throws SQLException
+	{
+
+		Connection Conn = JDBCUtil.getConnection(); 
+		List<Object[]> list = new ArrayList<>();
+		
+		//Bước 3 : Thực hiện câu lệnh truy vấn 
+
+		String SqlCommand = "SELECT TID.*, (Select count(*) FROM Ticket AS T WHERE T.TripID = TID.TripID ) AS 'NOFBS'\r\n"
+				+ "FROM TripInDay AS TID \r\n"
+				+ "ORDER BY NOFBS DESC";
+		PreparedStatement psm = Conn.prepareStatement(SqlCommand);
+
+		ResultSet rs = psm.executeQuery();
+		//Bước 4 : Xem thong tin cua bang
+		while(rs.next())
+		{
+			int TripID = rs.getInt("TripID");
+			LocalTime TimeStart = rs.getTime("TimeStart").toLocalTime();
+			LocalTime TimeEnd = rs.getTime("TimeEnd").toLocalTime();
+			int Route = rs.getInt("RouteID");
+			LocalDate DateStart = rs.getDate("DateEnd").toLocalDate();
+			LocalDate DateEnd = rs.getDate("DateStart").toLocalDate();
+			int NOFBS = rs.getInt("NOFBS");
+			
+			Trip temp = new Trip(TripID, Route, TimeStart, TimeEnd, DateStart, DateEnd);Object temp1 = temp;
+			Object temp2 = NOFBS;
+			Object[] temp3 = new Object[2];
+			temp3[0] = temp1;
+			temp3[1] = temp2;
+			list.add(temp3);
+		}
+		
+		rs.close();
+		psm.close();
+		
+		JDBCUtil.closeConnection(Conn);
+		return (ArrayList<Object[]>) list;
+	}
+	
+	public ArrayList<Object[]> getListTripBySearch_Admin(String CityStart, String CityEnd, LocalDate date) throws SQLException
+	{
+
+		Connection Conn = JDBCUtil.getConnection(); 
+		List<Object[]> list = new ArrayList<>();
+		
+		//Bước 3 : Thực hiện câu lệnh truy vấn 
+		String SqlCommand = "SELECT TID.*, (Select count(*) FROM Ticket AS T WHERE T.TripID = TID.TripID ) AS 'NOFBS'\r\n"
+				+ "FROM TripInDay AS TID\r\n"
+				+ "JOIN RouteWay AS RW ON RW.RouteID = TID.RouteID\r\n"
+				+ "JOIN City AS CS ON CS.CityID = RW.CityIDStart\r\n"
+				+ "JOIN City AS CE ON CE.CityID = RW.CityIDEnd\r\n"
+				+ "WHERE TID.DateStart = ? AND CS.CityName = ? AND CE.CityName = ?\r\n"
+				+ "ORDER BY NOFBS DESC";
+		PreparedStatement psm = Conn.prepareStatement(SqlCommand);
+
+		psm.setDate(1, Date.valueOf(date) );
+		psm.setString(2, CityStart);
+		psm.setString(3, CityEnd);
+		
+		
+		ResultSet rs = psm.executeQuery();
+		
+		//Bước 4 : Xem thong tin cua bang
+		while(rs.next())
+		{
+			int TripID = rs.getInt("TripID");
+			LocalTime TimeStart = rs.getTime("TimeStart").toLocalTime();
+			LocalTime TimeEnd = rs.getTime("TimeEnd").toLocalTime();
+			int Route = rs.getInt("RouteID");
+			LocalDate DateStart = rs.getDate("DateEnd").toLocalDate();
+			LocalDate DateEnd = rs.getDate("DateStart").toLocalDate();
+			int NOFBS = rs.getInt("NOFBS");
+			
+			Trip temp = new Trip(TripID, Route, TimeStart, TimeEnd, DateStart, DateEnd);Object temp1 = temp;
+			Object temp2 = NOFBS;
+			Object[] temp3 = new Object[2];
+			temp3[0] = temp1;
+			temp3[1] = temp2;
+			list.add(temp3);
+		}
+		
+		rs.close();
+		psm.close();
+		
+		JDBCUtil.closeConnection(Conn);
+		return (ArrayList<Object[]>) list;
 	}
 }

@@ -14,6 +14,7 @@ import java.util.List;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
@@ -252,4 +253,38 @@ public class BookingTicket2 extends JPanel {
 		
 		SetListTrip(CityIDStart, CityIDEnd, temp);
 	}
+
+	public Boolean Searchlbl_Check()
+	{
+		String NameCityStart = choice_DiemDi.getSelectedItem().toString();
+		String NameCityEnd = choice_DiemDen.getSelectedItem().toString();
+		
+		if(NameCityStart.equals(NameCityEnd))
+		{
+			JOptionPane.showMessageDialog(null, "Điểm đi không thể giống điểm đến");
+			return false;
+		}
+		
+		String Date = txtNgayDi.getText();
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+		
+		try {
+			LocalDate.parse(Date, formatter);
+		} catch (Exception e) {
+			JOptionPane.showMessageDialog(null, "Bạn đã nhập sai định dạng ngày tháng trong hệ thống ( dd/MM/yyyy - VD 05/05/2023 ) vui lòng nhập lại");
+			return false;
+		}
+		
+		LocalDate DateGo = LocalDate.parse(Date, formatter);
+		
+		if(LocalDate.now().compareTo(DateGo) > 0)
+		{
+			JOptionPane.showMessageDialog(null, "Vui lòng chọn ngày lớn hơn ngày hiện tại");
+			return false;
+		}
+		
+		
+		return true;
+	}
 }
+

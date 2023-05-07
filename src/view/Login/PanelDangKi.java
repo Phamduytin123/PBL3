@@ -205,6 +205,27 @@ public class PanelDangKi extends JPanel {
 			JOptionPane.showMessageDialog(null, "Số điện thoại nhập vào không phù hợp");
 			return false;
 		}
+		try {
+			LocalDate.parse(DOB, DateTimeFormatter.ofPattern("dd/MM/yyyy"));
+		} catch (Exception e) {
+			JOptionPane.showMessageDialog(null, "Bạn đã nhập sai định dạng của ngày tháng năm theo hệ thống (dd/MM/yyyy) vui lòng nhập lại\t       VD 05/05/2023");
+			return false;
+		}
+		
+		try {
+			Integer.parseInt(Tel);
+		} catch (Exception e) {
+			JOptionPane.showMessageDialog(null, "Bạn đã nhập sai định số điện thoại chỉ bao gồm số ");
+			return false;
+		}
+		
+		try {
+			Integer.parseInt(CitizenID);
+		} catch (Exception e) {
+			JOptionPane.showMessageDialog(null, "Bạn đã nhập sai định CCCD chỉ bao gồm số ");
+			return false;
+		}
+		
 		if(!Email.substring(Email.length() - 10).equals("@gmail.com"))
 		{
 			JOptionPane.showMessageDialog(null, "Đia chỉ email nhập vào không phù hợp với định dạng");

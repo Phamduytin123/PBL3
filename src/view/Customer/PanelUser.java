@@ -220,6 +220,12 @@ public class PanelUser extends JPanel {
 			JOptionPane.showMessageDialog(null, "Số điện thoại bạn nhập vào không đúng vui lòng nhập lại");
 			return false;
 		}
+		try {
+			Integer.parseInt(txtPhoneNumber.getText());
+		} catch (Exception e) {
+			JOptionPane.showMessageDialog(null, "Số điện thoại nhập vào không đúng định dạng ( chỉ bao gồm số ) vui lòng nhập lại");
+			return false;
+		}
 		return true;
 	}
 	

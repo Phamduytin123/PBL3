@@ -1,5 +1,5 @@
-/BUS/
-/controller/
 /view/
-/.gitignore
-/Algorithm/
+/controller/
+/DAO/
+/Models/
+/Tests/

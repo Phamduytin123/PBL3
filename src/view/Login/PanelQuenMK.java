@@ -126,6 +126,12 @@ public class PanelQuenMK extends JPanel {
 			JOptionPane.showMessageDialog(null, "Vui lòng điền đầy đủ thông tin để tìm tài khoản");
 			return false;
 		}
+		try {
+			Integer.parseInt(Tel);
+		} catch (Exception e) {
+			JOptionPane.showMessageDialog(null, "Số điện thoại bạn nhập vào bị sai không đúng với định dạng ( chỉ bao gồm số )");
+			return false;
+		}
 		
 		if(Tel.length() != 10)
 		{

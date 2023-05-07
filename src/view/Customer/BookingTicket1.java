@@ -17,6 +17,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.SwingConstants;
 import javax.swing.border.SoftBevelBorder;
 
@@ -433,5 +434,96 @@ public class BookingTicket1 extends JPanel {
 		
 		lblTimeMed.setText(Al.getTotalDuration(list) +" giờ");
 
+	}
+
+	public Boolean btnSearch_Check()
+	{
+		
+		String diemDi = choice_DiemDi.getSelectedItem().toString();
+		String diemDen = choice_DiemDen.getSelectedItem().toString();
+		
+		if(diemDi.equals(diemDen))
+		{
+			JOptionPane.showMessageDialog(null, "Điểm đi không thể trùng điểm đến");
+			return false;
+		}
+		
+		return true;
+	}
+	
+	public void btnSeach_Select()
+	{
+		String diemDi = choice_DiemDi.getSelectedItem().toString();
+		String diemDen = choice_DiemDen.getSelectedItem().toString();
+		
+		if(rdbtnRoundTrip.isSelected())
+		{
+			KindOfBook = "Khứ hồi";
+			btn_ChieuDi.setVisible(true);
+			btn_ChieuVe.setVisible(true);
+		}
+		
+		
+		String LuaChon = choice_TieuChi.getSelectedItem().toString();
+		
+		if(LuaChon.equals("Ngắn nhất"))
+		{
+			Fast(rdbtnRoundTrip.isSelected());
+		}
+		else if(LuaChon.equals("Rẻ nhất"))
+		{
+			Cheap(rdbtnRoundTrip.isSelected());
+		}
+		else if(LuaChon.equals("Ngồi xe ít nhất"))
+		{
+			TimeLess(rdbtnRoundTrip.isSelected());
+		}
+		
+		try {
+			SetData(listRoute.get(0),diemDi, diemDen);
+		} catch (SQLException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+	}
+
+	public void btnChieuVe_Select()
+	{
+		String diemDi = choice_DiemDi.getSelectedItem().toString();
+		String diemDen = choice_DiemDen.getSelectedItem().toString();
+		
+		try {
+			SetData(listRoute.get(1), diemDen, diemDi);
+		} catch (SQLException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+	}
+	
+	public void btnChieuDi_Select()
+	{
+		String diemDi = choice_DiemDi.getSelectedItem().toString();
+		String diemDen = choice_DiemDen.getSelectedItem().toString();
+		
+		try {
+			SetData(listRoute.get(0), diemDi, diemDen);
+		} catch (SQLException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+	}
+
+	public void rdbtnRoundTrip_isSelect()
+	{
+		KindOfBook = "Khứ hồi";
+		txtNgayVe.setEditable(true);
+	}
+	
+	public void rdbtnOneTrip_isSelect()
+	{
+		KindOfBook = "Một chiều";
+		btn_ChieuDi.setVisible(false);
+		btn_ChieuVe.setVisible(false);
+		txtNgayVe.setEditable(false);
 	}
 }

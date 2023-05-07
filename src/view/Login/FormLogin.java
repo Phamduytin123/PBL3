@@ -205,6 +205,8 @@ public class FormLogin extends JFrame {
 	public void btnCreate_Selected()
 	{
 		this.panelDangKi.btnCreate_Selected();
+		this.panelDangKi.setVisible(false);
+		this.panel_DangNhap.setVisible(true);
 	}
 	
 	// Process forget Password

@@ -40,61 +40,8 @@ public class FormMainListener implements ActionListener, MouseListener{
 			formMain.changeToBill();
 		} else
 		if (tmp == formMain.bookingTicket1Panel.btnViewTicket) {
-			String DateGo = formMain.bookingTicket1Panel.txtNgayDi.getText();
-			String DateBack = formMain.bookingTicket1Panel.txtNgayVe.getText();
-			String KindOfBook = formMain.bookingTicket1Panel.KindOfBook;
-			
-			if(formMain.bookingTicket1Panel.listRoute.get(0).size() == 0)
-			{
-				JOptionPane.showMessageDialog(null, "Vui lòng tìm kiếm chuyến đi phù hợp trước");
-				return;
-			}
-			
-			if(DateGo.equals(""))
-			{
-				JOptionPane.showMessageDialog(null, "Vui lòng nhập đầy đủ ngày");
-				return;
-			}
-			if(KindOfBook.equals("Khứ hồi") && DateBack.equals(""))
-			{
-				JOptionPane.showMessageDialog(null, "Vui lòng nhập đầy đủ ngày");
-				return;
-			}
-			
-			formMain.bookingTicket1Panel.listDate = new ArrayList<>();	
-				
-			DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-			formMain.bookingTicket1Panel.listDate.add(LocalDate.parse(DateGo, formatter));	
-			
-			LocalDate DateGo1 = formMain.bookingTicket1Panel.listDate.get(0);
-			
-			if(LocalDate.now().compareTo(DateGo1) > 0)
-			{
-				JOptionPane.showMessageDialog(null, "Không thể nhập ngày đi nhỏ hơn ngày hiện tại");
-				System.out.println(DateGo1.toString() + " - " + LocalDate.now());
-				return;
-			}
-			
-			if(KindOfBook.equals("Khứ hồi"))
-			{
-				formMain.bookingTicket1Panel.listDate.add(LocalDate.parse(DateBack, formatter));		
-				List<LocalDate> listDate = formMain.bookingTicket1Panel.listDate;
-				
-				if(listDate.get(1).compareTo(listDate.get(0)) < 0)
-				{
-					JOptionPane.showMessageDialog(null, "Ngày về không thể nhỏ hơn ngày đi");
-					return;
-				}
-			}
-			
-			
-			formMain.bookingTicket1Panel.CusID = formMain.cus.getCustomerID();
-			try {
-				formMain.changeToListTicket();
-			} catch (SQLException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
-			}
+			if(formMain.BT1_btnViewTicket_Check() == false) return;
+			formMain.BT1_btnViewTicket_Select();
 		}
 		if(tmp == formMain.btnLogOut)
 		{
