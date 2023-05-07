@@ -56,6 +56,10 @@ public class TripInDayListener implements ActionListener, ListSelectionListener,
 		{
 			TID.lblFind_Select();
 		}
+		if(e.getComponent() == TID.lblReset)
+		{
+			TID.SetListTable();
+		}
 	}
 
 	@Override

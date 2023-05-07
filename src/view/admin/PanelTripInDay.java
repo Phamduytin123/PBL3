@@ -48,7 +48,7 @@ public class PanelTripInDay extends JPanel {
 	public JTextField txtTimeEnd;
 	public JTextField txtDateEnd;
 	public JTable table;
-	public JLabel lblSearch;
+	public JLabel lblSearch, lblReset;
 	public JComboBox<String> cbRouteID, cbCityStart, cbCityEnd, cbCityEndFind, cbCityStartFind;
 	private JPanel panel_2;
 	private JLabel lblNii_1;
@@ -239,31 +239,31 @@ public class PanelTripInDay extends JPanel {
 		
 		lblNii_1 = new JLabel("Nơi đi");
 		lblNii_1.setFont(new Font("Times New Roman", Font.PLAIN, 15));
-		lblNii_1.setBounds(8, 0, 51, 28);
+		lblNii_1.setBounds(9, 0, 42, 28);
 		panel_2.add(lblNii_1);
 		
 		lblNin_1 = new JLabel("Nơi đến");
 		lblNin_1.setFont(new Font("Times New Roman", Font.PLAIN, 15));
-		lblNin_1.setBounds(188, 0, 51, 28);
+		lblNin_1.setBounds(182, 0, 51, 28);
 		panel_2.add(lblNin_1);
 		
 		lblNin_2 = new JLabel("Ngày");
 		lblNin_2.setFont(new Font("Times New Roman", Font.PLAIN, 15));
-		lblNin_2.setBounds(368, 0, 42, 28);
+		lblNin_2.setBounds(364, 0, 42, 28);
 		panel_2.add(lblNin_2);
 		
 		cbCityStartFind = new JComboBox<>();
 		cbCityStartFind.setFont(new Font("Times New Roman", Font.PLAIN, 15));
-		cbCityStartFind.setBounds(67, 0, 113, 28);
+		cbCityStartFind.setBounds(60, 0, 113, 28);
 		panel_2.add(cbCityStartFind);
 		
 		cbCityEndFind = new JComboBox<>();
 		cbCityEndFind.setFont(new Font("Times New Roman", Font.PLAIN, 15));
-		cbCityEndFind.setBounds(247, 0, 113, 28);
+		cbCityEndFind.setBounds(242, 0, 113, 28);
 		panel_2.add(cbCityEndFind);
 		
 		txtDateFind = new JTextField();
-		txtDateFind.setBounds(418, 0, 134, 28);
+		txtDateFind.setBounds(415, 0, 94, 28);
 		panel_2.add(txtDateFind);
 		txtDateFind.setColumns(10);
 		
@@ -272,12 +272,22 @@ public class PanelTripInDay extends JPanel {
 		Image newImg = img.getScaledInstance(25, 25, Image.SCALE_SMOOTH);
 		ImageIcon newIcon = new ImageIcon(newImg);
 		
-		
 		lblSearch = new JLabel("");
-		lblSearch.setBounds(560, 0, 25, 28);
+		lblSearch.setBounds(518, 0, 25, 28);
 		lblSearch.setIcon(newIcon);
 		lblSearch.addMouseListener(new TripInDayListener(this));
 		panel_2.add(lblSearch);
+		
+		icon = new ImageIcon(PanelTripInDay.class.getResource("/photo/reset.png"));
+		img = icon.getImage();
+		newImg = img.getScaledInstance(25, 25, Image.SCALE_SMOOTH);
+		newIcon = new ImageIcon(newImg);
+		
+		lblReset = new JLabel("");
+		lblReset.setBounds(552, 0, 25, 28);
+		lblReset.setIcon(newIcon);
+		lblReset.addMouseListener(new TripInDayListener(this));
+		panel_2.add(lblReset);
 		this.setVisible(true);
 	}
 	
