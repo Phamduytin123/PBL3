@@ -246,8 +246,6 @@ public class DAOCustomer implements DAOInterface<Customer,Integer>{
 		
 		ResultSet rs = psm.executeQuery();
 		
-		Customer result = new Customer(0, "", "", "", null, "", "", "", "");
-		
 		if(rs.next())
 		{
 			return false;

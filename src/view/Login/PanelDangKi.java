@@ -227,6 +227,12 @@ public class PanelDangKi extends JPanel {
 			return false;
 		}
 		
+		if(Email.length()<=10)
+		{
+			JOptionPane.showMessageDialog(null, "Đia chỉ email nhập vào không phù hợp với định dạng");
+			return false;
+		}
+		
 		if(!Email.substring(Email.length() - 10).equals("@gmail.com"))
 		{
 			JOptionPane.showMessageDialog(null, "Đia chỉ email nhập vào không phù hợp với định dạng");

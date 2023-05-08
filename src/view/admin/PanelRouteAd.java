@@ -56,7 +56,6 @@ public class PanelRouteAd extends JPanel {
 		this.textFieldRoute = textFieldRoute;
 	}
 
-
 	public JTextField getTextFieldDistance() {
 		return textFieldDistance;
 	}
