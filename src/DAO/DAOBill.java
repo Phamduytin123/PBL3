@@ -70,7 +70,7 @@ public class DAOBill implements DAOInterface<Bill,Integer>{
 		
 		Connection con = JDBCUtil.getConnection();
 		
-		String command = "UPDATE Bill SET BillID = ?, CustomerID =? , PaymentMethod = ?, Status1 = ?, KindOfBook = ?, BookDate = ?, InfoID = ?, TotalPrice = ? WHERE BillID = ?";
+		String command = "UPDATE Bill SET CustomerID =? , PaymentMethod = ?, Status1 = ?, KindOfBook = ?, BookDate = ?, InfoID = ?, TotalPrice = ? WHERE BillID = ?";
 		PreparedStatement psm = con.prepareStatement(command);
 		
 		psm.setInt(8, t.getBillID());

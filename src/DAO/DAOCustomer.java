@@ -248,33 +248,16 @@ public class DAOCustomer implements DAOInterface<Customer,Integer>{
 		
 		Customer result = new Customer(0, "", "", "", null, "", "", "", "");
 		
-		while(rs.next())
+		if(rs.next())
 		{
-			int CustomerID = rs.getInt("CustomerID");
-			String Account = rs.getString("UserName");
-			String UserPassWord = rs.getString("UserPassWord");
-			String Name = rs.getString("RealName");
-			String CitizenID = rs.getString("CitizenID");
-			LocalDate DateOfBirth = rs.getDate("DateOfBirth").toLocalDate();
-			String Tel = rs.getString("PhoneNumber");
-			String Email = rs.getString("Email");
-			String Sex = rs.getString("Sex");
-			
-			result.setValue(CustomerID, Account, UserPassWord, Name, DateOfBirth, Tel, CitizenID, Email, Sex);
+			return false;
 		}
 		
 		rs.close();
 		psm.close();
 		JDBCUtil.closeConnection(Conn);
 		
-		if(result.getName().equals(""))
-		{
-			return true;
-		}
-		else 
-		{
-			return false;
-		}
+		return true;
 	}
 
 	public int getNextID() throws SQLException

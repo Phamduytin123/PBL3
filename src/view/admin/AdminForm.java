@@ -22,9 +22,6 @@ public class AdminForm extends JFrame {
 	private PanelUserAd panelUserAd = new PanelUserAd();
 	private PanelBillAd panelBillAd = new PanelBillAd();
 
-	/**
-	 * Launch the application.
-	 */
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {

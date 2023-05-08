@@ -1,7 +1,8 @@
-/view/
-/controller/
+/Algorithm/
+/BUS/
 /DAO/
 /Models/
 /Tests/
-/BUS/
+/controller/
 /photo/
+/view/
