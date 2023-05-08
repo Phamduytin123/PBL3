@@ -72,7 +72,6 @@ public class PanelRouteAd extends JPanel {
 		this.textFieldDuration = textFieldDuration;
 	}
 
-
 	public JTextField getTextFieldPrice() {
 		return textFieldPrice;
 	}
@@ -139,11 +138,7 @@ public class PanelRouteAd extends JPanel {
 
 	
 
-	/**
-	 * Create the panel.
-	 * @throws SQLException 
-	 * @throws ClassNotFoundException 
-	 */
+	
 	public PanelRouteAd() throws ClassNotFoundException, SQLException {
 		setBorder(new LineBorder(new Color(0, 0, 0)));
 		setBounds(188, 0, 614, 553);
@@ -320,6 +315,7 @@ public class PanelRouteAd extends JPanel {
 		lblSearch.addMouseListener(new RouteListener(this));
 		btnReset.addActionListener(new RouteListener(this));
 	}
+	
 	public JLabel getLblSearch() {
 		return lblSearch;
 	}
