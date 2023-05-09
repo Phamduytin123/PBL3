@@ -219,10 +219,11 @@ public class DAORoute implements DAOInterface<Route,Integer>{
 		
 		Connection con = JDBCUtil.getConnection();
 		Statement st = con.createStatement();
-		String command = "SELECT RW.RouteID,  CS.CityName as 'CityNameStart', CE.CityName as 'CityNameEnd',  RW.Distance, RW.Duration, RW.BusID, RW.BasePrice \r\n"
+		String command = "SELECT RW.RouteID,  CS.CityName as 'CityNameStart', CE.CityName as 'CityNameEnd',  RW.Distance, RW.Duration, B.KindOfBus, RW.BasePrice \r\n"
 				+ "FROM RouteWay AS RW\r\n"
 				+ "JOIN City AS CS ON CS.CityID = RW.CityIDStart\r\n"
-				+ "JOIN City AS CE ON CE.CityID = RW.CityIDEnd" ;
+				+ "JOIN City AS CE ON CE.CityID = RW.CityIDEnd\r\n"
+				+ "JOIN Bus AS B ON B.BusID = RW.BusID" ;
 		
 		ResultSet rs = st.executeQuery(command);
 		while(rs.next())
@@ -232,7 +233,7 @@ public class DAORoute implements DAOInterface<Route,Integer>{
 			String CityNameEnd = rs.getString("CityNameEnd");
 			int Distance = rs.getInt("Distance");
 			Time time = rs.getTime("Duration");
-			String BusID =rs.getString("BusID");
+			String BusID =rs.getString("KindOfBus");
 			int Price = rs.getInt("BasePrice");
 			
 			Object[] temp = new Object[] {routeID, CityNameStart, CityNameEnd, Distance, time, BusID, Price};

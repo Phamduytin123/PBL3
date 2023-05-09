@@ -195,12 +195,12 @@ public class DAOBus implements DAOInterface<Bus,String>{
 		ArrayList<String> list = new ArrayList<>();
 		
 		Statement stmt = Conn.createStatement();
-		String command = "SELECT BusID FROM Bus";
+		String command = "SELECT KindOfBus FROM Bus";
 		ResultSet rs = stmt.executeQuery(command);
 		
 		while(rs.next())
 		{
-			String IDname = rs.getString("BusID");
+			String IDname = rs.getString("KindOfBus");
 			
 			list.add(IDname);
 		}
@@ -208,5 +208,28 @@ public class DAOBus implements DAOInterface<Bus,String>{
 		stmt.close();
 		JDBCUtil.closeConnection(Conn);
 		return list;
+	}
+	
+	public String getBusIDByKindOfBus(String KindOfBus) throws SQLException
+	{
+		Connection Conn = JDBCUtil.getConnection(); 
+		
+		String SqlCommand = "SELECT BusID FROM Bus WHERE KindOfBus = ?";
+		PreparedStatement psm = Conn.prepareStatement(SqlCommand);
+		
+		psm.setString(1, KindOfBus);
+		
+		ResultSet rs = psm.executeQuery();
+		
+		while(rs.next())
+		{
+			String IDname = rs.getString("BusID");
+			
+			return IDname;
+		}
+		rs.close();
+		psm.close();
+		JDBCUtil.closeConnection(Conn);
+		return "";
 	}
 }

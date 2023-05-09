@@ -35,11 +35,6 @@ public class AdminForm extends JFrame {
 		});
 	}
 
-	/**
-	 * Create the frame.
-	 * @throws SQLException 
-	 * @throws ClassNotFoundException 
-	 */
 	public AdminForm() throws ClassNotFoundException, SQLException  {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 806, 590);

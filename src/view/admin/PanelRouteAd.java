@@ -18,6 +18,7 @@ import java.awt.Font;
 import java.awt.Image;
 import java.sql.SQLException;
 import java.sql.Time;
+import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
@@ -339,6 +340,7 @@ public class PanelRouteAd extends JPanel {
 		cbbEndCity.setEditable(false);
 		textFieldPrice.setEditable(false);
 		cbbEndCity.setEnabled(false);
+		cbbBusID.setEnabled(false);
 	}
 	public void SetTextEditable() {
 		cbbBusID.setEnabled(true);
@@ -350,7 +352,6 @@ public class PanelRouteAd extends JPanel {
 		cbbEndCity.setEnabled(true);
 	}
 	public void SetTextInFor(int index) {
-		
 		textFieldRoute.setText(data.get(index)[0]+"");
 		cbbStartCity.setSelectedItem(data.get(index)[1]+"");
 		cbbEndCity.setSelectedItem(data.get(index)[2]+"");
@@ -376,24 +377,58 @@ public class PanelRouteAd extends JPanel {
 		textFieldRoute.setText((Integer.parseInt(data.get(data.size()-1)[0]+"")+1)+"");
 	}
 	public void PressSaveAdd() {
-			
 			int ID = Integer.parseInt(textFieldRoute.getText());
 			String StartCity = cbbStartCity.getSelectedItem().toString();
 			String EndCity = cbbEndCity.getSelectedItem().toString();
-			int Distance = Integer.parseInt(textFieldDistance.getText());
-			int Duration = Integer.parseInt(textFieldDuration.getText());
-			String BusID = cbbBusID.getSelectedItem().toString();
-			int Price = Integer.parseInt(textFieldPrice.getText());
 			
 			if(StartCity.equals(EndCity))
 			{
 				JOptionPane.showMessageDialog(null, "Điểm đi không thể trùng điểm đến");
 				return;
-			} else btnAdd.setText("Thêm");
-			Object[] newRow = {ID,StartCity,EndCity,Distance,Duration,BusID,Price};
-
+			}
 			
-			Time time = new Time(Duration);
+			if(textFieldDuration.getText().equals("") || textFieldDistance.getText().equals("") || textFieldPrice.getText().equals(""))
+			{
+				JOptionPane.showMessageDialog(null, "Vui lòng nhập đầy đủ thông tin khoảng thời gian , giá cả , và khoảng cách");
+				return;
+			}
+			
+			int Distance = 0;
+			try {
+				Distance = Integer.parseInt(textFieldDistance.getText());
+			} catch (Exception e) {
+				JOptionPane.showMessageDialog(null, "Lỗi định dạng khoảng cách ( chỉ có thể nhập chữ số vào ) vui lòng nhập lại");
+				return;
+			}
+			
+			String KindOfBus = cbbBusID.getSelectedItem().toString();
+			String BusID = "";
+			try {
+				BusID = DAOBus.getInstance().getBusIDByKindOfBus(KindOfBus);
+			} catch (SQLException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+			int Price = 0 ;
+			try {
+				Price = Integer.parseInt(textFieldPrice.getText());	
+			} catch (Exception e) {
+				JOptionPane.showMessageDialog(null, "Lỗi định dạng giá tiền ( chỉ có thể nhập chữ số vào ) vui lòng nhập lại");
+				return;
+			}
+			
+			
+			btnAdd.setText("Thêm");
+			
+			Time time = null;
+			
+			try {
+				time = Time.valueOf(LocalTime.parse(textFieldDuration.getText(), DateTimeFormatter.ofPattern("HH:mm:ss")));
+			} catch (Exception e) {
+				JOptionPane.showMessageDialog(null, "Lỗi định dạng giờ trong hệ thống ( HH:mm:ss - VD 12:00:00 ) vui lòng nhập lại");
+				return;
+			}
+			
 			try {
 				DAORoute.getInstance().insert(new Route(ID, BusID, DAOCity.getInstance().getCityIDByName(StartCity),DAOCity.getInstance().getCityIDByName(EndCity), Price, time, Distance));
 				data = DAORoute.getInstance().getListRouteAndCity();  
@@ -405,15 +440,12 @@ public class PanelRouteAd extends JPanel {
 				e.printStackTrace();
 			}
 			
-			dtm.addRow(newRow);
-			table.revalidate();
-			table.repaint();
+			PressReset();
 			
 			btnDelete.setEnabled(true);
 			btnUpdate.setEnabled(true);
 			SetTextUnEditable();
 			btnCancel.setEnabled(false);
-
 	}
 	public void PressCancel() {
 		btnCancel.setEnabled(false);
@@ -447,7 +479,6 @@ public class PanelRouteAd extends JPanel {
 		
 		for (int i = 0; i < data.size(); i++)
 		{
-			
 			Object[] rowData = data.get(i);
 			dtm.addRow(rowData);
 		}
@@ -507,27 +538,62 @@ public class PanelRouteAd extends JPanel {
 			dtm.setValueAt(data.get(selectedRowIndex)[4], selectedRowIndex, 4);
 			dtm.setValueAt(data.get(selectedRowIndex)[5], selectedRowIndex, 5);
 			dtm.setValueAt(data.get(selectedRowIndex)[6], selectedRowIndex, 6);
-
-//			table.revalidate();				//updates table data
-			table.repaint();
+			
+			if(textFieldDuration.getText().equals("") || textFieldDistance.getText().equals("") || textFieldPrice.getText().equals(""))
+			{
+				JOptionPane.showMessageDialog(null, "Vui lòng nhập đầy đủ thông tin khoảng thời gian , giá cả , và khoảng cách");
+				return;
+			}
 			
 			int ID = Integer.parseInt(textFieldRoute.getText());
 			String StartCity = cbbStartCity.getSelectedItem().toString();
 			String EndCity = cbbEndCity.getSelectedItem().toString();
-			int Distance = Integer.parseInt(textFieldDistance.getText());
-			String BusID = cbbBusID.getSelectedItem().toString();
-			int Price = Integer.parseInt(textFieldPrice.getText());
+			
+			if(StartCity.equals(EndCity))
+			{
+				JOptionPane.showMessageDialog(null, "Lỗi điểm đi không thể giống với điểm đến vui lòng chọn lại");
+				return;
+			}
+			
+			int Distance = 0;
+			try {
+				Distance = Integer.parseInt(textFieldDistance.getText());	
+			} catch (Exception e) {
+				JOptionPane.showMessageDialog(null, "Lỗi nhập khoảng cách ( chỉ bao gồm các chữ số ) vui lòng nhập lại");
+				return;
+			}
+			String KindOfBus = cbbBusID.getSelectedItem().toString();
+			String BusID = "";
+			try {
+				BusID = DAOBus.getInstance().getBusIDByKindOfBus(KindOfBus);
+			} catch (SQLException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+			int Price = 0;
+			try {	
+				Price = Integer.parseInt(textFieldPrice.getText());
+			} catch (Exception e) {
+				JOptionPane.showMessageDialog(null, "Lỗi nhập giá tiền ( chỉ bao gồm các chữ số ) vui lòng nhập lại");
+				return;
+			}
 			String t = textFieldDuration.getText();
-			int h = Integer.parseInt((char)t.charAt(0)+ "" + (char)t.charAt(1)+"");
-			int m = Integer.parseInt((char)t.charAt(3)+ "" + (char)t.charAt(4)+"");
-			int s = Integer.parseInt((char)t.charAt(6)+ "" + (char)t.charAt(7)+"");
-			Time time = new Time(h,m,s);
+			Time time = null;
+			try {
+				time = Time.valueOf(LocalTime.parse(t, DateTimeFormatter.ofPattern("HH:mm:ss"))) ;
+			} catch (Exception e) {
+				JOptionPane.showMessageDialog(null, "Lỗi nhập sai định giờ trong hệ thống ( HH:mm:ss - VD 12:00:00 ) vui lòng nhập lại");
+				return;
+			}
 			try {
 				DAORoute.getInstance().update(new Route(ID, BusID, DAOCity.getInstance().getCityIDByName(StartCity),DAOCity.getInstance().getCityIDByName(EndCity), Price, time, Distance));
 			} catch (ClassNotFoundException | SQLException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
+			
+			PressReset();
+			
 			btnUpdate.setText("Sửa");
 			btnDelete.setEnabled(true);
 			btnAdd.setEnabled(true);
@@ -579,9 +645,15 @@ public class PanelRouteAd extends JPanel {
 			dtm.removeRow(0);
 		}
 		
+		try {
+			data = DAORoute.getInstance().getListRouteAndCity();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
 		for (int i = 0; i < data.size(); i++)
 		{
-			
 			Object[] rowData = data.get(i);
 			dtm.addRow(rowData);
 		}
