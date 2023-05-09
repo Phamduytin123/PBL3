@@ -25,6 +25,8 @@ public class FormAdminListener implements ActionListener {
 			adminForm.PnUserADSelected();
 		} else if (tmp == adminForm.getBtnBill()) {
 			adminForm.PnBillAdSelected();
+		} else if (tmp == adminForm.getBtnSignOut()) {
+			adminForm.SignOut();
 		}
 	}
 

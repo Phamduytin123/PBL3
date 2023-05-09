@@ -1,9 +1,11 @@
 package controller.admin;
 
+import java.awt.HeadlessException;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.sql.SQLException;
 
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
@@ -39,7 +41,12 @@ public class UserListener implements ActionListener, ListSelectionListener, Mous
 		} else
 		if (tmp == panelUserAd.getBtnAdd()) {
 			if (t.equals("Lưu")) {
-				panelUserAd.PressSaveAdd();
+				try {
+					panelUserAd.PressSaveAdd();
+				} catch (HeadlessException | SQLException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
 			}
 		} else
 		if (tmp == panelUserAd.getBtnCancel()) {
