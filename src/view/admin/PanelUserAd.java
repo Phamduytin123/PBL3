@@ -37,7 +37,7 @@ public class PanelUserAd extends JPanel {
 	private JTextField textUserName;
 	public DefaultTableModel dtm;
 	private JTable table;
-	
+
 	private JComboBox<String> cbGender;
 	private ArrayList<Customer> data = DAOCustomer.getInstance().selectAll();
 	private JPanel panel;
@@ -50,7 +50,6 @@ public class PanelUserAd extends JPanel {
 	private JTextField textEmail;
 	private JTextField TextPhone;
 
-	
 	public JButton getBtnAdd() {
 		return btnAdd;
 	}
@@ -131,8 +130,6 @@ public class PanelUserAd extends JPanel {
 		this.data = data;
 	}
 
-
-	
 	/**
 	 * Create the panel.
 	 */
@@ -140,211 +137,208 @@ public class PanelUserAd extends JPanel {
 		setBorder(new LineBorder(new Color(0, 0, 0)));
 		setBounds(188, 0, 614, 553);
 		setLayout(null);
-		
+
 		JLabel lblUser = new JLabel("Thông tin tài khoản");
 		lblUser.setForeground(new Color(0, 0, 255));
 		lblUser.setFont(new Font("Tahoma", Font.BOLD, 25));
 		lblUser.setBounds(177, 11, 259, 34);
 		add(lblUser);
-		
+
 		JLabel lblUserID = new JLabel("Mã tài khoản");
 		lblUserID.setFont(new Font("Times New Roman", Font.PLAIN, 15));
 		lblUserID.setBounds(20, 44, 84, 34);
 		add(lblUserID);
-		
+
 		JLabel lblPassword = new JLabel("Mật khẩu");
 		lblPassword.setFont(new Font("Times New Roman", Font.PLAIN, 15));
 		lblPassword.setBounds(332, 44, 84, 34);
 		add(lblPassword);
-		
+
 		JLabel lblUserName = new JLabel("Tài khoản");
 		lblUserName.setFont(new Font("Times New Roman", Font.PLAIN, 15));
 		lblUserName.setBounds(20, 85, 84, 34);
 		add(lblUserName);
-		
+
 		btnAdd = new JButton("Thêm");
 		btnAdd.setBackground(new Color(255, 128, 0));
 		btnAdd.setFont(new Font("Tahoma", Font.PLAIN, 15));
 		btnAdd.setBounds(322, 211, 78, 28);
 		add(btnAdd);
-		
-		 btnUpdate = new JButton("Sửa");
+
+		btnUpdate = new JButton("Sửa");
 		btnUpdate.setBackground(new Color(255, 0, 0));
 		btnUpdate.setFont(new Font("Tahoma", Font.PLAIN, 15));
 		btnUpdate.setBounds(425, 211, 78, 28);
 		add(btnUpdate);
-		
-		 btnDelete = new JButton("Xóa");
+
+		btnDelete = new JButton("Xóa");
 		btnDelete.setBackground(new Color(0, 128, 255));
 		btnDelete.setFont(new Font("Tahoma", Font.PLAIN, 15));
 		btnDelete.setBounds(526, 211, 78, 28);
 		add(btnDelete);
-		
-		 btnCancel = new JButton("Hủy");
+
+		btnCancel = new JButton("Hủy");
 		btnCancel.setEnabled(false);
 		btnCancel.setFont(new Font("Tahoma", Font.PLAIN, 15));
 		btnCancel.setBackground(new Color(192, 192, 192));
 		btnCancel.setBounds(214, 211, 78, 28);
 		add(btnCancel);
-		
+
 		textUserID = new JTextField();
 		textUserID.setEditable(false);
 		textUserID.setColumns(10);
 		textUserID.setBounds(128, 47, 131, 28);
 		add(textUserID);
-		
+
 		textPassword = new JTextField();
 		textPassword.setEditable(false);
 		textPassword.setColumns(10);
 		textPassword.setBounds(427, 48, 131, 28);
 		add(textPassword);
-		
+
 		textUserName = new JTextField();
 		textUserName.setEditable(false);
 		textUserName.setColumns(10);
 		textUserName.setBounds(128, 88, 131, 28);
 		add(textUserName);
-		
+
 		table = new JTable();
-		
-		String[] columnNames = {"ID","Tài khoản","Mật khẩu","Tên","Ngày sinh","SDT","CCCD","Email","Gender"};
-		
+
+		String[] columnNames = { "ID", "Tài khoản", "Mật khẩu", "Tên", "Ngày sinh", "SDT", "CCCD", "Email", "Giới tính" };
+
 		dtm = new DefaultTableModel(columnNames, 0);
-		
-		for (int i = 0; i < data.size(); i++)
-		{
-			
+
+		for (int i = 0; i < data.size(); i++) {
+
 			int ID = data.get(i).getCustomerID();
 			String username = data.get(i).getAccount();
-			String password =  data.get(i).getPassword();
-			String name  = data.get(i).getName();
+			String password = data.get(i).getPassword();
+			String name = data.get(i).getName();
 			String DOB = data.get(i).getDateOfBirth().toString();
 			String Tel = data.get(i).getTel();
 			String CCCD = data.get(i).getCitizenID();
 			String email = data.get(i).getEmail();
 			String gender = data.get(i).getSex();
-			Object[] rowData = {ID,username,password,name,DOB,Tel,CCCD,email,gender};
+			Object[] rowData = { ID, username, password, name, DOB, Tel, CCCD, email, gender };
 			dtm.addRow(rowData);
 		}
-		
+
 		table.setModel(dtm);
-		
-		
+
 		JScrollPane scrollPane = new JScrollPane(table);
 		scrollPane.setBounds(10, 296, 594, 232);
 		add(scrollPane);
-		
-		
-		
+
 		panel = new JPanel();
 		panel.setLayout(null);
 		panel.setBounds(10, 250, 594, 35);
 		add(panel);
-		
+
 		lblNii = new JLabel("Tài khoản");
 		lblNii.setFont(new Font("Times New Roman", Font.PLAIN, 15));
 		lblNii.setBounds(98, 3, 68, 28);
 		panel.add(lblNii);
-		
+
 		textFieldUserNameFind = new JTextField();
 		textFieldUserNameFind.setColumns(10);
 		textFieldUserNameFind.setBounds(234, 3, 109, 28);
 		panel.add(textFieldUserNameFind);
-		
+
 		ImageIcon icon = new ImageIcon(PanelTripInDay.class.getResource("/photo/SearchButton.png"));
 		Image img = icon.getImage();
 		Image newImg = img.getScaledInstance(25, 25, Image.SCALE_SMOOTH);
 		ImageIcon newIcon = new ImageIcon(newImg);
-		
+
 		lblSearch = new JLabel("");
 		lblSearch.setBounds(379, 3, 25, 28);
 		lblSearch.setIcon(newIcon);
 		panel.add(lblSearch);
-		
+
 		btnReset = new JButton("Reset");
 		btnReset.setFont(new Font("Tahoma", Font.PLAIN, 15));
 		btnReset.setBackground(Color.LIGHT_GRAY);
 		btnReset.setBounds(467, 2, 78, 28);
 		panel.add(btnReset);
-		
+
 		btnReset.addActionListener(new UserListener(this));
 		lblSearch.addMouseListener(new UserListener(this));
-		
+
 		JLabel lblUserName_1 = new JLabel("Tên");
 		lblUserName_1.setFont(new Font("Times New Roman", Font.PLAIN, 15));
 		lblUserName_1.setBounds(20, 124, 84, 34);
 		add(lblUserName_1);
-		
+
 		JLabel lblUserName_2 = new JLabel("Ngày sinh");
 		lblUserName_2.setFont(new Font("Times New Roman", Font.PLAIN, 15));
 		lblUserName_2.setBounds(20, 163, 84, 34);
 		add(lblUserName_2);
-		
+
 		textName = new JTextField();
 		textName.setEditable(false);
 		textName.setColumns(10);
 		textName.setBounds(128, 127, 131, 28);
 		add(textName);
-		
+
 		textDate = new JTextField();
 		textDate.setEditable(false);
 		textDate.setColumns(10);
 		textDate.setBounds(128, 166, 131, 28);
 		add(textDate);
-		
+
 		textCCCD = new JTextField();
 		textCCCD.setEditable(false);
 		textCCCD.setColumns(10);
 		textCCCD.setBounds(427, 127, 131, 28);
 		add(textCCCD);
-		
+
 		textEmail = new JTextField();
 		textEmail.setEditable(false);
 		textEmail.setColumns(10);
 		textEmail.setBounds(427, 166, 131, 28);
 		add(textEmail);
-		
+
 		TextPhone = new JTextField();
 		TextPhone.setEditable(false);
 		TextPhone.setColumns(10);
 		TextPhone.setBounds(427, 88, 131, 28);
 		add(TextPhone);
-		
+
 		JLabel lblSinThoi = new JLabel("Số điện thoại");
 		lblSinThoi.setFont(new Font("Times New Roman", Font.PLAIN, 15));
 		lblSinThoi.setBounds(332, 85, 93, 34);
 		add(lblSinThoi);
-		
+
 		JLabel lblCccd = new JLabel("CCCD");
 		lblCccd.setFont(new Font("Times New Roman", Font.PLAIN, 15));
 		lblCccd.setBounds(332, 126, 84, 34);
 		add(lblCccd);
-		
+
 		JLabel lblUserName_4 = new JLabel("Email");
 		lblUserName_4.setFont(new Font("Times New Roman", Font.PLAIN, 15));
 		lblUserName_4.setBounds(332, 165, 84, 34);
 		add(lblUserName_4);
-		
+
 		JLabel lblUserName_5 = new JLabel("Giới tính");
 		lblUserName_5.setFont(new Font("Times New Roman", Font.PLAIN, 15));
 		lblUserName_5.setBounds(20, 208, 70, 34);
 		add(lblUserName_5);
-		
+
 		cbGender = new JComboBox<String>();
 		cbGender.addItem("Nam");
 		cbGender.addItem("Nữ");
 		cbGender.setFont(new Font("Times New Roman", Font.PLAIN, 15));
 		cbGender.setBounds(89, 212, 64, 28);
 		add(cbGender);
-		
+
 		SetTextUnEditable();
-		table.getSelectionModel().addListSelectionListener( new UserListener(this));
-		
+		table.getSelectionModel().addListSelectionListener(new UserListener(this));
+
 		btnAdd.addActionListener(new UserListener(this));
 		btnCancel.addActionListener(new UserListener(this));
 		btnDelete.addActionListener(new UserListener(this));
 		btnUpdate.addActionListener(new UserListener(this));
 	}
+
 	public JComboBox<String> getCbGender() {
 		return cbGender;
 	}
@@ -411,6 +405,7 @@ public class PanelUserAd extends JPanel {
 		textEmail.setEditable(true);
 		cbGender.setEnabled(true);
 	}
+
 	public void SetTextUnEditable() {
 		textPassword.setEditable(false);
 		textUserName.setEditable(false);
@@ -422,6 +417,7 @@ public class PanelUserAd extends JPanel {
 		textEmail.setEditable(false);
 		cbGender.setEnabled(false);
 	}
+
 	public void SetTextNull() {
 		textUserID.setText("");
 		textPassword.setText("");
@@ -432,17 +428,19 @@ public class PanelUserAd extends JPanel {
 		textCCCD.setText("");
 		textEmail.setText("");
 	}
+
 	public void SetTextInfor(int index) {
-		textUserID.setText(data.get(index).getCustomerID()+"");
-		textPassword.setText(data.get(index).getPassword()+"");
-		textUserName.setText(data.get(index).getAccount()+"");
-		textName.setText(data.get(index).getName()+"");
-		textDate.setText(data.get(index).getDateOfBirth()+"");
-		TextPhone.setText(data.get(index).getTel()+"");
-		textCCCD.setText(data.get(index).getTel()+"");
-		textEmail.setText(data.get(index).getEmail()+"");
+		textUserID.setText(data.get(index).getCustomerID() + "");
+		textPassword.setText(data.get(index).getPassword() + "");
+		textUserName.setText(data.get(index).getAccount() + "");
+		textName.setText(data.get(index).getName() + "");
+		textDate.setText(data.get(index).getDateOfBirth() + "");
+		TextPhone.setText(data.get(index).getTel() + "");
+		textCCCD.setText(data.get(index).getTel() + "");
+		textEmail.setText(data.get(index).getEmail() + "");
 		cbGender.setSelectedItem(data.get(index).getSex());
 	}
+
 	public void PressAdd() {
 		SetTextNull();
 		SetTextEditable();
@@ -450,8 +448,9 @@ public class PanelUserAd extends JPanel {
 		btnDelete.setEnabled(false);
 		btnUpdate.setEnabled(false);
 		btnAdd.setText("Lưu");
-		textUserID.setText((data.get(data.size()-1).getCustomerID()+1)+"");
+		textUserID.setText((data.get(data.size() - 1).getCustomerID() + 1) + "");
 	}
+
 	public void PressSaveAdd() throws HeadlessException, SQLException {
 		int ID = Integer.parseInt(textUserID.getText());
 		String UserName = textUserName.getText();
@@ -463,30 +462,32 @@ public class PanelUserAd extends JPanel {
 		String CitizenID = textCCCD.getText();
 		String gender = cbGender.getSelectedItem().toString();
 		LocalDate date = LocalDate.parse(DOB, DateTimeFormatter.ofPattern("dd/MM/yyyy"));
-		
+
 		if (UserName != null && Password != null && CheckInfor() == true) {
 			try {
-				DAOCustomer.getInstance().insert(new Customer(ID,UserName,Password, Name, date, Tel, CitizenID, Email, gender));
+				DAOCustomer.getInstance()
+						.insert(new Customer(ID, UserName, Password, Name, date, Tel, CitizenID, Email, gender));
 			} catch (ClassNotFoundException | SQLException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 			btnAdd.setText("Thêm");
-			data.add(new Customer(ID,UserName,Password, Name, date, Tel, CitizenID, Email, gender));
-			
-			Object[] newRow = {ID,UserName,Password, Name, date, Tel, CitizenID, Email, gender};
+			data.add(new Customer(ID, UserName, Password, Name, date, Tel, CitizenID, Email, gender));
+
+			Object[] newRow = { ID, UserName, Password, Name, date, Tel, CitizenID, Email, gender };
 			dtm.addRow(newRow);
 			table.revalidate();
 			table.repaint();
-			
+
 			btnDelete.setEnabled(true);
 			btnUpdate.setEnabled(true);
 			SetTextUnEditable();
 			btnCancel.setEnabled(false);
-			
+
 		}
-		
+
 	}
+
 	public void PressCancel() {
 		btnCancel.setEnabled(false);
 		btnDelete.setEnabled(true);
@@ -497,22 +498,28 @@ public class PanelUserAd extends JPanel {
 		btnUpdate.setText("Sửa");
 		SetTextUnEditable();
 	}
+
 	public void PressDelete() {
 		if (table.getSelectedRow() != -1) {
 			try {
-				DAOCustomer.getInstance().delete(Integer.parseInt(textUserID.getText()));
+				int option = JOptionPane.showConfirmDialog(null, "Bạn có chắc chắn muốn xóa tài khoản này không?",
+						"CẢNH BÁO", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
+				if (option == 0) {
+					DAOCustomer.getInstance().delete(Integer.parseInt(textUserID.getText()));
+					SetTextNull();
+					dtm.removeRow(table.getSelectedRow());
+					dtm.fireTableDataChanged();
+					table.revalidate();
+					table.repaint();
+				}
 			} catch (NumberFormatException | ClassNotFoundException | SQLException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			SetTextNull();
-			dtm.removeRow(table.getSelectedRow());
-			dtm.fireTableDataChanged();
-			table.revalidate();
-			table.repaint();
-			data.remove(table.getSelectedRow());
+			
 		}
 	}
+
 	public void PressUpdate() {
 		if (table.getSelectedRow() != -1) {
 			SetTextEditable();
@@ -522,6 +529,7 @@ public class PanelUserAd extends JPanel {
 			btnUpdate.setText("Lưu");
 		}
 	}
+
 	public void PressSaveUpdate() {
 		int selectedRow = table.getSelectedRow();
 		if (selectedRow != -1) {
@@ -534,14 +542,15 @@ public class PanelUserAd extends JPanel {
 			String Tel = TextPhone.getText();
 			String CitizenID = textCCCD.getText();
 			String gender = cbGender.getSelectedItem().toString();
-			LocalDate date = LocalDate.parse(DOB, DateTimeFormatter.ofPattern("dd/MM/yyyy"));
+			LocalDate date = LocalDate.parse(DOB, DateTimeFormatter.ofPattern("yyyy-MM-dd"));
 			try {
-				DAOCustomer.getInstance().update(new Customer(ID,UserName,Password, Name, date, Tel, CitizenID, Email, gender));
+				DAOCustomer.getInstance()
+						.update(new Customer(ID, UserName, Password, Name, date, Tel, CitizenID, Email, gender));
 			} catch (ClassNotFoundException | SQLException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			
+
 			data.get(selectedRow).setCustomerID(ID);
 			data.get(selectedRow).setAccount(UserName);
 			data.get(selectedRow).setPassword(Password);
@@ -556,7 +565,7 @@ public class PanelUserAd extends JPanel {
 			dtm.fireTableDataChanged();
 			table.revalidate();
 			table.repaint();
-			
+
 			btnUpdate.setText("Sửa");
 			btnDelete.setEnabled(true);
 			btnAdd.setEnabled(true);
@@ -564,48 +573,47 @@ public class PanelUserAd extends JPanel {
 			btnCancel.setEnabled(false);
 		}
 	}
+
 	public void PressSearch() {
 		String Username = textFieldUserNameFind.getText();
-		if(!Username.isEmpty()) {
+		if (!Username.isEmpty()) {
 			int n = dtm.getRowCount();
-			for(int i = 0; i<n;i++)
-			{
+			for (int i = 0; i < n; i++) {
 				dtm.removeRow(0);
 			}
-			for(int i =0; i< data.size();i++) {
+			for (int i = 0; i < data.size(); i++) {
 				if (Username.equals(data.get(i).getAccount())) {
 					int ID = data.get(i).getCustomerID();
 					String username = data.get(i).getAccount();
-					String password =  data.get(i).getPassword();
-					String name  = data.get(i).getName();
+					String password = data.get(i).getPassword();
+					String name = data.get(i).getName();
 					String DOB = data.get(i).getDateOfBirth().toString();
 					String Tel = data.get(i).getTel();
 					String CCCD = data.get(i).getCitizenID();
 					String email = data.get(i).getEmail();
 					String gender = data.get(i).getSex();
-					Object[] rowData = {ID,username,password,name,DOB,Tel,CCCD,email,gender};
+					Object[] rowData = { ID, username, password, name, DOB, Tel, CCCD, email, gender };
 					dtm.addRow(rowData);
 				}
 			}
-			if(dtm.getRowCount() == 0) {
+			if (dtm.getRowCount() == 0) {
 				JOptionPane.showMessageDialog(null, "Không thể tìm thấy tài khoản phù hợp");
-				for (int i = 0; i < data.size(); i++)
-				{
+				for (int i = 0; i < data.size(); i++) {
 					int ID = data.get(i).getCustomerID();
 					String username = data.get(i).getAccount();
-					String password =  data.get(i).getPassword();
-					String name  = data.get(i).getName();
+					String password = data.get(i).getPassword();
+					String name = data.get(i).getName();
 					String DOB = data.get(i).getDateOfBirth().toString();
 					String Tel = data.get(i).getTel();
 					String CCCD = data.get(i).getCitizenID();
 					String email = data.get(i).getEmail();
 					String gender = data.get(i).getSex();
-					Object[] rowData = {ID,username,password,name,DOB,Tel,CCCD,email,gender};
+					Object[] rowData = { ID, username, password, name, DOB, Tel, CCCD, email, gender };
 					dtm.addRow(rowData);
 				}
 				return;
 			} else {
-				
+
 			}
 			table.setModel(dtm);
 			table.revalidate();
@@ -615,31 +623,30 @@ public class PanelUserAd extends JPanel {
 			return;
 		}
 	}
+
 	public void PressReset() {
 		int n = dtm.getRowCount();
-		for(int i = 0; i<n;i++)
-		{
+		for (int i = 0; i < n; i++) {
 			dtm.removeRow(0);
 		}
-		for (int i = 0; i < data.size(); i++)
-		{
+		for (int i = 0; i < data.size(); i++) {
 			int ID = data.get(i).getCustomerID();
 			String username = data.get(i).getAccount();
-			String password =  data.get(i).getPassword();
-			String name  = data.get(i).getName();
+			String password = data.get(i).getPassword();
+			String name = data.get(i).getName();
 			String DOB = data.get(i).getDateOfBirth().toString();
 			String Tel = data.get(i).getTel();
 			String CCCD = data.get(i).getCitizenID();
 			String email = data.get(i).getEmail();
 			String gender = data.get(i).getSex();
-			Object[] rowData = {ID,username,password,name,DOB,Tel,CCCD,email,gender};
+			Object[] rowData = { ID, username, password, name, DOB, Tel, CCCD, email, gender };
 			dtm.addRow(rowData);
 		}
 		table.setModel(dtm);
 		table.revalidate();
 		table.repaint();
 	}
-	
+
 	public Boolean CheckInfor() throws HeadlessException, SQLException {
 		String UserName = textUserName.getText();
 		String Password = textPassword.getText();
@@ -648,52 +655,48 @@ public class PanelUserAd extends JPanel {
 		String Email = textEmail.getText();
 		String Tel = TextPhone.getText();
 		String CitizenID = textCCCD.getText();
-		
-		if(Name.equals("") || DOB.equals("") || Email.equals("") || Tel.equals("") || 
-				UserName.equals("") || Password.equals("") || CitizenID.equals(""))
-		{
+
+		if (Name.equals("") || DOB.equals("") || Email.equals("") || Tel.equals("") || UserName.equals("")
+				|| Password.equals("") || CitizenID.equals("")) {
 			JOptionPane.showMessageDialog(null, "Vui lòng nhập đầy đủ thông tin tài khoản");
 			return false;
 		}
-		if(Tel.length() != 10)
-		{
+		if (Tel.length() != 10) {
 			JOptionPane.showMessageDialog(null, "Số điện thoại nhập vào không phù hợp");
 			return false;
 		}
 		try {
 			LocalDate.parse(DOB, DateTimeFormatter.ofPattern("dd/MM/yyyy"));
 		} catch (Exception e) {
-			JOptionPane.showMessageDialog(null, "Bạn đã nhập sai định dạng của ngày tháng năm theo hệ thống (dd/MM/yyyy) vui lòng nhập lại\t       VD 05/05/2023");
+			JOptionPane.showMessageDialog(null,
+					"Bạn đã nhập sai định dạng của ngày tháng năm theo hệ thống (dd/MM/yyyy) vui lòng nhập lại\t       VD 05/05/2023");
 			return false;
 		}
-		
+
 		try {
 			Integer.parseInt(Tel);
 		} catch (Exception e) {
 			JOptionPane.showMessageDialog(null, "Bạn đã nhập sai định số điện thoại chỉ bao gồm số ");
 			return false;
 		}
-		
+
 		try {
 			Integer.parseInt(CitizenID);
 		} catch (Exception e) {
 			JOptionPane.showMessageDialog(null, "Bạn đã nhập sai định CCCD chỉ bao gồm số ");
 			return false;
 		}
-		
-		if(Email.length()<=10)
-		{
+
+		if (Email.length() <= 10) {
 			JOptionPane.showMessageDialog(null, "Đia chỉ email nhập vào không phù hợp với định dạng");
 			return false;
 		}
-		
-		if(!Email.substring(Email.length() - 10).equals("@gmail.com"))
-		{
+
+		if (!Email.substring(Email.length() - 10).equals("@gmail.com")) {
 			JOptionPane.showMessageDialog(null, "Đia chỉ email nhập vào không phù hợp với định dạng");
 			return false;
 		}
-		if(DAOCustomer.getInstance().checkRegister(UserName) == false)
-		{
+		if (DAOCustomer.getInstance().checkRegister(UserName) == false) {
 			JOptionPane.showMessageDialog(null, "Tên tài khoản này đã tồn tại vui lòng chọn tài khoản khác");
 			return false;
 		}
