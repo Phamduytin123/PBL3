@@ -16,7 +16,14 @@ import java.sql.SQLException;
 public class AdminForm extends JFrame {
 
 	private JPanel contentPane;
-	private JButton btnRoute, btnTripInDay, btnBill, btnUser;
+	private JButton btnRoute, btnTripInDay, btnBill, btnUser,btnSignOut;
+	public JButton getBtnSignOut() {
+		return btnSignOut;
+	}
+
+	public void setBtnSignOut(JButton btnSignOut) {
+		this.btnSignOut = btnSignOut;
+	}
 	private PanelRouteAd panelRouteAd = new PanelRouteAd();
 	private PanelTripInDay panelTripInDay = new PanelTripInDay();
 	private PanelUserAd panelUserAd = new PanelUserAd();
@@ -53,26 +60,32 @@ public class AdminForm extends JFrame {
 		btnRoute = new JButton("Lịch trình");
 		btnRoute.setBackground(new Color(0, 128, 192));
 		btnRoute.setFont(new Font("Times New Roman", Font.PLAIN, 18));
-		btnRoute.setBounds(0, 209, 190, 46);
+		btnRoute.setBounds(0, 173, 190, 46);
 		pnMenu.add(btnRoute);
 
 		btnTripInDay = new JButton("Chuyến đi");
 		btnTripInDay.setBackground(new Color(0, 128, 192));
 		btnTripInDay.setFont(new Font("Times New Roman", Font.PLAIN, 18));
-		btnTripInDay.setBounds(0, 293, 190, 46);
+		btnTripInDay.setBounds(0, 249, 190, 46);
 		pnMenu.add(btnTripInDay);
 
 		btnBill = new JButton("Hóa đơn");
 		btnBill.setBackground(new Color(0, 128, 192));
 		btnBill.setFont(new Font("Times New Roman", Font.PLAIN, 18));
-		btnBill.setBounds(0, 361, 190, 46);
+		btnBill.setBounds(0, 323, 190, 46);
 		pnMenu.add(btnBill);
 
 		btnUser = new JButton("Tài khoản");
 		btnUser.setBackground(new Color(0, 128, 192));
 		btnUser.setFont(new Font("Times New Roman", Font.PLAIN, 18));
-		btnUser.setBounds(0, 431, 190, 46);
+		btnUser.setBounds(0, 397, 190, 46);
 		pnMenu.add(btnUser);
+		
+		 btnSignOut = new JButton("Đăng xuất");
+		btnSignOut.setFont(new Font("Times New Roman", Font.PLAIN, 18));
+		btnSignOut.setBackground(new Color(0, 128, 192));
+		btnSignOut.setBounds(0, 468, 190, 46);
+		pnMenu.add(btnSignOut);
 
 //		body = new PanelRouteAd();
 //		body.setBounds(188, 0, 614, 553);
@@ -96,7 +109,7 @@ public class AdminForm extends JFrame {
 		btnTripInDay.addActionListener( new FormAdminListener(this));
 		btnUser.addActionListener( new FormAdminListener(this));
 		btnBill.addActionListener( new FormAdminListener(this));
-	
+		btnSignOut.addActionListener( new FormAdminListener(this));
 		this.setVisible(true);
 	}
 
@@ -187,5 +200,8 @@ public class AdminForm extends JFrame {
 		panelTripInDay.setVisible(false);
 		panelUserAd.setVisible(false);
 		panelBillAd.setVisible(true);
+	}
+	public void SignOut() {
+		this.dispose();
 	}
 }
