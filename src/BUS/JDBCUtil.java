@@ -25,7 +25,7 @@ public class JDBCUtil {
 		try {
 			Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
 			connection = DriverManager.getConnection(connectionURL,user,password);
-			} catch (ClassNotFoundException e) {
+		} catch (ClassNotFoundException e) {
 			System.err.println(e.getMessage()+ "\n" + e.getClass() + "\n" + e.getCause());
 		}
 		return connection;
