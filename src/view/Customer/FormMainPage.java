@@ -139,8 +139,8 @@ public class FormMainPage extends JFrame {
 		((BookingTicket1)bookingTicket1Panel).btnViewTicket.addActionListener(m);
 		((BookingTicket2)bookingTicket2Panel).lblBack.addMouseListener(new FormMainListener(this));
 		
-		this.body.add(userPanel);
-		this.body.add( new PanelUserTop());
+		this.body.add(new PanelWelcome());
+		this.body.add(new PanelUserTop());
 		setVisible(true);
 	}
 	

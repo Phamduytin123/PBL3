@@ -15,7 +15,7 @@ public class PanelWelcome extends JPanel {
 	
 	public void GUI()
 	{
-		this.setBackground(new Color(255, 255, 255));
+		this.setBackground(new Color(255, 255, 204));
 		this.setBounds(0, 127, 529, 371);
 		setLayout(null);
 		
@@ -26,7 +26,8 @@ public class PanelWelcome extends JPanel {
 		add(lblNewLabel);
 		
 		JLabel lblChcQuKhch = new JLabel(" Chúc quý khách có những trải nghiệm");
-		lblChcQuKhch.setForeground(Color.CYAN);
+		lblChcQuKhch.setBackground(Color.CYAN);
+		lblChcQuKhch.setForeground(Color.ORANGE);
 		lblChcQuKhch.setFont(new Font("Times New Roman", Font.BOLD, 25));
 		lblChcQuKhch.setBounds(57, 167, 423, 43);
 		add(lblChcQuKhch);
