@@ -215,7 +215,7 @@ public class DAOTicket implements DAOInterface<Ticket,Integer>{
 				+ "JOIN TripInDay AS TID ON TID.TripID = T.TripID\r\n"
 				+ "JOIN Bill AS B ON B.billID = T.BillID\r\n"
 				+ "WHERE TID.TripID = " + TripID1 + "\r\n"
-				+ "AND B.Status1 <> N'Đã huỷ đơn'" ;
+				+ "AND B.Status1 <> N'Đã từ chối'" ;
 		
 		ResultSet rs = st.executeQuery(command);
 		while(rs.next())
