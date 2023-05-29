@@ -467,7 +467,8 @@ public class PanelTripInDay extends JPanel {
 
 	public void cbRouteID_Select()
 	{
-		int RouteID = Integer.parseInt((String)cbRouteID.getSelectedItem());
+		if(cbRouteID.getSelectedIndex()<0) return;
+		int RouteID = Integer.parseInt(cbRouteID.getSelectedItem() + "");
 		List<String> listCity = new ArrayList<>();
 		try {
 			listCity = DAORoute.getInstance().getNameCityStartAndEnd(RouteID);

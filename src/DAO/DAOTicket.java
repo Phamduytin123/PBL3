@@ -244,12 +244,9 @@ public class DAOTicket implements DAOInterface<Ticket,Integer>{
 		
 		String command = "SELECT SUM(CONVERT (INT,T.Price)) AS N'TotalRevenue',\r\n"
 				+ "	(\r\n"
-				+ "	SUM(CONVERT (INT,T.Price))/ \r\n"
-				+ "		(\r\n"
-				+ "			SELECT SUM(CONVERT(INT,T2.Price)) \r\n"
-				+ "			FROM Ticket AS T2\r\n"
-				+ "		)\r\n"
-				+ "	) AS N'Percent',\r\n"
+				+ "		SELECT SUM(CONVERT(INT,T2.Price)) \r\n"
+				+ "		FROM Ticket AS T2\r\n"
+				+ "	) AS N'Total',\r\n"
 				+ "	(\r\n"
 				+ "		SELECT COUNT(*)\r\n"
 				+ "		FROM(\r\n"
@@ -311,7 +308,7 @@ public class DAOTicket implements DAOInterface<Ticket,Integer>{
 		rs.close();
 		psm.close();
 		JDBCUtil.closeConnection(Conn);
-		return new Object[] {Income, Percent, NumBill, NumTicket, NumFirst, NumMiddle, NumNormal};
+		return new Object[] {Income, Double.parseDouble(String.format("%.2f",  ((double)Income)/((double)Percent) * 100)), NumBill, NumTicket, NumFirst, NumMiddle, NumNormal};
 	}
 
 	public ArrayList<Object[]> DataByTop(int Month, int Top) throws SQLException
@@ -421,12 +418,9 @@ public class DAOTicket implements DAOInterface<Ticket,Integer>{
 		
 		String command = "SELECT SUM(CONVERT (INT,T.Price)) AS N'TotalRevenue',\r\n"
 				+ "	(\r\n"
-				+ "	SUM(CONVERT (INT,T.Price))/ \r\n"
-				+ "		(\r\n"
-				+ "			SELECT SUM(CONVERT(INT,T2.Price)) \r\n"
-				+ "			FROM Ticket AS T2\r\n"
-				+ "		)\r\n"
-				+ "	) AS N'Percent',\r\n"
+				+ "		SELECT SUM(CONVERT(INT,T2.Price)) \r\n"
+				+ "		FROM Ticket AS T2\r\n"
+				+ "	) AS N'Total',\r\n"
 				+ "	(\r\n"
 				+ "		SELECT COUNT(*)\r\n"
 				+ "		FROM(\r\n"
@@ -488,6 +482,6 @@ public class DAOTicket implements DAOInterface<Ticket,Integer>{
 		rs.close();
 		psm.close();
 		JDBCUtil.closeConnection(Conn);
-		return new Object[] {Income, Percent, NumBill, NumTicket, NumFirst, NumMiddle, NumNormal};
+		return new Object[] {Income,Double.parseDouble(String.format("%.2f",  ((double)Income)/((double)Percent) * 100)), NumBill, NumTicket, NumFirst, NumMiddle, NumNormal};
 	}
 }

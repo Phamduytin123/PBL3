@@ -35,11 +35,15 @@ public class AdminForm extends JFrame {
 	private PanelTripInDay panelTripInDay ;
 	private PanelUserAd panelUserAd ;
 	private PanelBillAd panelBillAd ;
+	
 	private PanelStatisticByMonth panelStatisticByMonth;
 	private PanelStatisticByYear panelStatisticByYear;
+	private PanelStatisticAll panelStatisticAll;
+	
 	private JMenuBar menuBar = new JMenuBar();
 	public JMenuItem menuQuanLy = new JMenuItem("Quản lý");
 	public JMenuItem menuThongKe = new JMenuItem("Thống kê");
+	
 	
 	
 	public static void main(String[] args) {
@@ -205,6 +209,7 @@ public class AdminForm extends JFrame {
 		
 		panelStatisticByMonth.setVisible(false);
 		panelStatisticByYear.setVisible(false);
+		panelStatisticAll.setVisible(false);
 	}
 	
 	public void Statistic_Select()
@@ -225,8 +230,9 @@ public class AdminForm extends JFrame {
 		panelUserAd.setVisible(false);
 		panelBillAd.setVisible(false);
 		
-		panelStatisticByMonth.setVisible(true);
+		panelStatisticByMonth.setVisible(false);
 		panelStatisticByYear.setVisible(false);
+		panelStatisticAll.setVisible(true);
 	}
 	
 	public void Init() throws ClassNotFoundException, SQLException
@@ -237,6 +243,7 @@ public class AdminForm extends JFrame {
 		this.panelUserAd = new PanelUserAd();
 		this.panelStatisticByMonth = new PanelStatisticByMonth();
 		this.panelStatisticByYear = new PanelStatisticByYear();
+		this.panelStatisticAll = new PanelStatisticAll();
 		
 		panelRouteAd.setVisible(true);
 		panelTripInDay.setVisible(false);
@@ -245,6 +252,7 @@ public class AdminForm extends JFrame {
 		
 		panelStatisticByMonth.setVisible(false);
 		panelStatisticByYear.setVisible(false);
+		panelStatisticAll.setVisible(false);
 		
 		contentPane.add(panelRouteAd);
 		contentPane.add(panelTripInDay);
@@ -252,6 +260,7 @@ public class AdminForm extends JFrame {
 		contentPane.add(panelBillAd);
 		contentPane.add(panelStatisticByMonth);
 		contentPane.add(panelStatisticByYear);
+		contentPane.add(panelStatisticAll);
 		
 		btnRoute.addActionListener( new FormAdminListener(this));
 		btnTripInDay.addActionListener( new FormAdminListener(this));
@@ -346,6 +355,7 @@ public class AdminForm extends JFrame {
 		
 		panelStatisticByMonth.setVisible(false);
 		panelStatisticByYear.setVisible(false);
+		panelStatisticAll.setVisible(false);
 	}
 	public void PnTripSelected() {
 		panelRouteAd.setVisible(false);
@@ -356,6 +366,7 @@ public class AdminForm extends JFrame {
 		
 		panelStatisticByMonth.setVisible(false);
 		panelStatisticByYear.setVisible(false);
+		panelStatisticAll.setVisible(false);
 	}
 	public void PnUserADSelected() {
 		panelRouteAd.setVisible(false);
@@ -365,6 +376,7 @@ public class AdminForm extends JFrame {
 		
 		panelStatisticByMonth.setVisible(false);
 		panelStatisticByYear.setVisible(false);
+		panelStatisticAll.setVisible(false);
 	}
 	public void PnBillAdSelected() {
 		panelRouteAd.setVisible(false);
@@ -374,6 +386,7 @@ public class AdminForm extends JFrame {
 		
 		panelStatisticByMonth.setVisible(false);
 		panelStatisticByYear.setVisible(false);
+		panelStatisticAll.setVisible(false);
 	}
 	
 	public void btnStatisticByMonth_Selected()
@@ -385,6 +398,7 @@ public class AdminForm extends JFrame {
 		
 		panelStatisticByMonth.setVisible(true);
 		panelStatisticByYear.setVisible(false);
+		panelStatisticAll.setVisible(false);
 	}
 	
 	public void btnStatisticByYear_Selected()
@@ -396,6 +410,19 @@ public class AdminForm extends JFrame {
 		
 		panelStatisticByMonth.setVisible(false);
 		panelStatisticByYear.setVisible(true);
+		panelStatisticAll.setVisible(false);
+	}
+	
+	public void btnStatisticAll_Select()
+	{
+		panelRouteAd.setVisible(false);
+		panelTripInDay.setVisible(false);
+		panelUserAd.setVisible(false);
+		panelBillAd.setVisible(false);
+		
+		panelStatisticByMonth.setVisible(false);
+		panelStatisticByYear.setVisible(false);
+		panelStatisticAll.setVisible(true);
 	}
 	public void SignOut() {
 		this.dispose();

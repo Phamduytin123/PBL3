@@ -251,7 +251,7 @@ public class PanelStatisticByMonth extends JPanel {
 		Object[] data = DAOTicket.getInstance().StatisticByMonth(month);
 		
 		this.txtRevenue.setText(data[0] + "");
-		this.txtPer.setText(Integer.parseInt(data[1] + "")*100 + "%");
+		this.txtPer.setText(data[1]+ "%");
 		this.txtNumBill.setText(data[2] + "");
 		this.txtTotalTicket.setText(data[3] + "");
 		this.txtFirst.setText(data[4] + "");
