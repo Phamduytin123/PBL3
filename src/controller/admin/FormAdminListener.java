@@ -28,6 +28,25 @@ public class FormAdminListener implements ActionListener {
 		} else if (tmp == adminForm.getBtnSignOut()) {
 			adminForm.SignOut();
 		}
+		if(tmp == adminForm.menuQuanLy)
+		{
+			adminForm.Management_Select();
+		}
+		if(tmp == adminForm.menuThongKe)
+		{
+			adminForm.Statistic_Select();
+		}
+		if(tmp == adminForm.btnLogOut_2)
+		{
+			adminForm.SignOut();
+		}
+		if(tmp == adminForm.btnStatisticByMonth)
+		{
+			adminForm.btnStatisticByMonth_Selected();
+		}
+		if(tmp == adminForm.btnStatisticByYear)
+		{
+			adminForm.btnStatisticByYear_Selected();
+		}
 	}
-
 }

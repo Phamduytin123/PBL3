@@ -56,5 +56,12 @@ public class Test1 {
 //	    frame.getContentPane().add(panel);
 //	    frame.pack();
 //	    frame.setVisible(true);
+		
+		String s = "TOP 1";
+		
+		double x = 2;
+		double y = 14;
+		double z = x/y * 100;
+		System.out.println(z);
 	  }
 }

@@ -571,6 +571,86 @@ public class DAOTrip implements DAOInterface<Trip,Integer> {
 		JDBCUtil.closeConnection(Conn);
 		return result;
 	}
+	
+	public ArrayList<Object[]> getDataForPanelFindTripInCustomer() throws SQLException
+	{
+		Connection Conn = JDBCUtil.getConnection();
+
+		String SqlCommand = "SELECT TID.TripID, CS.CityName AS 'CityStart', CE.CityName AS 'CityEnd', TID.DateStart, TID.TimeStart, (B.NumberOfSeat - (Select count(*) FROM Ticket AS T WHERE T.TripID = TID.TripID )) AS 'LeftSeat', B.KindOfBus\r\n"
+				+ "FROM TripInDay AS TID\r\n"
+				+ "JOIN RouteWay AS RW ON RW.RouteID = TID.RouteID\r\n"
+				+ "JOIN City AS CS ON CS.CityID = RW.CityIDStart\r\n"
+				+ "JOIN City AS CE ON CE.CityID = RW.CityIDEnd\r\n"
+				+ "JOIN Bus AS B ON B.BusID = RW.BusID\r\n"
+				+ "WHERE TID.DateStart = ?";
+		PreparedStatement psm = Conn.prepareStatement(SqlCommand);
+		
+		psm.setDate(1,Date.valueOf(LocalDate.now()));
+		
+		ResultSet rs = psm.executeQuery();
+
+		List<Object[]> result = new ArrayList<>();
+
+		while (rs.next()) 
+		{
+			int TripID = rs.getInt("TripID");
+			String CityStart = rs.getString("CityStart");
+			String CityEnd = rs.getString("CityEnd");
+			LocalDate dateStart = rs.getDate("DateStart").toLocalDate();
+			LocalTime timeStart = rs.getTime("TimeStart").toLocalTime();
+			int LeftSeat = rs.getInt("LeftSeat");
+			String KindOfBus = rs.getString("KindOfBus");
+			Object[] temp = new Object[] {TripID, CityStart, CityEnd, dateStart, timeStart, LeftSeat, KindOfBus};
+			
+			result.add(temp);
+		}
+
+		rs.close();
+		psm.close();
+		JDBCUtil.closeConnection(Conn);
+		return (ArrayList<Object[]>) result;
+	}
+	
+	public ArrayList<Object[]> getDataByFindInCustomer(String CityStartI, String CityEndI, LocalDate dateStartI) throws SQLException
+	{
+		Connection Conn = JDBCUtil.getConnection();
+
+		String SqlCommand = "SELECT TID.TripID, CS.CityName AS 'CityStart', CE.CityName AS 'CityEnd', TID.DateStart, TID.TimeStart, (B.NumberOfSeat - (Select count(*) FROM Ticket AS T WHERE T.TripID = TID.TripID )) AS 'LeftSeat', B.KindOfBus\r\n"
+				+ "FROM TripInDay AS TID\r\n"
+				+ "JOIN RouteWay AS RW ON RW.RouteID = TID.RouteID\r\n"
+				+ "JOIN City AS CS ON CS.CityID = RW.CityIDStart\r\n"
+				+ "JOIN City AS CE ON CE.CityID = RW.CityIDEnd\r\n"
+				+ "JOIN Bus AS B ON B.BusID = RW.BusID\r\n"
+				+ "WHERE CS.CityName = ? AND CE.CityName = ? AND TID.DateStart = ?";
+		PreparedStatement psm = Conn.prepareStatement(SqlCommand);
+
+		psm.setString(1, CityStartI);
+		psm.setString(2, CityEndI);
+		psm.setDate(3, Date.valueOf(dateStartI));
+		
+		ResultSet rs = psm.executeQuery();
+
+		List<Object[]> result = new ArrayList<>();
+
+		while (rs.next()) 
+		{
+			int TripID = rs.getInt("TripID");
+			String CityStart = rs.getString("CityStart");
+			String CityEnd = rs.getString("CityEnd");
+			LocalDate dateStart = rs.getDate("DateStart").toLocalDate();
+			LocalTime timeStart = rs.getTime("TimeStart").toLocalTime();
+			int LeftSeat = rs.getInt("LeftSeat");
+			String KindOfBus = rs.getString("KindOfBus");
+			Object[] temp = new Object[] {TripID, CityStart, CityEnd, dateStart, timeStart, LeftSeat, KindOfBus};
+			
+			result.add(temp);
+		}
+
+		rs.close();
+		psm.close();
+		JDBCUtil.closeConnection(Conn);
+		return (ArrayList<Object[]>) result;
+	}
 
 	public ArrayList<Object[]> getListTID_Admin() throws SQLException
 	{
@@ -659,5 +739,31 @@ public class DAOTrip implements DAOInterface<Trip,Integer> {
 		
 		JDBCUtil.closeConnection(Conn);
 		return (ArrayList<Object[]>) list;
+	}
+
+	public List<Integer> getListYear() throws SQLException
+	{
+		Connection Conn = JDBCUtil.getConnection(); 
+		List<Integer> list = new ArrayList<>();
+		
+		//Bước 3 : Thực hiện câu lệnh truy vấn 
+
+		String SqlCommand = "SELECT DISTINCT YEAR(TID.DateStart) AS N'Year'\r\n"
+				+ "FROM TripInDay AS TID\r\n"
+				+ "GROUP BY TID.DateStart";
+		PreparedStatement psm = Conn.prepareStatement(SqlCommand);
+
+		ResultSet rs = psm.executeQuery();
+		//Bước 4 : Xem thong tin cua bang
+		while(rs.next())
+		{
+			list.add(rs.getInt(1));
+		}
+		
+		rs.close();
+		psm.close();
+		
+		JDBCUtil.closeConnection(Conn);
+		return list;
 	}
 }

@@ -8,6 +8,7 @@ import java.sql.SQLException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import javax.swing.JOptionPane;
@@ -47,6 +48,10 @@ public class FormMainListener implements ActionListener, MouseListener{
 		{
 			formMain.dispose();
 			new FormLogin();
+		}
+		if(tmp == formMain.btnSchedule)
+		{
+			formMain.changeToFindTrip();
 		}
 	}
 

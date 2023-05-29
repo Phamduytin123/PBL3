@@ -209,6 +209,11 @@ public class PanelUser extends JPanel {
 			JOptionPane.showMessageDialog(null, "Vui lòng nhập đầy đủ thông tin để cập nhập");
 			return false;
 		}
+		if(txtEmail.getText().length()<=10)
+		{
+			JOptionPane.showMessageDialog(null, "Định dạng email bị sai vui lòng nhập lại");
+			return false;	
+		}
 		
 		if(!txtEmail.getText().substring(txtEmail.getText().length() - 10).equals("@gmail.com"))
 		{
@@ -226,6 +231,15 @@ public class PanelUser extends JPanel {
 			JOptionPane.showMessageDialog(null, "Số điện thoại nhập vào không đúng định dạng ( chỉ bao gồm số ) vui lòng nhập lại");
 			return false;
 		}
+		
+		try
+		{
+			LocalDate.parse(this.txtDateOfBirths.getText(), DateTimeFormatter.ofPattern("dd/MM/yyyy"));
+		}catch (Exception e) {
+			JOptionPane.showMessageDialog(null, "Bạn đã nhập sai định dạng của ngày tháng năm theo hệ thống (dd/MM/yyyy) vui lòng nhập lại\t       VD 05/05/2023");
+			return false;
+		}
+		
 		return true;
 	}
 	

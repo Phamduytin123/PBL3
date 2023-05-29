@@ -291,6 +291,12 @@ public class PanelTripInDay extends JPanel {
 		this.setVisible(true);
 	}
 	
+	public void Init()
+	{
+		this.SetCbRouteID();
+		this.SetCbCityStartAndEnd();
+	}
+	
 	public PanelTripInDay() {
 		this.GUI();
 		this.SetCbRouteID();
