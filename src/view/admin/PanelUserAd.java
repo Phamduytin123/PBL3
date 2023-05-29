@@ -436,7 +436,7 @@ public class PanelUserAd extends JPanel {
 		textName.setText(data.get(index).getName() + "");
 		textDate.setText(data.get(index).getDateOfBirth() + "");
 		TextPhone.setText(data.get(index).getTel() + "");
-		textCCCD.setText(data.get(index).getTel() + "");
+		textCCCD.setText(data.get(index).getCitizenID() + "");
 		textEmail.setText(data.get(index).getEmail() + "");
 		cbGender.setSelectedItem(data.get(index).getSex());
 	}
@@ -655,7 +655,11 @@ public class PanelUserAd extends JPanel {
 		String Email = textEmail.getText();
 		String Tel = TextPhone.getText();
 		String CitizenID = textCCCD.getText();
-
+		
+		if (CitizenID.length() < 12) {
+			JOptionPane.showMessageDialog(null, "Vui lòng nhập CCCD đủ 12 số");
+			return false;
+		}
 		if (Name.equals("") || DOB.equals("") || Email.equals("") || Tel.equals("") || UserName.equals("")
 				|| Password.equals("") || CitizenID.equals("")) {
 			JOptionPane.showMessageDialog(null, "Vui lòng nhập đầy đủ thông tin tài khoản");
@@ -681,7 +685,7 @@ public class PanelUserAd extends JPanel {
 		}
 
 		try {
-			Integer.parseInt(CitizenID);
+			Long.parseLong(CitizenID);
 		} catch (Exception e) {
 			JOptionPane.showMessageDialog(null, "Bạn đã nhập sai định CCCD chỉ bao gồm số ");
 			return false;
