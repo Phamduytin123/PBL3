@@ -15,7 +15,9 @@ import view.Login.FormLogin;
 import java.awt.Color;
 import javax.swing.JButton;
 import java.awt.Font;
+import java.awt.Image;
 import java.sql.SQLException;
+import javax.swing.ImageIcon;
 
 public class AdminForm extends JFrame {
 
@@ -146,6 +148,41 @@ public class AdminForm extends JFrame {
 		
 		this.setJMenuBar(menuBar);
 		
+		ImageIcon icon = new ImageIcon(PanelTripInDay.class.getResource("/photo/way.png"));
+		Image img = icon.getImage();
+		Image newImg = img.getScaledInstance(25, 25, Image.SCALE_SMOOTH);
+		ImageIcon newIcon = new ImageIcon(newImg);
+		btnRoute.setIcon(newIcon);
+		
+		ImageIcon icon1 = new ImageIcon(PanelTripInDay.class.getResource("/photo/trip.png"));
+		Image img1 = icon1.getImage();
+		Image newImg1 = img1.getScaledInstance(25, 25, Image.SCALE_SMOOTH);
+		ImageIcon newIcon1 = new ImageIcon(newImg1);
+		btnTripInDay.setIcon(newIcon1);
+		
+		ImageIcon icon2 = new ImageIcon(PanelTripInDay.class.getResource("/photo/bill.png"));
+		Image img2 = icon2.getImage();
+		Image newImg2 = img2.getScaledInstance(25, 25, Image.SCALE_SMOOTH);
+		ImageIcon newIcon2 = new ImageIcon(newImg2);
+		btnBill.setIcon(newIcon2);
+		
+		ImageIcon icon3 = new ImageIcon(PanelTripInDay.class.getResource("/photo/user.png"));
+		Image img3 = icon3.getImage();
+		Image newImg3 = img3.getScaledInstance(25, 25, Image.SCALE_SMOOTH);
+		ImageIcon newIcon3 = new ImageIcon(newImg3);
+		btnUser.setIcon(newIcon3);
+		
+		ImageIcon icon4 = new ImageIcon(PanelTripInDay.class.getResource("/photo/logout.png"));
+		Image img4 = icon4.getImage();
+		Image newImg4= img4.getScaledInstance(25, 25, Image.SCALE_SMOOTH);
+		ImageIcon newIcon4 = new ImageIcon(newImg4);
+		btnSignOut.setIcon(newIcon4);
+		
+		ImageIcon icon5 = new ImageIcon(PanelTripInDay.class.getResource("/photo/logout.png"));
+		Image img5 = icon5.getImage();
+		Image newImg5= img5.getScaledInstance(25, 25, Image.SCALE_SMOOTH);
+		ImageIcon newIcon5 = new ImageIcon(newImg5);
+		btnLogOut_2.setIcon(newIcon5);
 	}
 	
 	public void Management_Select()
