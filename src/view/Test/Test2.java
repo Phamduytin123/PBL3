@@ -12,6 +12,7 @@ import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
+import view.admin.PanelStatisticAll;
 import view.admin.PanelStatisticByMonth;
 import view.admin.PanelStatisticByYear;
 
@@ -53,7 +54,7 @@ public class Test2 extends JFrame {
 		
 		contentPane.setLayout(new GridLayout(1,1));
 
-		contentPane.add(new PanelStatisticByYear());
+		contentPane.add(new PanelStatisticAll());
 		
 		setContentPane(contentPane);
 	}

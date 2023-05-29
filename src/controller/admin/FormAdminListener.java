@@ -48,5 +48,9 @@ public class FormAdminListener implements ActionListener {
 		{
 			adminForm.btnStatisticByYear_Selected();
 		}
+		if(tmp == adminForm.btnStatisticAll)
+		{
+			adminForm.btnStatisticAll_Select();
+		}
 	}
 }
