@@ -187,6 +187,25 @@ public class AdminForm extends JFrame {
 		Image newImg5= img5.getScaledInstance(25, 25, Image.SCALE_SMOOTH);
 		ImageIcon newIcon5 = new ImageIcon(newImg5);
 		btnLogOut_2.setIcon(newIcon5);
+		
+		ImageIcon icon6 = new ImageIcon(PanelTripInDay.class.getResource("/photo/statistics.png"));
+		Image img6 = icon6.getImage();
+		Image newImg6 = img6.getScaledInstance(25, 25, Image.SCALE_SMOOTH);
+		ImageIcon newIcon6 = new ImageIcon(newImg6);
+		btnStatisticAll.setIcon(newIcon6);
+		
+		ImageIcon icon7 = new ImageIcon(PanelTripInDay.class.getResource("/photo/month.png"));
+		Image img7 = icon7.getImage();
+		Image newImg7 = img7.getScaledInstance(25, 25, Image.SCALE_SMOOTH);
+		ImageIcon newIcon7 = new ImageIcon(newImg7);
+		btnStatisticByMonth.setIcon(newIcon7);
+		
+		ImageIcon icon8 = new ImageIcon(PanelTripInDay.class.getResource("/photo/year.png"));
+		Image img8 = icon8.getImage();
+		Image newImg8 = img8.getScaledInstance(25, 25, Image.SCALE_SMOOTH);
+		ImageIcon newIcon8 = new ImageIcon(newImg8);
+		btnStatisticByYear.setIcon(newIcon8);
+		
 	}
 	
 	public void Management_Select()
