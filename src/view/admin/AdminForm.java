@@ -44,8 +44,6 @@ public class AdminForm extends JFrame {
 	public JMenuItem menuQuanLy = new JMenuItem("Quản lý");
 	public JMenuItem menuThongKe = new JMenuItem("Thống kê");
 	
-	
-	
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {

@@ -190,8 +190,8 @@ public class PanelUser extends JPanel {
 		this.txtAccount.setText(cus.getAccount());
 		
 		
-		String dateString = cus.getDateOfBirth().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")); // Chuỗi ngày tháng cần chuyển đổi
-        String pattern = "yyyy-MM-dd"; // Định dạng của chuỗi ngày tháng
+		String dateString = cus.getDateOfBirth().format(DateTimeFormatter.ofPattern("dd/MM/yyyy")); // Chuỗi ngày tháng cần chuyển đổi
+        String pattern = "dd/MM/yyyy"; // Định dạng của chuỗi ngày tháng
 
         SimpleDateFormat dateFormat = new SimpleDateFormat(pattern);
         try {

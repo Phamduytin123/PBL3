@@ -6,6 +6,7 @@ import java.awt.HeadlessException;
 import java.awt.Image;
 import java.sql.SQLException;
 import java.sql.Time;
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -20,9 +21,13 @@ import javax.swing.JTable;
 import javax.swing.border.LineBorder;
 import javax.swing.table.DefaultTableModel;
 
+import com.toedter.calendar.JDateChooser;
+import com.toedter.calendar.JTextFieldDateEditor;
+
 import DAO.DAOCity;
 import DAO.DAOCustomer;
 import Models.Customer;
+import Models.myDate;
 import controller.admin.RouteListener;
 import controller.admin.UserListener;
 
@@ -45,7 +50,7 @@ public class PanelUserAd extends JPanel {
 	private JLabel lblSearch;
 	private JTextField textFieldUserNameFind;
 	private JTextField textName;
-	private JTextField textDate;
+	private JDateChooser textDate;
 	private JTextField textCCCD;
 	private JTextField textEmail;
 	private JTextField TextPhone;
@@ -279,9 +284,11 @@ public class PanelUserAd extends JPanel {
 		textName.setBounds(128, 127, 131, 28);
 		add(textName);
 
-		textDate = new JTextField();
-		textDate.setEditable(false);
-		textDate.setColumns(10);
+		textDate = new JDateChooser();
+		textDate.setDateFormatString("dd/MM/yyyy");
+		JTextFieldDateEditor editor1 = (JTextFieldDateEditor) textDate.getDateEditor();
+        editor1.setEditable(false);
+		textDate.setEnabled(false);
 		textDate.setBounds(128, 166, 131, 28);
 		add(textDate);
 
@@ -363,11 +370,11 @@ public class PanelUserAd extends JPanel {
 		this.textName = textName;
 	}
 
-	public JTextField getTextDate() {
+	public JDateChooser getTextDate() {
 		return textDate;
 	}
 
-	public void setTextDate(JTextField textDate) {
+	public void setTextDate(JDateChooser textDate) {
 		this.textDate = textDate;
 	}
 
@@ -399,7 +406,7 @@ public class PanelUserAd extends JPanel {
 		textPassword.setEditable(true);
 		textUserName.setEditable(true);
 		textName.setEditable(true);
-		textDate.setEditable(true);
+		textDate.setEnabled(true);
 		TextPhone.setEditable(true);
 		textCCCD.setEditable(true);
 		textEmail.setEditable(true);
@@ -411,7 +418,7 @@ public class PanelUserAd extends JPanel {
 		textUserName.setEditable(false);
 		textUserID.setEditable(false);
 		textName.setEditable(false);
-		textDate.setEditable(false);
+		textDate.setEnabled(false);
 		TextPhone.setEditable(false);
 		textCCCD.setEditable(false);
 		textEmail.setEditable(false);
@@ -423,18 +430,36 @@ public class PanelUserAd extends JPanel {
 		textPassword.setText("");
 		textUserName.setText("");
 		textName.setText("");
-		textDate.setText("");
 		TextPhone.setText("");
 		textCCCD.setText("");
 		textEmail.setText("");
 	}
 
 	public void SetTextInfor(int index) {
+		try {
+			data = DAOCustomer.getInstance().selectAll();
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		textUserID.setText(data.get(index).getCustomerID() + "");
 		textPassword.setText(data.get(index).getPassword() + "");
 		textUserName.setText(data.get(index).getAccount() + "");
 		textName.setText(data.get(index).getName() + "");
-		textDate.setText(data.get(index).getDateOfBirth() + "");
+		
+		String dateString = data.get(index).getDateOfBirth().format(DateTimeFormatter.ofPattern("dd/MM/yyyy"));
+        String pattern = "dd/MM/yyyy"; // Định dạng của chuỗi ngày tháng
+        SimpleDateFormat dateFormat = new SimpleDateFormat(pattern);
+        try {
+            java.util.Date date = dateFormat.parse(dateString);
+            this.textDate.setDate(date);
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+        
 		TextPhone.setText(data.get(index).getTel() + "");
 		textCCCD.setText(data.get(index).getCitizenID() + "");
 		textEmail.setText(data.get(index).getEmail() + "");
@@ -456,12 +481,11 @@ public class PanelUserAd extends JPanel {
 		String UserName = textUserName.getText();
 		String Password = textPassword.getText();
 		String Name = textName.getText();
-		String DOB = textDate.getText();
 		String Email = textEmail.getText();
 		String Tel = TextPhone.getText();
 		String CitizenID = textCCCD.getText();
 		String gender = cbGender.getSelectedItem().toString();
-		LocalDate date = LocalDate.parse(DOB, DateTimeFormatter.ofPattern("dd/MM/yyyy"));
+		LocalDate date = myDate.changeToLocalDate(textDate.getDate());
 
 		if (UserName != null && Password != null && CheckInfor() == true) {
 			try {
@@ -537,15 +561,14 @@ public class PanelUserAd extends JPanel {
 			String UserName = textUserName.getText();
 			String Password = textPassword.getText();
 			String Name = textName.getText();
-			String DOB = textDate.getText();
 			String Email = textEmail.getText();
 			String Tel = TextPhone.getText();
 			String CitizenID = textCCCD.getText();
 			String gender = cbGender.getSelectedItem().toString();
-			LocalDate date = LocalDate.parse(DOB, DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+			LocalDate date = myDate.changeToLocalDate(textDate.getDate());
+			
 			try {
-				DAOCustomer.getInstance()
-						.update(new Customer(ID, UserName, Password, Name, date, Tel, CitizenID, Email, gender));
+				DAOCustomer.getInstance().update(new Customer(ID, UserName, Password, Name, date, Tel, CitizenID, Email, gender));
 			} catch (ClassNotFoundException | SQLException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -558,7 +581,7 @@ public class PanelUserAd extends JPanel {
 			dtm.setValueAt(UserName, selectedRow, 1);
 			dtm.setValueAt(Password, selectedRow, 2);
 			dtm.setValueAt(Name, selectedRow, 3);
-			dtm.setValueAt(DOB, selectedRow, 4);
+			dtm.setValueAt(myDate.changeToLocalDate(textDate.getDate()).format(DateTimeFormatter.ofPattern("yyyy-MM-dd")), selectedRow, 4);
 			dtm.setValueAt(Tel, selectedRow, 5);
 			dtm.setValueAt(CitizenID, selectedRow, 6);
 			dtm.setValueAt(gender, selectedRow, 7);
@@ -634,7 +657,7 @@ public class PanelUserAd extends JPanel {
 			String username = data.get(i).getAccount();
 			String password = data.get(i).getPassword();
 			String name = data.get(i).getName();
-			String DOB = data.get(i).getDateOfBirth().toString();
+			String DOB = data.get(i).getDateOfBirth().format(DateTimeFormatter.ofPattern("dd/MM/yyyy"));
 			String Tel = data.get(i).getTel();
 			String CCCD = data.get(i).getCitizenID();
 			String email = data.get(i).getEmail();
@@ -651,7 +674,6 @@ public class PanelUserAd extends JPanel {
 		String UserName = textUserName.getText();
 		String Password = textPassword.getText();
 		String Name = textName.getText();
-		String DOB = textDate.getText();
 		String Email = textEmail.getText();
 		String Tel = TextPhone.getText();
 		String CitizenID = textCCCD.getText();
@@ -660,7 +682,14 @@ public class PanelUserAd extends JPanel {
 			JOptionPane.showMessageDialog(null, "Vui lòng nhập CCCD đủ 12 số");
 			return false;
 		}
-		if (Name.equals("") || DOB.equals("") || Email.equals("") || Tel.equals("") || UserName.equals("")
+		try {
+			myDate.changeToLocalDate(textDate.getDate());
+		} catch (Exception e) {
+			JOptionPane.showMessageDialog(null, "Vui lòng nhập đầy đủ thông tin tài khoản");
+			return false;
+		}
+		
+		if (Name.equals("") || Email.equals("") || Tel.equals("") || UserName.equals("")
 				|| Password.equals("") || CitizenID.equals("")) {
 			JOptionPane.showMessageDialog(null, "Vui lòng nhập đầy đủ thông tin tài khoản");
 			return false;
@@ -669,13 +698,7 @@ public class PanelUserAd extends JPanel {
 			JOptionPane.showMessageDialog(null, "Số điện thoại nhập vào không phù hợp");
 			return false;
 		}
-		try {
-			LocalDate.parse(DOB, DateTimeFormatter.ofPattern("dd/MM/yyyy"));
-		} catch (Exception e) {
-			JOptionPane.showMessageDialog(null,
-					"Bạn đã nhập sai định dạng của ngày tháng năm theo hệ thống (dd/MM/yyyy) vui lòng nhập lại\t       VD 05/05/2023");
-			return false;
-		}
+		
 
 		try {
 			Integer.parseInt(Tel);

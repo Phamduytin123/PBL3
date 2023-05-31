@@ -167,8 +167,8 @@ public class BookingTicket2 extends JPanel {
 		
 		SetListChoiceRoute(listRoute.get(0));
 		
-		String dateString = listDate.get(0).format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
-        String pattern = "yyyy-MM-dd"; // Định dạng của chuỗi ngày tháng
+		String dateString = listDate.get(0).format(DateTimeFormatter.ofPattern("dd/MM/yyyy"));
+        String pattern = "dd/MM/yyyy"; // Định dạng của chuỗi ngày tháng
 
         SimpleDateFormat dateFormat = new SimpleDateFormat(pattern);
         try {
@@ -239,8 +239,8 @@ public class BookingTicket2 extends JPanel {
 		
 		SetListChoiceRoute(listRoute.get(0));
 		
-		String dateString = listDate.get(0).format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
-        String pattern = "yyyy-MM-dd"; // Định dạng của chuỗi ngày tháng
+		String dateString = listDate.get(0).format(DateTimeFormatter.ofPattern("dd/MM/yyyy"));
+        String pattern = "dd/MM/yyyy"; // Định dạng của chuỗi ngày tháng
 
         SimpleDateFormat dateFormat = new SimpleDateFormat(pattern);
         try {
@@ -259,8 +259,8 @@ public class BookingTicket2 extends JPanel {
 		
 		SetListChoiceRoute(listRoute.get(1));
 		
-		String dateString = listDate.get(1).format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
-        String pattern = "yyyy-MM-dd"; // Định dạng của chuỗi ngày tháng
+		String dateString = listDate.get(1).format(DateTimeFormatter.ofPattern("dd/MM/yyyy"));
+        String pattern = "dd/MM/yyyy"; // Định dạng của chuỗi ngày tháng
 
         SimpleDateFormat dateFormat = new SimpleDateFormat(pattern);
         try {
