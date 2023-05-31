@@ -1,6 +1,8 @@
 package Models;
 
 import java.sql.Date;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 public class myDate extends Date{
 	public myDate(int year, int month, int day) {
@@ -41,5 +43,33 @@ public class myDate extends Date{
 			throw new IllegalArgumentException("Unexpected value: " + month);
 		}
 		return date;
+	}
+
+	public static LocalDate changeToLocalDate(java.util.Date date)
+	{
+		String str = "";
+		int day = date.getDate();
+		if(day>=1 && day<=9)
+		str += "0"+day +"/";
+		else
+		str += day + "/";
+		int month = date.getMonth()+1;
+		int year = date.getYear()+1900;
+		if(month<=9)
+		{
+			str += "0" + month + "/" + year;
+		}else
+		{
+			if(month == 13)
+			{
+				month = 1; 
+				year ++;
+				str += "0" + month + "/" + year;
+			}else
+			{
+				str += month + "/" + year;
+			}
+		}
+		return LocalDate.parse(str, DateTimeFormatter.ofPattern("dd/MM/yyyy"));
 	}
 }

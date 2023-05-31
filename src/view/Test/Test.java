@@ -1,9 +1,13 @@
 package view.Test;
 
 import java.awt.EventQueue;
+import java.awt.FlowLayout;
 import java.awt.Font;
 import java.sql.SQLException;
+import java.time.LocalDate;
+import java.util.Date;
 
+import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
@@ -17,10 +21,14 @@ import org.jfree.data.general.DefaultPieDataset;
 
 import com.toedter.calendar.JCalendar;
 import com.toedter.calendar.JDateChooser;
+import com.toedter.calendar.JTextFieldDateEditor;
 
+import Models.myDate;
 import view.Customer.PanelFindTrip;
 import view.Customer.PanelFindTripTop;
 import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 public class Test extends JFrame {
 
@@ -49,10 +57,27 @@ public class Test extends JFrame {
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 
 		setContentPane(contentPane);
-		contentPane.setLayout(null);
+		contentPane.setLayout(new FlowLayout());
 		
 		JDateChooser dateChooser = new JDateChooser();
 		
+		dateChooser.setDateFormatString("dd/MM/yyyy");
+		
+		JTextFieldDateEditor editor = (JTextFieldDateEditor) dateChooser.getDateEditor();
+        editor.setEditable(false);
+        
+        
+        JButton temp = new JButton();
+        temp.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				 System.out.println(myDate.changeToLocalDate(dateChooser.getDate()));	
+			}
+		});
+        contentPane.add(temp);
+        
 		dateChooser.setBounds(167, 10, 132, 20);
 		contentPane.add(dateChooser);
 		
