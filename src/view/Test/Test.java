@@ -85,6 +85,7 @@ public class Test extends JFrame {
 		        }
 			}
 		});
+        
         contentPane.add(temp);
         
 		dateChooser.setBounds(167, 10, 132, 20);
