@@ -15,6 +15,9 @@ import org.jfree.chart.JFreeChart;
 import org.jfree.chart.StandardChartTheme;
 import org.jfree.data.general.DefaultPieDataset;
 
+import com.toedter.calendar.JCalendar;
+import com.toedter.calendar.JDateChooser;
+
 import view.Customer.PanelFindTrip;
 import view.Customer.PanelFindTripTop;
 import java.awt.GridLayout;
@@ -46,28 +49,12 @@ public class Test extends JFrame {
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 
 		setContentPane(contentPane);
+		contentPane.setLayout(null);
 		
-		DefaultPieDataset dataset = new DefaultPieDataset();
-		dataset.setValue("Category 1", 30);
-		dataset.setValue("Category 2", 20);
-		dataset.setValue("Category 3", 50);
+		JDateChooser dateChooser = new JDateChooser();
 		
-		JFreeChart chart = ChartFactory.createPieChart("Pie Chart", dataset, false, true, false);
+		dateChooser.setBounds(167, 10, 132, 20);
+		contentPane.add(dateChooser);
 		
-		// Thiết lập font chữ cho biểu đồ
-        StandardChartTheme chartTheme = (StandardChartTheme) StandardChartTheme.createJFreeTheme();
-        chartTheme.setExtraLargeFont(new Font("Times New Roman", Font.BOLD, 18));
-        chartTheme.setLargeFont(new Font("Times New Roman", Font.BOLD, 14));
-        chartTheme.setRegularFont(new Font("Times New Roman", Font.PLAIN, 12));
-        chartTheme.setSmallFont(new Font("Times New Roman", Font.PLAIN, 10));
-
-        // Áp dụng theme đã thiết lập cho biểu đồ
-        chartTheme.apply(chart);
-		
-		ChartPanel frame = new ChartPanel(chart);
-		frame.setVisible(true);
-		contentPane.setLayout(new GridLayout(1,1));
-		
-		contentPane.add(frame);
 	}
 }
