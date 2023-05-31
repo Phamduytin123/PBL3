@@ -7,6 +7,7 @@ import java.sql.SQLException;
 import java.sql.Time;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.Date;
 import java.util.List;
@@ -32,6 +33,7 @@ import org.jfree.chart.renderer.category.AreaRenderer;
 import org.jfree.chart.renderer.category.BarRenderer;
 import org.jfree.data.category.DefaultCategoryDataset;
 
+import com.orsoncharts.util.json.parser.ParseException;
 import com.toedter.calendar.JDateChooser;
 import com.toedter.calendar.JTextFieldDateEditor;
 
@@ -54,6 +56,15 @@ import Models.Trip;
 
 public class Test1 {
 	public static void main(String[] args) {
-		System.out.println();
+		String dateString = "2023-05-17"; // Chuỗi ngày tháng cần chuyển đổi
+        String pattern = "yyyy-MM-dd"; // Định dạng của chuỗi ngày tháng
+
+        SimpleDateFormat dateFormat = new SimpleDateFormat(pattern);
+        try {
+            Date date = dateFormat.parse(dateString);
+            System.out.println("Date: " + date);
+        } catch (java.text.ParseException e) {
+            e.printStackTrace();
+        }
 	}
 }

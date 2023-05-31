@@ -18,8 +18,12 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JTextField;
 
+import com.toedter.calendar.JDateChooser;
+import com.toedter.calendar.JTextFieldDateEditor;
+
 import DAO.DAOCustomer;
 import Models.Customer;
+import Models.myDate;
 import view.Customer.FormBillDetail;
 
 import javax.swing.JRadioButton;
@@ -28,7 +32,7 @@ public class PanelDangKi extends JPanel {
 	private JTextField txtName;
 	private JTextField txtTel;
 	private JTextField txtEmail;
-	private JTextField txtDOB;
+	private JDateChooser txtDOB;
 	private JTextField txtCCCD;
 	private JTextField txtAccount;
 	private JPasswordField txtPassword;
@@ -113,9 +117,13 @@ public class PanelDangKi extends JPanel {
 		txtEmail.setBounds(110, 133, 364, 27);
 		panel.add(txtEmail);
 		
-		txtDOB = new JTextField();
+		txtDOB = new JDateChooser();
 		txtDOB.setFont(new Font("Times New Roman", Font.PLAIN, 15));
-		txtDOB.setColumns(10);
+		txtDOB.setDateFormatString("dd/MM/yyyy");
+		txtDOB.setFont(new Font("Times New Roman", Font.PLAIN, 15));
+		
+		JTextFieldDateEditor editor = (JTextFieldDateEditor) txtDOB.getDateEditor();
+        editor.setEditable(false);
 		txtDOB.setBounds(81, 177, 159, 27);
 		panel.add(txtDOB);
 		
@@ -173,7 +181,6 @@ public class PanelDangKi extends JPanel {
 		this.rdbtnMale.setSelected(true);
 		this.txtAccount.setText("");
 		this.txtCCCD.setText("");
-		this.txtDOB.setText("");
 		this.txtEmail.setText("");
 		this.txtName.setText("");
 		this.txtPassword.setText("");
@@ -188,16 +195,21 @@ public class PanelDangKi extends JPanel {
 	public Boolean checkInfo() throws SQLException
 	{
 		String Name = txtName.getText();
-		String DOB = txtDOB.getText();
 		String Email = txtEmail.getText();
 		String Tel = txtTel.getText();
 		String Account = txtAccount.getText();
 		String Password = txtPassword.getText();
 		String CitizenID = txtCCCD.getText();
 		
-		if(Name.equals("") || DOB.equals("") || Email.equals("") || Tel.equals("") || 
+		if(Name.equals("") || Email.equals("") || Tel.equals("") || 
 				Account.equals("") || Password.equals("") || CitizenID.equals(""))
 		{
+			JOptionPane.showMessageDialog(null, "Vui lòng nhập đầy đủ thông tin tài khoản");
+			return false;
+		}
+		try {
+			myDate.changeToLocalDate(txtDOB.getDate());
+		} catch (Exception e) {
 			JOptionPane.showMessageDialog(null, "Vui lòng nhập đầy đủ thông tin tài khoản");
 			return false;
 		}
@@ -206,12 +218,7 @@ public class PanelDangKi extends JPanel {
 			JOptionPane.showMessageDialog(null, "Số điện thoại nhập vào không phù hợp");
 			return false;
 		}
-		try {
-			LocalDate.parse(DOB, DateTimeFormatter.ofPattern("dd/MM/yyyy"));
-		} catch (Exception e) {
-			JOptionPane.showMessageDialog(null, "Bạn đã nhập sai định dạng của ngày tháng năm theo hệ thống (dd/MM/yyyy) vui lòng nhập lại\t       VD 05/05/2023");
-			return false;
-		}
+		
 		
 		try {
 			Integer.parseInt(Tel);
@@ -254,14 +261,13 @@ public class PanelDangKi extends JPanel {
 	public void btnCreate_Selected()
 	{
 		String Name = txtName.getText();
-		String DOB = txtDOB.getText();
 		String Email = txtEmail.getText();
 		String Tel = txtTel.getText();
 		String Account = txtAccount.getText();
 		String Password = txtPassword.getText();
 		String CitizenID = txtCCCD.getText();
 		String Sex = "Nam";
-		LocalDate date = LocalDate.parse(DOB, DateTimeFormatter.ofPattern("dd/MM/yyyy"));
+		LocalDate date = myDate.changeToLocalDate(txtDOB.getDate());
 		
 		if(rdbtnFemale.isSelected())
 		{

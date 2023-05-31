@@ -7,10 +7,14 @@ import javax.swing.JComboBox;
 import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 
+import com.toedter.calendar.JDateChooser;
+import com.toedter.calendar.JTextFieldDateEditor;
+
 import DAO.DAOCity;
 import DAO.DAOTrip;
 import Models.InfoCustomer;
 import Models.Trip;
+import Models.myDate;
 import controller.Customer.PanelFindTripListener;
 import controller.admin.TripInDayListener;
 
@@ -20,6 +24,7 @@ import javax.swing.JOptionPane;
 import java.awt.Font;
 import java.awt.Image;
 import java.sql.SQLException;
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
@@ -32,7 +37,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 
 public class PanelFindTrip extends JPanel {
-	private JTextField txtDate;
+	private JDateChooser txtDate;
 	private JComboBox<String> cbCityStart, cbCityEnd;
 	public JButton btnBooking;
 	public JLabel lblFind, lblReset;
@@ -68,11 +73,14 @@ public class PanelFindTrip extends JPanel {
 		cbCityEnd.setBounds(153, 33, 141, 27);
 		panel.add(cbCityEnd);
 		
-		txtDate = new JTextField();
+		txtDate = new JDateChooser();
 		txtDate.setFont(new Font("Times New Roman", Font.PLAIN, 15));
 		txtDate.setBounds(300, 33, 133, 27);
+		txtDate.setDateFormatString("dd/MM/yyyy");
+		
+		JTextFieldDateEditor editor1 = (JTextFieldDateEditor) txtDate.getDateEditor();
+        editor1.setEditable(false);
 		panel.add(txtDate);
-		txtDate.setColumns(10);
 		
 		ImageIcon icon = new ImageIcon(PanelFindTripTop.class.getResource("/photo/SearchButton.png"));
 		Image image = icon.getImage();
@@ -160,7 +168,16 @@ public class PanelFindTrip extends JPanel {
 	
 	public void ResetTable() throws SQLException
 	{
-		this.txtDate.setText(LocalDate.now().format(DateTimeFormatter.ofPattern("dd/MM/yyyy")));
+		String dateString = LocalDate.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+        String pattern = "yyyy-MM-dd"; // Định dạng của chuỗi ngày tháng
+
+        SimpleDateFormat dateFormat = new SimpleDateFormat(pattern);
+        try {
+            java.util.Date date = dateFormat.parse(dateString);
+            this.txtDate.setDate(date);
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
 		this.ClearTable();
 		List<Object[]> listObject = DAOTrip.getInstance().getDataForPanelFindTripInCustomer();
 		
@@ -202,7 +219,16 @@ public class PanelFindTrip extends JPanel {
 			}
 		}
 		
-		this.txtDate.setText(date.format(DateTimeFormatter.ofPattern("dd/MM/yyyy")));
+		String dateString = date.format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+        String pattern = "yyyy-MM-dd"; // Định dạng của chuỗi ngày tháng
+
+        SimpleDateFormat dateFormat = new SimpleDateFormat(pattern);
+        try {
+            java.util.Date date1 = dateFormat.parse(dateString);
+            this.txtDate.setDate(date1);
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
 	}
 
 	private void ClearTable()
@@ -227,19 +253,12 @@ public class PanelFindTrip extends JPanel {
 			return;
 		}
 		
-		if(this.txtDate.getText().equals(""))
-		{
-			JOptionPane.showMessageDialog(null, "Vui lòng nhập ngày đi vào ô trống");
-			return;
+		try {
+			dateStart1 = myDate.changeToLocalDate(txtDate.getDate());
+		} catch (Exception e) {
+			JOptionPane.showMessageDialog(null, "Vui lòng chọn ngày phù hợp");
 		}
 		
-		try {
-		dateStart1 = LocalDate.parse(this.txtDate.getText(), DateTimeFormatter.ofPattern("dd/MM/yyyy"));
-	
-		}catch (Exception e) {
-			JOptionPane.showMessageDialog(null, "Định dạng ngày nhập vào của bạn bị sai vui lòng nhập lại theo định dạng\n                 ( dd/MM/yyyy - VD 05/05/2023 )");
-			return;
-		}
 		
 		this.ClearTable();
 		

@@ -21,6 +21,10 @@ import javax.swing.JOptionPane;
 import javax.swing.SwingConstants;
 import javax.swing.border.SoftBevelBorder;
 
+import com.toedter.calendar.JCalendar;
+import com.toedter.calendar.JDateChooser;
+import com.toedter.calendar.JTextFieldDateEditor;
+
 import Algorithm.floydWarshall;
 import DAO.DAOCity;
 import Models.Route;
@@ -35,8 +39,8 @@ import java.awt.Scrollbar;
 
 public class BookingTicket1 extends JPanel {
 	public final ButtonGroup buttonGroup = new ButtonGroup();
-	public JTextField txtNgayDi;
-	public JTextField txtNgayVe;
+	public JDateChooser txtNgayDi;
+	public JDateChooser txtNgayVe;
 	public JRadioButton rdbtnOneTrip, rdbtnRoundTrip;
 	public Choice choice_TieuChi, choice_DiemDen, choice_DiemDi;
 	public JButton btnSearch, btnViewTicket;
@@ -130,14 +134,21 @@ public class BookingTicket1 extends JPanel {
 		lblNgayV.setBounds(341, 73, 124, 26);
 		add(lblNgayV);
 
-		txtNgayDi = new JTextField();
+		txtNgayDi = new JDateChooser();
 		txtNgayDi.setBounds(341, 49, 125, 26);
+		txtNgayDi.setDateFormatString("dd/MM/yyyy");
+		txtNgayDi.setFont(new Font("Times New Roman", Font.PLAIN, 15));
+		
+		JTextFieldDateEditor editor = (JTextFieldDateEditor) txtNgayDi.getDateEditor();
+        editor.setEditable(false);
 		add(txtNgayDi);
-		txtNgayDi.setColumns(10);
 
-		txtNgayVe = new JTextField();
-		txtNgayVe.setColumns(10);
+		txtNgayVe = new JDateChooser();
 		txtNgayVe.setBounds(340, 99, 125, 26);
+		txtNgayVe.setDateFormatString("dd/MM/yyyy");
+		txtNgayVe.setFont(new Font("Times New Roman", Font.PLAIN, 15));
+		JTextFieldDateEditor editor1 = (JTextFieldDateEditor) txtNgayVe.getDateEditor();
+        editor1.setEditable(false);
 		add(txtNgayVe);
 
 		btnSearch = new JButton("Tìm kiếm");
@@ -236,7 +247,7 @@ public class BookingTicket1 extends JPanel {
 		btnViewTicket.setBounds(169, 137, 129, 33);
 		add(btnViewTicket);
 		
-		txtNgayVe.setEditable(false);
+		txtNgayVe.setEnabled(false);
 		
 		btn_ChieuDi = new JButton("Chiều đi");
 		btn_ChieuDi.setBounds(21, 194, 104, 23);
@@ -516,7 +527,7 @@ public class BookingTicket1 extends JPanel {
 	public void rdbtnRoundTrip_isSelect()
 	{
 		KindOfBook = "Khứ hồi";
-		txtNgayVe.setEditable(true);
+		txtNgayVe.setEnabled(true);
 	}
 	
 	public void rdbtnOneTrip_isSelect()
@@ -524,6 +535,6 @@ public class BookingTicket1 extends JPanel {
 		KindOfBook = "Một chiều";
 		btn_ChieuDi.setVisible(false);
 		btn_ChieuVe.setVisible(false);
-		txtNgayVe.setEditable(false);
+		txtNgayVe.setEnabled(false);
 	}
 }

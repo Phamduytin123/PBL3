@@ -11,13 +11,19 @@ import javax.swing.JTextField;
 import javax.swing.JButton;
 import java.awt.GridLayout;
 import java.sql.SQLException;
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.Date;
 
 import javax.swing.SwingConstants;
 
+import com.toedter.calendar.JDateChooser;
+import com.toedter.calendar.JTextFieldDateEditor;
+
 import DAO.DAOCustomer;
 import Models.Customer;
+import Models.myDate;
 import controller.Customer.PanelUserListenner;
 
 import java.awt.Font;
@@ -28,7 +34,7 @@ public class PanelUser extends JPanel {
 
 	
 	public JTextField txtName;
-	public JTextField txtDateOfBirths;
+	public JDateChooser txtDateOfBirths;
 	public JTextField txtAccount;
 	public JTextField txtPhoneNumber;
 	public JTextField txtEmail;
@@ -94,9 +100,13 @@ public class PanelUser extends JPanel {
 		lblNewLabel_6.setBounds(26, 274, 67, 27);
 		panel.add(lblNewLabel_6);
 		
-		txtDateOfBirths = new JTextField();
-		txtDateOfBirths.setEditable(false);
-		txtDateOfBirths.setColumns(10);
+		txtDateOfBirths = new JDateChooser();
+		txtDateOfBirths.setEnabled(false);
+		txtDateOfBirths.setDateFormatString("dd/MM/yyyy");
+		txtDateOfBirths.setFont(new Font("Times New Roman", Font.PLAIN, 15));
+		
+		JTextFieldDateEditor editor = (JTextFieldDateEditor) txtDateOfBirths.getDateEditor();
+        editor.setEditable(false);
 		txtDateOfBirths.setBounds(103, 102, 166, 27);
 		panel.add(txtDateOfBirths);
 		
@@ -179,8 +189,17 @@ public class PanelUser extends JPanel {
 	{
 		this.txtAccount.setText(cus.getAccount());
 		
-		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-		this.txtDateOfBirths.setText(cus.getDateOfBirth().format(formatter));
+		
+		String dateString = cus.getDateOfBirth().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")); // Chuỗi ngày tháng cần chuyển đổi
+        String pattern = "yyyy-MM-dd"; // Định dạng của chuỗi ngày tháng
+
+        SimpleDateFormat dateFormat = new SimpleDateFormat(pattern);
+        try {
+            Date date = dateFormat.parse(dateString);
+            this.txtDateOfBirths.setDate(date);
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
 
 		this.txtName.setText(cus.getName());
 		
@@ -203,9 +222,15 @@ public class PanelUser extends JPanel {
 	
 	public Boolean checkUpdateInfo()
 	{
-		if(txtCitizenID.getText().equals("") || txtDateOfBirths.getText().equals("") || txtEmail.getText().equals("")||
+		if(txtCitizenID.getText().equals("") || txtEmail.getText().equals("")||
 				txtName.getText().equals("") || txtPhoneNumber.getText().equals(""))
 		{
+			JOptionPane.showMessageDialog(null, "Vui lòng nhập đầy đủ thông tin để cập nhập");
+			return false;
+		}
+		try {
+			myDate.changeToLocalDate(txtDateOfBirths.getDate());
+		} catch (Exception e) {
 			JOptionPane.showMessageDialog(null, "Vui lòng nhập đầy đủ thông tin để cập nhập");
 			return false;
 		}
@@ -232,13 +257,6 @@ public class PanelUser extends JPanel {
 			return false;
 		}
 		
-		try
-		{
-			LocalDate.parse(this.txtDateOfBirths.getText(), DateTimeFormatter.ofPattern("dd/MM/yyyy"));
-		}catch (Exception e) {
-			JOptionPane.showMessageDialog(null, "Bạn đã nhập sai định dạng của ngày tháng năm theo hệ thống (dd/MM/yyyy) vui lòng nhập lại\t       VD 05/05/2023");
-			return false;
-		}
 		
 		return true;
 	}
@@ -270,7 +288,7 @@ public class PanelUser extends JPanel {
 		check = "UI"; // Update Information
 		
 		this.txtCitizenID.setEditable(true);
-		this.txtDateOfBirths.setEditable(true);
+		this.txtDateOfBirths.setEnabled(true);
 		this.txtEmail.setEditable(true);
 		this.txtName.setEditable(true);
 		this.txtPhoneNumber.setEditable(true);
@@ -316,7 +334,7 @@ public class PanelUser extends JPanel {
 		{
 			cus.setCitizenID(this.txtCitizenID.getText());
 			cus.setEmail(this.txtEmail.getText());
-			cus.setDateOfBirth(LocalDate.parse(txtDateOfBirths.getText(), DateTimeFormatter.ofPattern("dd/MM/yyyy")));
+			cus.setDateOfBirth(myDate.changeToLocalDate(txtDateOfBirths.getDate()));
 			cus.setTel(this.txtPhoneNumber.getText());
 			cus.setName(this.txtName.getText());
 			if(radioFemale.isSelected())
@@ -352,8 +370,16 @@ public class PanelUser extends JPanel {
 		
 		// Reset Data
 		this.txtCitizenID.setText(cus.getCitizenID());
-		this.txtDateOfBirths.setText(cus.getDateOfBirth().format(DateTimeFormatter.ofPattern("dd/MM/yyyy")));
-		this.txtEmail.setText(cus.getEmail());
+		String dateString = cus.getDateOfBirth().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")); // Chuỗi ngày tháng cần chuyển đổi
+        String pattern = "yyyy-MM-dd"; // Định dạng của chuỗi ngày tháng
+
+        SimpleDateFormat dateFormat = new SimpleDateFormat(pattern);
+        try {
+            Date date = dateFormat.parse(dateString);
+            this.txtDateOfBirths.setDate(date);
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }this.txtEmail.setText(cus.getEmail());
 		this.txtName.setText(cus.getName());
 		this.txtPhoneNumber.setText(cus.getTel());
 		if(cus.getSex().equals("Nam"))
@@ -369,7 +395,7 @@ public class PanelUser extends JPanel {
 			
 		// Set editable of textfield
 		this.txtCitizenID.setEditable(false);
-		this.txtDateOfBirths.setEditable(false);
+		this.txtDateOfBirths.setEnabled(false);
 		this.txtEmail.setEditable(false);
 		this.txtName.setEditable(false);
 		this.txtPhoneNumber.setEditable(false);

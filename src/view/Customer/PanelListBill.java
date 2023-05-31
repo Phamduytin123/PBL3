@@ -44,11 +44,18 @@ public class PanelListBill extends JPanel {
 
 	public void Init() throws ClassNotFoundException, SQLException
 	{
+		
 		listBill = DAOBill.getInstance().selectByCusID(cusID);
+		listPanel = new ArrayList<>();
 		
 		for (Bill item : listBill) {
 			listPanel.add(new PanelBill(item));
+			
 		}
+		
+		panel.removeAll();
+		panel.revalidate();
+		panel.repaint();
 		
 		for (int i = 0; i<listBill.size(); i++) {
 			listPanel.get(i).setPreferredSize(new Dimension(20,130));

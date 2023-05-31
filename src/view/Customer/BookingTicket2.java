@@ -7,8 +7,10 @@ import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.Image;
 import java.sql.SQLException;
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.Date;
 import java.util.List;
 
 import javax.swing.ImageIcon;
@@ -21,16 +23,20 @@ import javax.swing.JTextField;
 import javax.swing.ScrollPaneConstants;
 import javax.swing.SwingConstants;
 
+import com.toedter.calendar.JDateChooser;
+import com.toedter.calendar.JTextFieldDateEditor;
+
 import Algorithm.floydWarshall;
 import DAO.DAOCity;
 import DAO.DAOTrip;
 import Models.InfoCustomer;
 import Models.Route;
+import Models.myDate;
 import controller.Customer.BookingTicket2Listener;
 
 public class BookingTicket2 extends JPanel {
 
-	public JTextField txtNgayDi;
+	public JDateChooser txtNgayDi;
 	public Choice choice_DiemDi, choice_DiemDen;
 	public JButton btn_ChieuDi, btn_ChieuVe;
 	public JTextField txtMap;
@@ -115,10 +121,13 @@ public class BookingTicket2 extends JPanel {
 		lblNewLabel_1_1_1.setBounds(343, 109, 57, 20);
 		add(lblNewLabel_1_1_1);
 		
-		txtNgayDi = new JTextField();
+		txtNgayDi = new JDateChooser();
 		txtNgayDi.setBounds(395, 109, 94, 20);
+		txtNgayDi.setDateFormatString("dd/MM/yyyy");
+		txtNgayDi.setFont(new Font("Times New Roman", Font.PLAIN, 15));
+		JTextFieldDateEditor editor1 = (JTextFieldDateEditor) txtNgayDi.getDateEditor();
+        editor1.setEditable(false);
 		add(txtNgayDi);
-		txtNgayDi.setColumns(10);
 		
 		ImageIcon icon = new ImageIcon(BookingTicket2.class.getResource("/photo/SearchButton.png"));
 		Image img = icon.getImage();
@@ -158,8 +167,17 @@ public class BookingTicket2 extends JPanel {
 		
 		SetListChoiceRoute(listRoute.get(0));
 		
-		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-		txtNgayDi.setText(listDate.get(0).format(formatter));
+		String dateString = listDate.get(0).format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+        String pattern = "yyyy-MM-dd"; // Định dạng của chuỗi ngày tháng
+
+        SimpleDateFormat dateFormat = new SimpleDateFormat(pattern);
+        try {
+            java.util.Date date = dateFormat.parse(dateString);
+            this.txtNgayDi.setDate(date);
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+		
 		
 		txtMap.setText(floydWarshall.getInstance().getMap(listRoute.get(0)));
 	
@@ -221,8 +239,16 @@ public class BookingTicket2 extends JPanel {
 		
 		SetListChoiceRoute(listRoute.get(0));
 		
-		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-		txtNgayDi.setText(listDate.get(0).format(formatter));
+		String dateString = listDate.get(0).format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+        String pattern = "yyyy-MM-dd"; // Định dạng của chuỗi ngày tháng
+
+        SimpleDateFormat dateFormat = new SimpleDateFormat(pattern);
+        try {
+            java.util.Date date = dateFormat.parse(dateString);
+            this.txtNgayDi.setDate(date);
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
 		
 		SetListTrip(listRoute.get(0).get(0).getCityIDStart(), listRoute.get(0).get(0).getCityIDEnd(), listDate.get(0));
 	}
@@ -233,8 +259,16 @@ public class BookingTicket2 extends JPanel {
 		
 		SetListChoiceRoute(listRoute.get(1));
 		
-		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-		txtNgayDi.setText(listDate.get(1).format(formatter));
+		String dateString = listDate.get(1).format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+        String pattern = "yyyy-MM-dd"; // Định dạng của chuỗi ngày tháng
+
+        SimpleDateFormat dateFormat = new SimpleDateFormat(pattern);
+        try {
+            java.util.Date date = dateFormat.parse(dateString);
+            this.txtNgayDi.setDate(date);
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
 		
 		SetListTrip(listRoute.get(1).get(0).getCityIDStart(), listRoute.get(1).get(0).getCityIDEnd(), listDate.get(0));
 	}
@@ -249,7 +283,7 @@ public class BookingTicket2 extends JPanel {
 		
 		
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-		LocalDate temp = LocalDate.parse(txtNgayDi.getText(), formatter);
+		LocalDate temp = myDate.changeToLocalDate(txtNgayDi.getDate());
 		
 		SetListTrip(CityIDStart, CityIDEnd, temp);
 	}
@@ -265,17 +299,8 @@ public class BookingTicket2 extends JPanel {
 			return false;
 		}
 		
-		String Date = txtNgayDi.getText();
-		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 		
-		try {
-			LocalDate.parse(Date, formatter);
-		} catch (Exception e) {
-			JOptionPane.showMessageDialog(null, "Bạn đã nhập sai định dạng ngày tháng trong hệ thống ( dd/MM/yyyy - VD 05/05/2023 ) vui lòng nhập lại");
-			return false;
-		}
-		
-		LocalDate DateGo = LocalDate.parse(Date, formatter);
+		LocalDate DateGo = myDate.changeToLocalDate(txtNgayDi.getDate());
 		
 		if(LocalDate.now().compareTo(DateGo) > 0)
 		{

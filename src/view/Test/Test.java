@@ -4,6 +4,7 @@ import java.awt.EventQueue;
 import java.awt.FlowLayout;
 import java.awt.Font;
 import java.sql.SQLException;
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.util.Date;
 
@@ -72,8 +73,16 @@ public class Test extends JFrame {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
-				 System.out.println(myDate.changeToLocalDate(dateChooser.getDate()));	
+				String dateString = "2023-05-17"; // Chuỗi ngày tháng cần chuyển đổi
+		        String pattern = "yyyy-MM-dd"; // Định dạng của chuỗi ngày tháng
+
+		        SimpleDateFormat dateFormat = new SimpleDateFormat(pattern);
+		        try {
+		            Date date = dateFormat.parse(dateString);
+		            dateChooser.setDate(date);
+		        } catch (Exception ex) {
+		            ex.printStackTrace();
+		        }
 			}
 		});
         contentPane.add(temp);

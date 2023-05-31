@@ -8,6 +8,7 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
 import Models.Customer;
+import Models.myDate;
 import controller.Customer.FormMainListener;
 
 import javax.swing.JTable;
@@ -48,6 +49,8 @@ public class FormMainPage extends JFrame {
 	public PanelFindTripTop panelFindTripTop;
 	public PanelUserTop panelUserTop;
 	public PanelWelcome PW;
+	public PanelMainTop panelMainTop;
+	public PanelListBill panelListBill;
 	
 	/**
 	 * Launch the application.
@@ -156,6 +159,8 @@ public class FormMainPage extends JFrame {
 		this.panelFindTripTop = new PanelFindTripTop();
 		this.panelUserTop = new PanelUserTop();
 		this.PW = new PanelWelcome();
+		this.panelMainTop = new PanelMainTop();
+		this.panelListBill = new PanelListBill(this.cus.getCustomerID());
 		
 		ActionListener m = new FormMainListener(this);
 		btnAcc.addActionListener(m);
@@ -173,6 +178,8 @@ public class FormMainPage extends JFrame {
 		this.body.add(bookingTicket2Panel);
 		this.body.add(panelFindTrip);
 		this.body.add(panelFindTripTop);
+		this.body.add(panelMainTop);
+		this.body.add(panelListBill);
 
 		// SetVisibile
 		PW.setVisible(true);
@@ -182,6 +189,8 @@ public class FormMainPage extends JFrame {
 		bookingTicket2Panel.setVisible(false);
 		panelFindTrip.setVisible(false);
 		panelFindTripTop.setVisible(false);
+		panelMainTop.setVisible(false);
+		panelListBill.setVisible(false);
 		
 		
 		setVisible(true);
@@ -203,6 +212,8 @@ public class FormMainPage extends JFrame {
 		bookingTicket2Panel.setVisible(false);
 		panelFindTrip.setVisible(false);
 		panelFindTripTop.setVisible(false);
+		panelMainTop.setVisible(false);
+		panelListBill.setVisible(false);
 	}
 	
 	public void changeToBooking() {
@@ -213,13 +224,21 @@ public class FormMainPage extends JFrame {
 		bookingTicket2Panel.setVisible(false);
 		panelFindTrip.setVisible(false);
 		panelFindTripTop.setVisible(false);
+		panelMainTop.setVisible(false);
+		panelListBill.setVisible(false);
 	}
 	
 	public void changeToBill() {
-		JPanel p1 = new PanelMainTop();
-		JPanel p2 = new PanelListBill(cus.getCustomerID());
-		body.add(p1);
-		body.add(p2);
+		
+		try {
+			this.panelListBill.Init();
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		
 		PW.setVisible(false);
 		panelUserTop.setVisible(false);
@@ -228,6 +247,8 @@ public class FormMainPage extends JFrame {
 		bookingTicket2Panel.setVisible(false);
 		panelFindTrip.setVisible(false);
 		panelFindTripTop.setVisible(false);
+		panelMainTop.setVisible(true);
+		panelListBill.setVisible(true);
 		
 	}
 	
@@ -250,6 +271,9 @@ public class FormMainPage extends JFrame {
 		bookingTicket2Panel.setVisible(true);
 		panelFindTrip.setVisible(false);
 		panelFindTripTop.setVisible(false);
+		panelMainTop.setVisible(false);
+		panelListBill.setVisible(false);
+		
 	}
 	
 	public void changeToFindTrip()
@@ -267,12 +291,19 @@ public class FormMainPage extends JFrame {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		panelMainTop.setVisible(false);
+		panelListBill.setVisible(false);
 	}
 
 	public Boolean BT1_btnViewTicket_Check()
 	{
-		String DateGo = bookingTicket1Panel.txtNgayDi.getText();
-		String DateBack = bookingTicket1Panel.txtNgayVe.getText();
+//		String DateGo = bookingTicket1Panel.txtNgayDi.getDate();
+//		String DateBack = bookingTicket1Panel.txtNgayVe.getText();
+		
+		java.util.Date dateGo = bookingTicket1Panel.txtNgayDi.getDate();
+		java.util.Date dateBack = bookingTicket1Panel.txtNgayVe.getDate();
+		
+		
 		String KindOfBook = bookingTicket1Panel.KindOfBook;
 		
 		if(bookingTicket1Panel.listRoute.get(0).size() == 0)
@@ -281,35 +312,35 @@ public class FormMainPage extends JFrame {
 			return false;
 		}
 		
-		if(DateGo.equals(""))
-		{
-			JOptionPane.showMessageDialog(null, "Vui lòng nhập đầy đủ ngày");
+		try {
+			myDate.changeToLocalDate(dateGo);
+		} catch (Exception e) {
+			JOptionPane.showMessageDialog(null, "Vui lòng nhập đầy đủ ngày đi");
 			return false;
 		}
-		if(KindOfBook.equals("Khứ hồi") && DateBack.equals(""))
+		if(KindOfBook.equals("Khứ hồi"))
 		{
-			JOptionPane.showMessageDialog(null, "Vui lòng nhập đầy đủ ngày");
-			return false;
+			try {
+				myDate.changeToLocalDate(dateBack);
+			} catch (Exception e) {
+				JOptionPane.showMessageDialog(null, "Vui lòng nhập đầy đủ ngày về");
+				return false;
+			}
+			
 		}
 		
 		bookingTicket1Panel.listDate = new ArrayList<>();	
 		
-		try {
-			LocalDate.parse(DateGo, DateTimeFormatter.ofPattern("dd/MM/yyyy"));
-		} catch (Exception e) {
-			JOptionPane.showMessageDialog(null, "Định dạng ngày đi ( dd/MM/yyyy -  VD : 05/05/2023 ) bị sai vui lòng nhập lại");
-			return false;
-		}
+		
 		
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-		bookingTicket1Panel.listDate.add(LocalDate.parse(DateGo, formatter));	
+		bookingTicket1Panel.listDate.add(myDate.changeToLocalDate(dateGo));	
 		
 		LocalDate DateGo1 = bookingTicket1Panel.listDate.get(0);
 		
 		if(LocalDate.now().compareTo(DateGo1) > 0)
 		{
 			JOptionPane.showMessageDialog(null, "Không thể nhập ngày đi nhỏ hơn ngày hiện tại");
-			System.out.println(DateGo1.toString() + " - " + LocalDate.now());
 			return false;
 		}
 		
@@ -321,14 +352,8 @@ public class FormMainPage extends JFrame {
 				return false;
 			}
 			
-			try {
-				LocalDate.parse(DateBack, DateTimeFormatter.ofPattern("dd/MM/yyyy"));
-			} catch (Exception e) {
-				JOptionPane.showMessageDialog(null, "Định dạng ngày về ( dd/MM/yyyy -  VD : 05/05/2023 ) bị sai vui lòng nhập lại");
-				return false;
-			}
 			
-			bookingTicket1Panel.listDate.add(LocalDate.parse(DateBack, formatter));		
+			bookingTicket1Panel.listDate.add(myDate.changeToLocalDate(dateBack));		
 			List<LocalDate> listDate = bookingTicket1Panel.listDate;
 			
 			
