@@ -26,12 +26,14 @@ import controller.admin.StatisticAllListener;
 import javax.swing.JLabel;
 import java.awt.Font;
 import java.awt.GridLayout;
+import java.awt.Image;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.ImageIcon;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JTextField;
@@ -57,6 +59,7 @@ public class PanelStatisticAll extends JPanel {
 	private JTable tableYear, tableTop;
 	public JComboBox<String> cbTop;
 	public JPanel panelChart;
+	public JLabel lblReset;
 
 	private void GUI()
 	{
@@ -209,11 +212,33 @@ public class PanelStatisticAll extends JPanel {
 		panelChart.setLayout(new GridLayout(1,1));
 		panelChart.setBounds(10, 37, 283, 264);
 		panel_3.add(panelChart);
+		
+		ImageIcon icon = new ImageIcon(PanelTripInDay.class.getResource("/photo/reset.png"));
+		Image img = icon.getImage();
+		Image newImg = img.getScaledInstance(33, 33, Image.SCALE_SMOOTH);
+		ImageIcon newIcon = new ImageIcon(newImg);
+		
+		
+		lblReset = new JLabel("");
+		lblReset.setBounds(558, 11, 33, 33);
+		lblReset.setIcon(newIcon);
+		add(lblReset);
+		
+		lblReset.addMouseListener(new StatisticAllListener(this));
 	}
 	
 	
 	public PanelStatisticAll() throws ClassNotFoundException, SQLException {
 		this.GUI();
+		this.Init_Info();
+		this.cbTop.setSelectedIndex(2);
+		cbTop_picked();
+		this.setTableYear();
+		this.setChart();
+	}
+	
+	public void btnReset_Click() throws SQLException, ClassNotFoundException
+	{
 		this.Init_Info();
 		this.cbTop.setSelectedIndex(2);
 		cbTop_picked();
@@ -254,8 +279,15 @@ public class PanelStatisticAll extends JPanel {
 	}
 	
 	public void setTableYear() throws SQLException
-	{
+	{		
 		List<Integer> ListYear = DAOTrip.getInstance().getListYear();
+		
+		int k = dataYear.size();
+		
+		for(int i = 0 ; i < k ; i++)
+		{
+			dataYear.remove(0);
+		}
 		
 		for(Integer item : ListYear)
 		{
@@ -278,6 +310,11 @@ public class PanelStatisticAll extends JPanel {
 	
 	public void setChart()
 	{
+		
+		panelChart.removeAll();
+		panelChart.repaint();
+		panelChart.revalidate();
+		
 		 // Tạo dataset
         DefaultCategoryDataset dataset1 = new DefaultCategoryDataset();
         DefaultCategoryDataset dataset2 = new DefaultCategoryDataset();
