@@ -436,15 +436,6 @@ public class PanelUserAd extends JPanel {
 	}
 
 	public void SetTextInfor(int index) {
-		try {
-			data = DAOCustomer.getInstance().selectAll();
-		} catch (ClassNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
 		textUserID.setText(data.get(index).getCustomerID() + "");
 		textPassword.setText(data.get(index).getPassword() + "");
 		textUserName.setText(data.get(index).getAccount() + "");
@@ -573,10 +564,27 @@ public class PanelUserAd extends JPanel {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
+//			try {
+//				data = DAOCustomer.getInstance().selectAll();
+//			} catch (ClassNotFoundException e) {
+//				// TODO Auto-generated catch block
+//				e.printStackTrace();
+//			} catch (SQLException e) {
+//				// TODO Auto-generated catch block
+//				e.printStackTrace();
+//			}
 
 			data.get(selectedRow).setCustomerID(ID);
 			data.get(selectedRow).setAccount(UserName);
 			data.get(selectedRow).setPassword(Password);
+			data.get(selectedRow).setName(Name);
+			data.get(selectedRow).setEmail(Email);
+			data.get(selectedRow).setTel(Tel);
+			data.get(selectedRow).setCitizenID(CitizenID);
+			data.get(selectedRow).setSex(gender);
+			data.get(selectedRow).setDateOfBirth(date);
+			
+			
 			dtm.setValueAt(ID, selectedRow, 0);
 			dtm.setValueAt(UserName, selectedRow, 1);
 			dtm.setValueAt(Password, selectedRow, 2);

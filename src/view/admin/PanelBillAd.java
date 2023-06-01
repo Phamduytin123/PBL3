@@ -236,8 +236,15 @@ public class PanelBillAd extends JPanel {
 		textDate.setText(dtm.getValueAt(index, 5)+"");
 		textInForID.setText(dtm.getValueAt(index, 6)+"");
 		textTotal.setText(dtm.getValueAt(index, 7)+"");
-		btnAccept.setEnabled(true);
-		btnRefuse.setEnabled(true);
+//		btnAccept.setEnabled(true);
+//		btnRefuse.setEnabled(true);
+		if(!dtm.getValueAt(index, 3).equals("Chưa thanh toán")) {
+			btnAccept.setEnabled(false);
+			btnRefuse.setEnabled(false);
+		} else {
+			btnAccept.setEnabled(true);
+			btnRefuse.setEnabled(true);
+		}
 	}
 	
 	public void PressAccept() {
