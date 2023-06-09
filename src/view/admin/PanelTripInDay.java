@@ -613,6 +613,8 @@ public class PanelTripInDay extends JPanel {
 		this.setEditable();
 		this.btnCancel.setVisible(true);
 		this.btnSave.setVisible(true);
+		this.btnDelete.setEnabled(false);
+		this.btnAdd.setEnabled(false);
 	}
 	
 	public void btnDelete_Select()
@@ -672,6 +674,8 @@ public class PanelTripInDay extends JPanel {
 		this.setUnEditable();
 		this.btnCancel.setVisible(false);
 		this.btnSave.setVisible(false);
+		this.btnDelete.setEnabled(true);
+		this.btnAdd.setEnabled(true);
 		this.SetListTable();
 	}
 	
@@ -700,6 +704,8 @@ public class PanelTripInDay extends JPanel {
 		this.setUnEditable();
 		this.btnCancel.setVisible(false);
 		this.btnSave.setVisible(false);
+		this.btnAdd.setEnabled(true);
+		this.btnDelete.setEnabled(true);
 	}
 	
 	public void lblFind_Select()
